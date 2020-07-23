@@ -20,3 +20,54 @@
 
 📌 AR glass 얼굴인식 기반 SNS 앱 개발
 ```
+<br>
+
+- - -
+
+<br><br>
+
+### ⚡️ SKT AI Fellowship 2기
+* 프로젝트 기간 : 2020.05.19 ~ 2020.11.18
+
+<br>
+
+### 📒 Main Function
+- **메인**
+  (미완성)
+<br>
+
+### 📕 Dependencies
+```json
+{
+  "name": "arsns",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "mysql-promise": "^5.0.0",
+    "promise": "^8.1.0",
+    "request": "^2.88.2"
+  }
+}
+
+```
+
+<br>
+
+### 📗 ERD
+  (미완성)
+  
+<br>
+
+### 📗 Architecture
+  (미완성)
+
