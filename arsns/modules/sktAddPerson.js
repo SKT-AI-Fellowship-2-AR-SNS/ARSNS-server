@@ -1,5 +1,4 @@
 const request = require('request');
-// const ak = '5a088102e812f22a3de266219a0ae54e';
 
 module.exports = {
     addPerson: ()=>{
@@ -10,7 +9,7 @@ module.exports = {
                 'headers': {
                     'app-id' : "FHJEF7O455",
                     'group-id' : "ICQ2WADNJ1",
-                    'subject-name' : "test1"
+                    'subject-name' : "test2"
                 },
                 'body': {
                     'mode': "raw",
