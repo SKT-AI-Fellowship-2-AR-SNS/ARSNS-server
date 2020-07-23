@@ -71,3 +71,6 @@
 ### 📗 Architecture
   (미완성)
 
+<br>
+
+#### [API 문서 바로가기❗️](https://github.com/SKT-AI-Fellowship-2-AR-SNS/ARSNS-server/wiki)
