@@ -6,13 +6,17 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "aws-sdk": "^2.718.0",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "mysql": "^2.18.1",
     "mysql-promise": "^5.0.0",
     "promise": "^8.1.0",

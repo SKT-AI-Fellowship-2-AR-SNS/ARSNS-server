@@ -3,7 +3,7 @@ const request = require('request');
 module.exports = {
     addPerson: ()=>{
         return new Promise((resolve, reject)=>{
-            const options = {
+            let options = {
                 'method' : 'POST',
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/subject`, 
                 'headers': {
