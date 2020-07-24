@@ -24,7 +24,7 @@ module.exports = {
                     reject(err)
                 }
                 else{
-                    console.log(result.body);
+                    // console.log(result.body);
                     resolve(result);
                 } 
             })
