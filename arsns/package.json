@@ -19,6 +19,8 @@
     "multer-s3": "^2.9.0",
     "mysql": "^2.18.1",
     "mysql-promise": "^5.0.0",
+    "passport": "^0.4.1",
+    "passport-kakao": "^1.0.0",
     "promise": "^8.1.0",
     "request": "^2.88.2"
   }

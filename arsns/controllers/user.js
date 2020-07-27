@@ -8,12 +8,11 @@ const addFace = require(`../modules/sktAddFace`);
 module.exports = {
     addPerson : async(req, res) =>{
         //사람추가, 얼굴추가 2개호출
-        let result1 = await addPerson.addPerson();
-        // console.log(result1);
-        if(result1.length === 0) {
+        let result = await addPerson.addPerson();
+        if(result.length === 0) {
             return res.status(statusCode.OK).send(util.success(statusCode.OK, "사람추가 실패"));
         }
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, "사람추가 성공"));
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, "사람추가 성공", result));
     },
 
     addFace : async(req, res) =>{

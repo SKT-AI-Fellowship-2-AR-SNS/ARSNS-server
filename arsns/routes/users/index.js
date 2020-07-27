@@ -7,6 +7,8 @@ const upload = multer({
     dest: 'upload/'
 });
 // const authUtil = require('../../modules/authUtil');
+const passport = require('passport');
+
 
 // router.post('/signup',UserController.signup);
 // router.post('/signin',UserController.signin);

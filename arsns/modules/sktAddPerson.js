@@ -9,7 +9,7 @@ module.exports = {
                 'headers': {
                     'app-id' : "FHJEF7O455",
                     'group-id' : "ICQ2WADNJ1",
-                    'subject-name' : "test2"
+                    'subject-name' : "phj"
                 },
                 'body': {
                     'mode': "raw",
@@ -24,8 +24,8 @@ module.exports = {
                     reject(err)
                 }
                 else{
-                    // console.log(result.body);
-                    resolve(result);
+                    // console.log(result.body.subject_name);
+                    resolve(result.body.subject_name);
                 } 
             })
         })
