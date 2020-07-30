@@ -14,5 +14,10 @@ const passport = require('passport');
 // router.post('/signin',UserController.signin);
 router.post('/addPerson', UserController.addPerson);
 router.post('/addFace', upload.single('image'), UserController.addFace);
+router.get('/kakao', passport.authenticate('kakao'));
+router.get('kakao/callback', passport.authenticate('kakao',{
+    successRedirect: '/auth',
+    failureRedirect: 'auth/fail'
+}));
 
 module.exports = router;

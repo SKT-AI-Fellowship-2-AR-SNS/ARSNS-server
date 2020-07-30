@@ -3,7 +3,7 @@ const resMessage = require('../modules/responseMessage');
 const statusCode = require('../modules/statusCode');
 const addPerson = require('../modules/sktAddPerson');
 const addFace = require(`../modules/sktAddFace`);
-// const UserModel = require('../models/user');
+const User = require('../models/user');
 
 module.exports = {
     addPerson : async(req, res) =>{
@@ -31,5 +31,28 @@ module.exports = {
         let result = await addFace.addFace(image);
         // console.log(result2.headers);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, "얼굴추가 성공"));
+    },
+
+    findOrCreate: async (socialId, nickname, email) => {
+        try {
+            const isThere = await User.userCheck(socialId);
+            const user = {
+                id: socialId,
+                name: nickname,
+                email: email,
+                state: 0
+            }
+            if (isThere) {
+                console.log('user가 없습니다');
+                await User.signup(socialId, nickname, '','', email);
+                user.state = 1;
+            } else {
+                console.log('user가 있습니다');
+                user.state = 2;
+            }
+            return user;
+        } catch {
+            return false;
+        }
     }
 }
