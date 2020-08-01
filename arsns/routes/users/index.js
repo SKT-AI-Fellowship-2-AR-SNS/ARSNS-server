@@ -19,5 +19,9 @@ router.get('/kakao/callback', passport.authenticate('kakao',{
     successRedirect: '/users',
     failureRedirect: '/users/signin'
 }));
-router.get('/', UserController.getProfile);
+router.get('/', (req, res) => {
+    const data = req.user;
+    console.log('auth.js - data : ', data);
+    res.send(data);
+});
 module.exports = router;
