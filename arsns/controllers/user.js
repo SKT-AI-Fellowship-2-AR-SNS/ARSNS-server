@@ -86,7 +86,7 @@ module.exports = {
     },
     getProfile : async(req, res) =>{
         const data = req.user;
-        console.log('users.js -data: ', data);
+        console.log('여기냐users.js -data: ', data);
         res.send(data);
     }
 }
