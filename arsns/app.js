@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//선언 위치 중요
 app.use(session({
   secret: 'sktaifellowship',
   cookie: { maxAge: 60 * 60 * 1000 },
