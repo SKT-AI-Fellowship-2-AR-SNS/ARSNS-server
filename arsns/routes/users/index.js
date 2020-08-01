@@ -17,7 +17,7 @@ router.post('/addFace', upload.single('image'), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao'));
 router.get('/kakao/callback', passport.authenticate('kakao',{
     successRedirect: '/users',
-    failureRedirect: 'users/signin'
+    failureRedirect: '/users/signin'
 }));
 router.get('/', UserController.getProfile);
 module.exports = router;

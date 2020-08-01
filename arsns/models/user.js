@@ -47,7 +47,8 @@ const user = {
         const query = `INSERT INTO user(${fields}) VALUES(${questions})`;
         try{
             const result = await pool.queryParamArr(query, values);
-            const insertId = result.insertId;
+            const insertId = result[0].id;
+            console.log('아이디: ', insertId);
             return insertId;
         } catch{
             if(err.errno == 1062){

@@ -46,9 +46,11 @@ module.exports = {
                 console.log('user가 없습니다');
                 await User.signup(socialId, nickname, '','', email,'');
                 user.state = 1;
+                // return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인 성공", user.id));
             } else {
                 console.log('user가 있습니다');
                 user.state = 2;
+                // return res.status(statusCode.OK).send(util.success(statusCode.OK, "이미 회원입니다.", user.id));
             }
             return user;
         } catch {
@@ -77,6 +79,10 @@ module.exports = {
         // const {token, _} = await jwt.sign(user[0]);
         // return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, {accessToken : token}));
         console.log('다시해~');
+        const data = req.user;
+        console.log('fail! users.js -data: ', data);
+        res.send(data);
+
     },
     getProfile : async(req, res) =>{
         const data = req.user;
