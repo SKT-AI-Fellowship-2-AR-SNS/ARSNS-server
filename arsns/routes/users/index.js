@@ -8,7 +8,9 @@ const upload = multer({
 });
 // const authUtil = require('../../modules/authUtil');
 const passport = require('passport');
-
+const util = require('../../modules/util');
+const resMessage = require('../../modules/responseMessage');
+const statusCode = require('../../modules/statusCode');
 
 // router.post('/signup',UserController.signup);
 router.post('/signin',UserController.signin);
@@ -22,7 +24,9 @@ router.get('/kakao/callback', passport.authenticate('kakao',{
 
 router.get('/signin_success', ensureAuthenticated, function(req, res){
     console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
-    res.send(JSON.parse(JSON.stringify(req.user[0])));
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
+    // res.send(JSON.parse(JSON.stringify(req.user[0])));
+
 });
 
 function ensureAuthenticated(req, res, next) {
@@ -35,6 +39,8 @@ function ensureAuthenticated(req, res, next) {
 router.get('/', (req, res) => {
     const data = req.user;
     console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user[0])));
-    res.send(JSON.parse(JSON.stringify(req.user[0])));
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
+
+    // res.send(JSON.parse(JSON.stringify(req.user[0])));
 });
 module.exports = router;
