@@ -17,7 +17,7 @@ router.post('/addFace', upload.single('image'), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao'));
 router.get('/kakao/callback', passport.authenticate('kakao',{
     successRedirect: '/users/signin_success',
-    failureRedirect: '/users/signin'
+    failureRedirect: '/users/signin_success'
 }));
 
 router.get('/signin_success', ensureAuthenticated, function(req, res){
@@ -34,7 +34,7 @@ function ensureAuthenticated(req, res, next) {
 
 router.get('/', (req, res) => {
     const data = req.user;
-    console.log('auth.js - data : ', data);
-    res.send(data);
+    console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user[0])));
+    res.send(JSON.parse(JSON.stringify(req.user[0])));
 });
 module.exports = router;
