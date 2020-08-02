@@ -10,8 +10,8 @@ passport.use(new KakaoStrategy({
     clientID: passportKey.federation.kakao.ID,
     clientSecret: passportKey.federation.kakao.KEY,
     // profileFields: ['id', 'displayName', 'email'],
-    // callbackURL: 'http://localhost:3000/users/kakao/callback'
-    callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
+    callbackURL: 'http://localhost:3000/users/kakao/callback'
+    // callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
 },
 
 async (accessToken, refreshToken, profile, done) => {
@@ -35,7 +35,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await User.getUserById(id);
     // console.log('있어이미~', JSON.parse(JSON.stringify(user)));
     if (user) {
-        return done(null, JSON.parse(JSON.stringify(user)));
+        return done(null, JSON.parse(JSON.stringify(user[0])));
     }
     done('There is no user.');
 });
