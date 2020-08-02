@@ -16,9 +16,22 @@ router.post('/addPerson', UserController.addPerson);
 router.post('/addFace', upload.single('image'), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao'));
 router.get('/kakao/callback', passport.authenticate('kakao',{
-    successRedirect: '/users',
+    successRedirect: '/users/signin_success',
     failureRedirect: '/users/signin'
 }));
+
+router.get('/signin_success', ensureAuthenticated, function(req, res){
+    console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
+    res.send(JSON.parse(JSON.stringify(req.user[0])));
+});
+
+function ensureAuthenticated(req, res, next) {
+    // 로그인이 되어 있으면, 다음 파이프라인으로 진행
+    if (req.isAuthenticated()) { return next(); }
+    // 로그인이 안되어 있으면, login 페이지로 진행
+    res.redirect('/');
+}
+
 router.get('/', (req, res) => {
     const data = req.user;
     console.log('auth.js - data : ', data);

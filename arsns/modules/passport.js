@@ -35,7 +35,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await User.getUserById(id);
     // console.log('있어이미~', JSON.parse(JSON.stringify(user)));
     if (user) {
-        return done(null, JSON.parse(JSON.stringify(user[0])));
+        return done(null, user);
     }
     done('There is no user.');
 });
