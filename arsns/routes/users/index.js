@@ -38,7 +38,7 @@ function ensureAuthenticated(req, res, next) {
 
 router.get('/', (req, res) => {
     const data = req.user;
-    console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user[0])));
+    console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user)));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
 
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
