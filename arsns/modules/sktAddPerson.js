@@ -1,15 +1,18 @@
 const request = require('request');
 
 module.exports = {
-    addPerson: ()=>{
+    addPerson: (appid, groupid, subjectname)=>{
         return new Promise((resolve, reject)=>{
             let options = {
                 'method' : 'POST',
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/subject`, 
                 'headers': {
-                    'app-id' : "FHJEF7O455",
-                    'group-id' : "ICQ2WADNJ1",
-                    'subject-name' : "phj"
+                    // 'app-id' : "FHJEF7O455",
+                    // 'group-id' : "ICQ2WADNJ1",
+                    // 'subject-name' : "phj"
+                    'app-id' : `${appid}`,
+                    'group-id' : `${groupid}`,
+                    'subject-name' : `${subjectname}`,
                 },
                 'body': {
                     'mode': "raw",

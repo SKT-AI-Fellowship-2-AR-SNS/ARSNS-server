@@ -7,12 +7,19 @@ const User = require('../models/user');
 
 module.exports = {
     addPerson : async(req, res) =>{
-        //사람추가, 얼굴추가 2개호출
-        let result = await addPerson.addPerson();
-        if(result.length === 0) {
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, "사람추가 실패"));
+        const appid = req.headers['app-id'];
+        const groupid = req.headers['group-id'];
+        const subjectname = req.headers['subject-name'];
+        if(!appid || !groupid || !subjectname){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
         }
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, "사람추가 성공", result));
+
+        let result = await addPerson.addPerson(appid, groupid, subjectname);
+        if(result.length === 0) {
+            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_PERSON_FAIL));
+        }
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_PERSON_SUCCESS, result));
     },
 
     addFace : async(req, res) =>{
@@ -41,7 +48,7 @@ module.exports = {
         // const location = image.map(img => img.location);
         let result = await addFace.addFace(image, appid, groupid, subjectid, facename);
         // console.log(result2.headers);
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, "얼굴추가 성공"));
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
     },
 
     findOrCreate: async (socialId, nickname, email) => {

@@ -2,7 +2,7 @@ module.exports = {
     NULL_VALUE: "필요한 값이 없습니다",
     OUT_OF_VALUE: "파라미터 값이 잘못되었습니다",
 
-    // 회원가입
+    // 회원가입 
     CREATED_USER: "회원 가입 성공",
     DELETE_USER: "회원 탈퇴 성공",
     ALREADY_ID: "이미 사용중인 아이디입니다.",
@@ -12,7 +12,12 @@ module.exports = {
     LOGIN_FAIL: "로그인 실패",
     NO_USER: "존재하지 않는 회원입니다.",
     MISS_MATCH_PW: "비밀번호가 맞지 않습니다.",
-    
+    NULL_VALUE_IMAGE: "선택한 이미지가 없습니다.",
+    ADD_PERSON_FAIL: "사람추가 실패",
+    ADD_PERSON_SUCCESS: "사람추가 성공",
+    ADD_FACE_FAIL: "얼굴추가 실패",
+    ADD_FACE_SUCCESS: "얼굴추가 성공",
+
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
