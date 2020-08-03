@@ -2,7 +2,7 @@ const request = require('request');
 const fs = require('fs');
 
 module.exports = {
-    addFace: (image)=>{
+    addFace: (image, appid, groupid, subjectid, facename)=>{
         return new Promise((resolve, reject)=>{
             let formData = {
                 'image' : fs.createReadStream(`${image}`)
@@ -11,10 +11,14 @@ module.exports = {
                 'method' : 'POST',
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/face`, 
                 'headers': {
-                    'app-id' : "FHJEF7O455",
-                    'group-id' : "ICQ2WADNJ1",
-                    'subject-id' : "VLQKPD0USA",
-                    'face-name' : "test3"
+                    // 'app-id' : "FHJEF7O455",
+                    // 'group-id' : "ICQ2WADNJ1",
+                    // 'subject-id' : "VLQKPD0USA",
+                    // 'face-name' : "test4"
+                    'app-id' : `${appid}`,
+                    'group-id' : `${groupid}`,
+                    'subject-id' : `${subjectid}`,
+                    'face-name' : `${facename}`
                 },
                 'formData' : formData,
                 'json' : true

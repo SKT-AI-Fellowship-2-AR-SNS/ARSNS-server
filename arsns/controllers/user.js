@@ -17,18 +17,29 @@ module.exports = {
 
     addFace : async(req, res) =>{
         const image = req.file.path;
-        // console.log(image);
+        const appid = req.headers['app-id'];
+        const groupid = req.headers['group-id'];
+        const subjectid = req.headers['subject-id'];
+        const facename = req.headers['face-name'];
+
+        console.log(appid);
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
+
+        if(!appid || !groupid || !subjectid || !facename){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
         const type = req.file.mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
             return;
         }
         // const location = image.map(img => img.location);
-        let result = await addFace.addFace(image);
+        let result = await addFace.addFace(image, appid, groupid, subjectid, facename);
         // console.log(result2.headers);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, "얼굴추가 성공"));
     },
