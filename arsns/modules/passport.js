@@ -10,14 +10,15 @@ passport.use(new KakaoStrategy({
     clientID: passportKey.federation.kakao.ID,
     clientSecret: passportKey.federation.kakao.KEY,
     // profileFields: ['id', 'displayName', 'email'],
-    // callbackURL: 'http://localhost:3000/users/kakao/callback'
-    callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
+    callbackURL: 'http://localhost:3000/users/kakao/callback'
+    // callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
 },
 
 async (accessToken, refreshToken, profile, done) => {
     const socialId = profile.id;
     const nickname = profile.displayName;
     const email = profile._json.kakao_account.email;
+    const at = accessToken;
     console.log('이메일오나', profile);
     const user = await authService.findOrCreate(socialId, nickname, email);
     done(null, user);

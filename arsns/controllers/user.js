@@ -3,6 +3,7 @@ const resMessage = require('../modules/responseMessage');
 const statusCode = require('../modules/statusCode');
 const addPerson = require('../modules/sktAddPerson');
 const addFace = require(`../modules/sktAddFace`);
+const kakaoAPI = require(`../modules/kakaoFriend`);
 const User = require('../models/user');
 
 module.exports = {
@@ -106,5 +107,18 @@ module.exports = {
         const data = req.user;
         console.log('여기냐users.js -data: ', data);
         res.send(data);
-    }
+    },
+
+    getKakaoFriend : async(req, res) =>{
+        // const title = req.query.query;
+
+        let result = await kakaoAPI.getKakaoFriend();
+        console.log(result);
+        // var finalResult = result.documents.map(BookData);
+        
+        if(result.length===0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_FAIL));
+        }
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_SUCCESS, result));
+    },
 }

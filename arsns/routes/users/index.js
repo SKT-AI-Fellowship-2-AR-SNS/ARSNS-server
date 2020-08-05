@@ -43,4 +43,7 @@ router.get('/', (req, res) => {
 
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
 });
+
+router.get('/getKakaoFriend', UserController.getKakaoFriend);
+
 module.exports = router;
