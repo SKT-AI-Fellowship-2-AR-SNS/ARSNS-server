@@ -1,13 +1,15 @@
 const request = require('request');
-const ak = '1KPzg7ThDEgf9oo2kmLzJ5p0OhnlvM9Xq5IixQo9dRoAAAFzuRyxRg';
+// const at = '1KPzg7ThDEgf9oo2kmLzJ5p0OhnlvM9Xq5IixQo9dRoAAAFzuRyxRg';
+const at = 'fJ0pcomDvJcV7IJsDjkLiJ0ed0O15sf6LzVhCQo9dVsAAAFzwscCEQ';
 
 module.exports = {
     getKakaoFriend: (keyword)=>{
         return new Promise((resolve, reject)=>{
             const options = {
                 'uri' : `https://kapi.kakao.com/v1/api/talk/friends`, 
+                // 'uri' : `https://kapi.kakao.com/v2/user/me`, 
                 'headers' : {
-                    'Authorization' : `Bearer ${ak}`,
+                    'Authorization' : `Bearer ${at}`,
                 },
                 'qs' : {
                     // 'query' : `${keyword}`,

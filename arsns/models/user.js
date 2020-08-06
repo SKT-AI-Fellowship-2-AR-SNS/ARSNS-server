@@ -41,6 +41,7 @@ const user = {
         }
     },
     signup: async (id, name, password, salt, email, phone) => {
+        console.log('이메일~: ', email);
         const fields = 'id, name, password, salt, email, phone';
         const questions = `'${id}', '${name}', '${password}', '${salt}', '${email}', '${phone}'`;
         const values = [id, name, password, salt, email, phone];

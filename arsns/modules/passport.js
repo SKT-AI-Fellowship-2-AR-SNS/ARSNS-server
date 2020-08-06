@@ -19,8 +19,10 @@ async (accessToken, refreshToken, profile, done) => {
     const nickname = profile.displayName;
     const email = profile._json.kakao_account.email;
     const at = accessToken;
-    console.log('이메일오나', profile);
+    console.log(email);
+    console.log('access token : ', at);
     const user = await authService.findOrCreate(socialId, nickname, email);
+    
     done(null, user);
 }
 ));
