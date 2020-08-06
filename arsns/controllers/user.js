@@ -109,10 +109,10 @@ module.exports = {
         res.send(data);
     },
 
-    getKakaoFriend : async(req, res) =>{
+    getKakaoFriend : async(req, res, at) =>{
         // const title = req.query.query;
-
-        let result = await kakaoAPI.getKakaoFriend();
+        console.log('at 2: ', at);
+        let result = await kakaoAPI.getKakaoFriend(at);
         console.log(result);
         // var finalResult = result.documents.map(BookData);
         

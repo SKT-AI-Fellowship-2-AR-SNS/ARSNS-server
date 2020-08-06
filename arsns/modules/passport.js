@@ -1,9 +1,10 @@
 const KakaoStrategy = require('passport-kakao').Strategy;
 const passportKey = require('../config/passportKey');
-const authService = require('../controllers/user');
+const userController = require('../controllers/user');
 const User = require('../models/user');
 // const encrypt = require('./encrypt');
 let passport = require('passport');
+const kakaoFriend = require('../modules/kakaoFriend');
 
 
 passport.use(new KakaoStrategy({
@@ -19,10 +20,10 @@ async (accessToken, refreshToken, profile, done) => {
     const nickname = profile.displayName;
     const email = profile._json.kakao_account.email;
     const at = accessToken;
-    console.log(email);
-    console.log('access token : ', at);
-    const user = await authService.findOrCreate(socialId, nickname, email);
-    
+    console.log('at 1: ', at);
+    const user = await userController.findOrCreate(socialId, nickname, email);
+    // const friend = await userController.getKakaoFriend(at);     
+    const friend = await kakaoFriend.getKakaoFriend(at);
     done(null, user);
 }
 ));

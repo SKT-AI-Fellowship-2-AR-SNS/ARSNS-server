@@ -23,7 +23,7 @@ router.get('/kakao/callback', passport.authenticate('kakao',{
 }));
 
 router.get('/signin_success', ensureAuthenticated, function(req, res){
-    console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
+    // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
 
