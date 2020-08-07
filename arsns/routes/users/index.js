@@ -13,7 +13,7 @@ const resMessage = require('../../modules/responseMessage');
 const statusCode = require('../../modules/statusCode');
 
 // router.post('/signup',UserController.signup);
-router.post('/signin',UserController.signin);
+// router.post('/signin',UserController.signin);
 router.post('/addPerson', UserController.addPerson);
 router.post('/addFace', upload.single('image'), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));

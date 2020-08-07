@@ -1,5 +1,6 @@
 const table = 'user';
 const pool = require('../modules/pool');
+const { access } = require('fs');
 const user = {
     // getUserByName:  async (username) => {
     //     const query = `SELECT * FROM ${table} WHERE name = '${username}'`;
@@ -40,16 +41,15 @@ const user = {
             throw err;
         }
     },
-    signup: async (id, name, password, salt, email, phone) => {
-        console.log('이메일~: ', email);
-        const fields = 'id, name, password, salt, email, phone';
-        const questions = `'${id}', '${name}', '${password}', '${salt}', '${email}', '${phone}'`;
-        const values = [id, name, password, salt, email, phone];
+    signup: async (id, name, email, access_token) => {
+        const fields = 'id, name, email, access_token';
+        console.log('id: ', id, 'name: ', name, 'email: ',email, 'at: ',access_token);
+        const questions = `'${id}', '${name}', '${email}', '${access_token}'`;
+        const values = [id, name, email, access_token];
         const query = `INSERT INTO user(${fields}) VALUES(${questions})`;
         try{
             const result = await pool.queryParamArr(query, values);
             const insertId = result[0].id;
-            console.log('아이디: ', insertId);
             return insertId;
         } catch{
             if(err.errno == 1062){

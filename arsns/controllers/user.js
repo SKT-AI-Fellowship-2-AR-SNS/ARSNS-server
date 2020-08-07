@@ -52,18 +52,19 @@ module.exports = {
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
     },
 
-    findOrCreate: async (socialId, nickname, email) => {
+    findOrCreate: async (socialId, nickname, email, at) => {
         try {
             const isThere = await User.userCheck(socialId);
             const user = {
                 id: socialId,
                 name: nickname,
                 email: email,
+                access_token: at,
                 state: 0
             }
             if (!isThere) {
                 console.log('user가 없습니다');
-                await User.signup(socialId, nickname, '','', email,'');
+                await User.signup(socialId, nickname, email, at);
                 user.state = 1;
                 // return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인 성공", user.id));
             } else {
@@ -109,11 +110,11 @@ module.exports = {
         res.send(data);
     },
 
-    getKakaoFriend : async(req, res, at) =>{
-        // const title = req.query.query;
-        console.log('at 2: ', at);
+    getKakaoFriend : async(req, res) =>{
+        const at = req.headers.access_token;
+        console.log('access_token: ', at);
         let result = await kakaoAPI.getKakaoFriend(at);
-        console.log(result);
+
         // var finalResult = result.documents.map(BookData);
         
         if(result.length===0){

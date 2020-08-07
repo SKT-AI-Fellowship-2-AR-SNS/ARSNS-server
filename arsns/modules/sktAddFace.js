@@ -11,10 +11,6 @@ module.exports = {
                 'method' : 'POST',
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/face`, 
                 'headers': {
-                    // 'app-id' : "FHJEF7O455",
-                    // 'group-id' : "ICQ2WADNJ1",
-                    // 'subject-id' : "VLQKPD0USA",
-                    // 'face-name' : "test4"
                     'app-id' : `${appid}`,
                     'group-id' : `${groupid}`,
                     'subject-id' : `${subjectid}`,
