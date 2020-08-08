@@ -6,7 +6,7 @@ const multer = require('multer');
 const upload = multer({
     dest: 'upload/'
 });
-// const authUtil = require('../../modules/authUtil');
+// const authUtil = require('../../modules/authUtil');  
 const passport = require('passport');
 const util = require('../../modules/util');
 const resMessage = require('../../modules/responseMessage');
