@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
     console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user)));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
 
-    // res.send(JSON.parse(JSON.stringify(req.user[0])));
+    // res.send(JSON.parse(JSON.stringify(req.user[0]))); 
 });
 
 router.get('/getKakaoFriend', UserController.getKakaoFriend);

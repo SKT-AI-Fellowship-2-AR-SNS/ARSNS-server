@@ -20,7 +20,7 @@ async (accessToken, refreshToken, profile, done) => {
     const nickname = profile.displayName;
     const email = profile._json.kakao_account.email;
     const at = accessToken;
-    // console.log('at 1: ', at);
+    console.log('at 1: ', at);
     const user = await userController.findOrCreate(socialId, nickname, email, at);
     // const friend = await userController.getKakaoFriend(at);     
     const friend = await kakaoFriend.getKakaoFriend(at);
