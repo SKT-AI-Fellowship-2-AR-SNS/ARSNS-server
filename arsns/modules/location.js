@@ -4,16 +4,16 @@ const token = '30b53a73bdcac1';
 module.exports = {
     getLocation: (bssid1, bssid2)=>{
         return new Promise((resolve, reject)=>{
-            console.log(bssid1);
-            console.log(bssid2);
+            // console.log(bssid1);
+            // console.log(bssid2);
             const options = {
                 'async' : true,
                 'crossDomain' : true,
                 'method' : 'POST',
                 'uri' : `https://us1.unwiredlabs.com/v2/process.php`, 
-                'headers' : {
-                    "token": "30b53a73bdcac1",
-                },
+                // 'headers' : {
+                //     "token": "30b53a73bdcac1",
+                // },
                 'processData' : false,
                 'body':{
                     "token": "30b53a73bdcac1",

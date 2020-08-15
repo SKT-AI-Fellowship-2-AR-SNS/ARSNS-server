@@ -4,8 +4,8 @@ const ak = '7a1191c54eacb4e90235ab3e181bb119';
 module.exports = {
     getAddress: (lat,lon)=>{
         return new Promise((resolve, reject)=>{
-            console.log(lat);
-            console.log(lon);
+            // console.log(lat);
+            // console.log(lon);
             
             const options = {
                 'uri' : `https://dapi.kakao.com/v2/local/geo/coord2address.json`,
