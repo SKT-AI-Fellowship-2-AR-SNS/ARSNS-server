@@ -21,6 +21,8 @@ module.exports = {
     // 메인
     GET_ADDRESS_SUCCESS: "주소변환 성공",
     GET_ADDRESS_FAIL: "주소변환 실패",
+    ADD_HISTORY_SUCCESS: "히스토리 등록 성공",
+    ADD_HISTORY_FAIL: "히스토리 등록 실패",
 
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",

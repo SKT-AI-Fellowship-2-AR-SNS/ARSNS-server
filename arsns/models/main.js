@@ -8,7 +8,7 @@ const main = {
 
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
-            const result = await pool.queryParam(query, values);
+            const result = await pool.queryParamArr(query, values);
             return result;
         }catch(err){
             console.log('addHistory err: ', err);
