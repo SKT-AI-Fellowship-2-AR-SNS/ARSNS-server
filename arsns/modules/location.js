@@ -11,32 +11,32 @@ module.exports = {
                 'crossDomain' : true,
                 'method' : 'POST',
                 'uri' : `https://us1.unwiredlabs.com/v2/process.php`, 
-                'headers' : {},
-                'processData' : false,
-                'data':{
+                'headers' : {
                     "token": "30b53a73bdcac1",
-                    "wifi": [
-                        {
-                            // 'bssid' : `"${bssid1}"`,
-                            "bssid" : "00:08:9f:01:cc:9c",
-                            "channel" : 11,
-                            "frequency" : 2412,
-                            "signal" : -51
-                        },
-                        {
-                            // 'bssid' : `"${bssid2}"`
-                            "bssid" : "10:e3:c7:05:a9:c7",
-                        }
-                    ],
-                    "address" : 1
                 },
+                'processData' : false,
+                'body':{
+                    "token": "30b53a73bdcac1",
+                    "wifi": [{
+                        // "bssid": "00:08:9f:01:cc:9c",
+                        "bssid" : `${bssid1}`,
+                        "channel": 11,
+                        "frequency": 2412,
+                        "signal": -51
+                    }, {
+                        // "bssid": "10:e3:c7:05:a9:c7"
+                        "bssid" : `${bssid2}`,
+                    }],
+                    "address": 1
+            },
                 'json' : true
             };
             
             request(options, async (err, result)=>{
                 // const jsonResult = JSON.parse(result.body);
                 const jsonResult = result.body;
-                console.log('위치 결과~: ', jsonResult);
+                // console.log('x: ', jsonResult.lat);
+                // console.log('y: ', jsonResult.lon);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
