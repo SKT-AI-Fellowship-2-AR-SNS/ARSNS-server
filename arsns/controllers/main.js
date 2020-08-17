@@ -43,12 +43,12 @@ module.exports = {
         const imgLocation = img.map(image => image.location);  
 
         if(img === undefined){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "사진없어"));
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
 
         if(!userIdx || !bssid1 || !bssid2){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "값없어"));
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
         //현재위치 불러오기
@@ -78,5 +78,16 @@ module.exports = {
         }
 
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_HISTORY_SUCCESS));
+    },
+
+    getHistory : async(req, res) => {
+        const {userIdx, bssid1, bssid2} = req.body;
+        if(!userIdx || !bssid1 || !bssid2){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+        
+        let result = await MainModel.getHistory(userIdx, bssid1, bssid2);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));        
     }
 }

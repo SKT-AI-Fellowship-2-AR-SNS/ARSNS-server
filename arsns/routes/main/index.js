@@ -9,5 +9,5 @@ const upload = require('../../modules/multer');
 
 router.post('/getLocation', mainController.getLocation);
 router.post('/addHistory', upload.array('image', 1), mainController.addHistory);
-
+router.get('/getHistory', mainController.getHistory);
 module.exports = router;
