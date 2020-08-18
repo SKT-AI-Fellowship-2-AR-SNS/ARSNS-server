@@ -81,13 +81,16 @@ module.exports = {
     },
 
     getHistory : async(req, res) => {
-        const {userIdx, bssid1, bssid2} = req.body;
+        const userIdx = req.params.userIdx;
+        const bssid1 = req.params.bssid1;
+        const bssid2 = req.params.bssid2;
+        
         if(!userIdx || !bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
         
-        let result = await MainModel.getHistory(userIdx, bssid1, bssid2);
+        let result = await MainModel.getHistory(userIdx);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));        
     }
 }
