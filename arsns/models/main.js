@@ -25,13 +25,14 @@ const main = {
             let day;
 
             await Promise.all(result.map(async(element) =>{
+                let historyIdx = element.historyIdx;
                 //요일 추출
-                query = `select substr(dayname(timestamp),1,3) as day from history WHERE userIdx = ${userIdx}`;
+                query = `select substr(dayname(timestamp),1,3) as day from history WHERE historyIdx = ${historyIdx}`;
                 day = await pool.queryParam(query);
                 element.day = day[0].day;
 
                 //timestamp 형식 슬래쉬로 변경, 시간 제거
-                query = `select date_format(timestamp, '%Y/%m/%d') as datetime from history where userIdx = ${userIdx}`;
+                query = `select date_format(timestamp, '%Y/%m/%d') as datetime from history where historyIdx = ${historyIdx}`;
                 datetime = await pool.queryParam(query);
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
