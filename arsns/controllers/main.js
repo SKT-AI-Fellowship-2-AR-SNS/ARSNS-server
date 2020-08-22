@@ -38,7 +38,7 @@ module.exports = {
 
     addHistory : async(req, res) => {
         // const curatorIdx = (await req.decoded).valueOf(0).idx;
-        const {userIdx, bssid1, bssid2} = req.body;
+        const {id, bssid1, bssid2} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
 
@@ -47,7 +47,7 @@ module.exports = {
             return;
         }
 
-        if(!userIdx || !bssid1 || !bssid2){
+        if(!id || !bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
@@ -71,7 +71,7 @@ module.exports = {
             return;
         }
 
-        const result = await MainModel.addHistory(imgLocation, userIdx, location);
+        const result = await MainModel.addHistory(imgLocation, id, location);
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
@@ -81,20 +81,23 @@ module.exports = {
     },
 
     getHistory : async(req, res) => {
-        const userIdx = req.params.userIdx;
+        const id = req.params.id;
         const bssid1 = req.params.bssid1;
         const bssid2 = req.params.bssid2;
         
-        if(!userIdx || !bssid1 || !bssid2){
+        if(!id || !bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
         
-        let result = await MainModel.getHistory(userIdx);
+        let result = await MainModel.getHistory(id);
+        if(result.length == 0){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
+        }
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
     },
 
-    getDetected : async(req, res) => {
+    getFriendHistory : async(req, res) => {
         const myId = req.params.myId;
         const friendId = req.params.friendId;
         if(!myId || !friendId){
@@ -102,18 +105,22 @@ module.exports = {
             return;
         }
 
-        let result = await MainModel.getDetected(myId, friendId);
+        let result = await MainModel.getFriendHistory(myId, friendId);
+        if(result.length == 0){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
+        }
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
 
     },
 
     getPersonName : async(req, res) => {
-        const userIdx = req.params.userIdx;
-        if(!userIdx){
+        const id = req.params.id;
+        if(!id){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
 
-        let result = await MainModel.getPersonName(userIdx);
+        let result = await MainModel.getPersonName(id);
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_NAME_FAIL));
         }

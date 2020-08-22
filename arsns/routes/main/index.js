@@ -9,8 +9,8 @@ const upload = require('../../modules/multer');
 
 router.post('/getLocation', mainController.getLocation);
 router.post('/addHistory', upload.array('image', 1), mainController.addHistory);
-router.get('/getHistory/:userIdx/:bssid1/:bssid2', mainController.getHistory);
-router.get('/getDetected', mainController.getDetected);
-router.get('/getPersonName/:userIdx', mainController.getPersonName);
+router.get('/getHistory/:id/:bssid1/:bssid2', mainController.getHistory);
+router.get('/getFriendHistory/:myId/:friendId', mainController.getFriendHistory);
+router.get('/getPersonName/:id', mainController.getPersonName);
 
 module.exports = router;

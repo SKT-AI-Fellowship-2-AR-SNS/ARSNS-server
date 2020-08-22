@@ -8,11 +8,11 @@ module.exports = {
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/subject`, 
                 'headers': {
                     // 'app-id' : "FHJEF7O455",
-                    // 'group-id' : "ICQ2WADNJ1",
+                    // 'group-id' : "SMB2NA4ND0",
                     // 'subject-name' : "phj"
                     'app-id' : `${appid}`,
                     'group-id' : `${groupid}`,
-                    'subject-name' : `${subjectname}`,
+                    'subject-name' : `${subjectname}`,//카카오 uid로 저장
                 },
                 'body': {
                     'mode': "raw",
