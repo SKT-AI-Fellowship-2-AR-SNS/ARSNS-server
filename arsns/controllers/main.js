@@ -91,6 +91,32 @@ module.exports = {
         }
         
         let result = await MainModel.getHistory(userIdx);
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));        
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
+    },
+
+    getDetected : async(req, res) => {
+        const myId = req.params.myId;
+        const friendId = req.params.friendId;
+        if(!myId || !friendId){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        let result = await MainModel.getDetected(myId, friendId);
+
+    },
+
+    getPersonName : async(req, res) => {
+        const userIdx = req.params.userIdx;
+        if(!userIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        let result = await MainModel.getPersonName(userIdx);
+        if(result.length == 0){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_NAME_FAIL));
+        }
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_NAME_SUCCESS, result));
     }
 }

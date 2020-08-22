@@ -24,6 +24,8 @@ module.exports = {
     ADD_HISTORY_SUCCESS: "히스토리 등록 성공",
     ADD_HISTORY_FAIL: "히스토리 등록 실패",
     GET_HISTORY_SUCCESS: "히스토리 불러오기 성공",
+    GET_NAME_FAIL: "이름 불러오기 실패",
+    GET_NAME_SUCCESS: "이름 불러오기 성공",
 
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",

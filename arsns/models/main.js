@@ -43,7 +43,22 @@ const main = {
         }catch(err){
             console.log('getHistory err: ', err);
         }throw err;
+    },
+
+    getDetected: async(myId, userId) => {
+        
+    },
+
+    getPersonName : async(userIdx) => {
+        let query = `SELECT name FROM user WHERE userIdx = ${userIdx}`;
+        try{
+            let result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('getPersonName err: ', err);
+        }throw err;
     }
+
 }
 
 module.exports = main;
