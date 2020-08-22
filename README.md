@@ -91,7 +91,7 @@
 <br>
 
 ### 📗 ERD
-<div align="center" style="display:flex;"><img width="333" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/90951791-e668a100-e498-11ea-8d25-d6b4e8f994db.png"></div>
+<div align="center" style="display:flex;"><img width="733" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/90951791-e668a100-e498-11ea-8d25-d6b4e8f994db.png"></div>
 
   (미완성)
   
