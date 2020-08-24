@@ -1,6 +1,7 @@
 const pool = require('../modules/pool');
 
 const historyData  = require('../modules/data/historyData');
+const profileData  = require('../modules/data/profileData');
 
 const main = {
     addHistory: async(contents, id, location) => {
@@ -50,12 +51,18 @@ const main = {
 
     getFriendHistory: async(myId, friendId) => {
         let query = `SELECT * FROM history WHERE id = ${friendId}`;
+        let profileQuery = `SELECT name, image FROM user WHERE id = ${friendId}`;
 
         try{
-            let result = await pool.queryParam(query);
+            let profileResult = await pool.queryParam(profileQuery);
+            profileResult[0].name = profileResult[0].name;
+            profileResult[0].image = profileResult[0].image;
+
+
+            let historyResult = await pool.queryParam(query);
             let day;
 
-            await Promise.all(result.map(async(element) =>{
+            await Promise.all(historyResult.map(async(element) =>{
                 let historyIdx = element.historyIdx;
                 //요일 추출
                 query = `select substr(dayname(timestamp),1,3) as day from history WHERE historyIdx = ${historyIdx}`;
@@ -67,20 +74,12 @@ const main = {
                 datetime = await pool.queryParam(query);
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
-
-                //지인 이름
-                query = `SELECT name FROM user WHERE id = ${friendId}`;
-                let nameResult = await pool.queryParam(query);
-                element.name = nameResult[0].name;
-
-                //지인 프로필사진
-                query = `SELECT image FROM user WHERE id = ${friendId}`;
-                let imageResult = await pool.queryParam(query);
-                element.image = imageResult[0].image;
             }));
+            let result = {};
+            result.profile = profileResult.map(profileData);
+            result.history = historyResult.map(historyData);
 
-            return result.map(historyData);
-
+            return result;
         }catch(err){
             console.log('getFriendHistory err: ', err);
         }throw err;
