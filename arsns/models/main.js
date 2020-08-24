@@ -11,8 +11,8 @@ const main = {
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
             const result = await pool.queryParamArr(query, values);
-            let historyIdx = result.historyIdx;
-            let query2 = `INSERT INTO user_history(historyIdx, id) VALUES(${historyIdx}, id)`;
+            let historyIdx = result.insertId;
+            let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
             await pool.queryParam(query2);
             return result;
         }catch(err){
@@ -84,8 +84,22 @@ const main = {
         }catch(err){
             console.log('getPersonName err: ', err);
         }throw err;
-    }
+    },
 
+    isMyFriend : async(myId, friendId) => {
+        let query = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${myId} and friendId = ${friendId}`;
+        try{
+            let result = await pool.queryParam(query);
+            if(result[0].cnt === 0){
+                return false;//내 지인이 아닌경우
+            }
+            else{
+                return true;//내 지인인 경우
+            }
+        }catch(err){
+            console.log('isMyFriend err: ', err);
+        }throw err;
+    }
 }
 
 module.exports = main;

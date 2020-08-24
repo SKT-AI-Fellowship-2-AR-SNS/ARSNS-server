@@ -30,7 +30,7 @@ module.exports = {
         const subjectid = req.headers['subject-id'];
         const facename = req.headers['face-name'];
 
-        console.log(appid);
+        console.log(subjectid);
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
