@@ -8,8 +8,9 @@ module.exports =
             "location": rawHistoryData.location,
             "text": rawHistoryData.text,
             "datetime": rawHistoryData.datetime,
-            "day": rawHistoryData.day
-        
+            "day": rawHistoryData.day,
+            "name": rawHistoryData.name,
+            "image": rawHistoryData.image
         };
         return historyData;
     };

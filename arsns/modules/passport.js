@@ -5,6 +5,7 @@ const User = require('../models/user');
 // const encrypt = require('./encrypt');
 let passport = require('passport');
 const kakaoFriend = require('../modules/kakaoFriend');
+const MainModel = require('../models/main');
 
 
 passport.use(new KakaoStrategy({
@@ -24,6 +25,8 @@ async (accessToken, refreshToken, profile, done) => {
     const user = await userController.findOrCreate(socialId, nickname, email, at);
     // const friend = await userController.getKakaoFriend(at);     
     const friend = await kakaoFriend.getKakaoFriend(at);
+    // console.log('친구목록: ',friend.elements);
+    // const friendResult = await MainModel.updateFriend(friend);
     done(null, user);
 }
 ));

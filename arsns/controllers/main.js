@@ -81,16 +81,22 @@ module.exports = {
     },
 
     getHistory : async(req, res) => {
-        const id = req.params.id;
+        const myid = req.params.myid;
+        const yourid = req.params.yourid;
         const bssid1 = req.params.bssid1;
         const bssid2 = req.params.bssid2;
         
-        if(!id || !bssid1 || !bssid2){
+        if(!myid|| !yourid || !bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
-        
-        let result = await MainModel.getHistory(id);
+        let result;
+        if(myid == yourid){
+            result = await MainModel.getHistory(myid);
+        }
+        else{
+            result = await MainModel.getFriendHistory(myid, yourid);
+        }
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
         }

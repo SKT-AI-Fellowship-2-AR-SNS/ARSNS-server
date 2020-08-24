@@ -67,6 +67,16 @@ const main = {
                 datetime = await pool.queryParam(query);
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
+
+                //지인 이름
+                query = `SELECT name FROM user WHERE id = ${friendId}`;
+                let nameResult = await pool.queryParam(query);
+                element.name = nameResult[0].name;
+
+                //지인 프로필사진
+                query = `SELECT image FROM user WHERE id = ${friendId}`;
+                let imageResult = await pool.queryParam(query);
+                element.image = imageResult[0].image;
             }));
 
             return result.map(historyData);
@@ -99,6 +109,10 @@ const main = {
         }catch(err){
             console.log('isMyFriend err: ', err);
         }throw err;
+    },  
+
+    updateFriend : async(friend) =>{
+
     }
 }
 
