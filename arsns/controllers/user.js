@@ -120,6 +120,7 @@ module.exports = {
         if(result.length===0){
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_FAIL));
         }
+
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_SUCCESS, result));
     },
 }

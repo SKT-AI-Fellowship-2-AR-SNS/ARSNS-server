@@ -19,12 +19,19 @@ router.post('/addFace', upload.single('image'), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));
 router.get('/kakao/callback', passport.authenticate('kakao',{
     successRedirect: '/users/signin_success',
-    failureRedirect: '/users/signin_success'
+    failureRedirect: '/users/signin_failure'
 }));
 
 router.get('/signin_success', ensureAuthenticated, function(req, res){
     // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
+    // res.send(JSON.parse(JSON.stringify(req.user[0])));
+
+});
+
+router.get('/signin_failure', ensureAuthenticated, function(req, res){
+    // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
+    return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인실패", JSON.parse(JSON.stringify(req.user[0]))));
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
 
 });
@@ -37,7 +44,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', (req, res) => {
-    const data = req.user;
+    const data = req.user[0];
     console.log('auth.js - data : ', JSON.parse(JSON.stringify(req.user)));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0]))));
 
