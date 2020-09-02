@@ -140,5 +140,27 @@ module.exports = {
         else{
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FRIEND_SUCCESS, result));
         }
+    },
+
+    editProfile : async(req, res) =>{
+        const {id, message} = req.body;
+        const img = req.files;
+        const imgLocation = img.map(image => image.location);  
+        if(img === undefined){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
+            return;
+        }
+
+        if(!id || !message){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+        const type = req.files[0].mimetype.split('/')[1];
+        if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
+            return;
+        }
+        const result = await User.editProfile(id, message, imgLocation);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.EDIT_PROFILE_SUCCESS, result));
     }
 }

@@ -1,6 +1,7 @@
 const table = 'user';
 const pool = require('../modules/pool');
 const { access } = require('fs');
+const profileData = require('../modules/data/profileData');
 const user = {
     // getUserByName:  async (username) => {
     //     const query = `SELECT * FROM ${table} WHERE name = '${username}'`;
@@ -73,6 +74,21 @@ const user = {
             }
         }catch(err){
             console.log('getFriend err: ', err);
+        }throw err;
+    },
+
+    editProfile: async(id, message, imgLocation) =>{
+        let query = `UPDATE user SET message = "${message}", image = "${imgLocation}" WHERE id = ${id}`;
+        try{
+            await pool.queryParam(query);
+            query = `SELECT name, image, message FROM user WHERE id=${id}`;
+            const result = await pool.queryParam(query);
+            result[0].name = result[0].name;
+            result[0].image = result[0].image;
+            result[0].message = result[0].message;
+            return result.map(profileData);
+        }catch(err){
+            console.log('editProfile err: ', err);
         }throw err;
     }
 }

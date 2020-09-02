@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const UserController = require('../../controllers/user');
-// const upload = require('../../modules/multer');
-const multer = require('multer');
-const upload = multer({
-    dest: 'upload/'
-});
+const upload = require('../../modules/multer');
+// const multer = require('multer');
+// const upload = multer({
+//     dest: 'upload/'
+// });
 // const authUtil = require('../../modules/authUtil');  
 const passport = require('passport');
 const util = require('../../modules/util');
@@ -53,5 +53,5 @@ router.get('/', (req, res) => {
 
 router.get('/getKakaoFriend', UserController.getKakaoFriend);
 router.get('/getFriend/:myid', UserController.getFriend);
-
+router.post('/profile', upload.array('img', 1), UserController.editProfile);
 module.exports = router;

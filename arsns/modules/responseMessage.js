@@ -33,7 +33,8 @@ module.exports = {
 
     //유저
     GET_FRIEND_FAIL: "친구목록 조회 실패",
-    GET_FRIEND_SCUUESS: "친구목록 조회 성공",
+    GET_FRIEND_SUCCESS: "친구목록 조회 성공",
+    EDIT_PROFILE_SUCCESS: "프로필 수정 성공",
 
 
     //포스트
