@@ -31,6 +31,11 @@ module.exports = {
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
+    //유저
+    GET_FRIEND_FAIL: "친구목록 조회 실패",
+    GET_FRIEND_SCUUESS: "친구목록 조회 성공",
+
+
     //포스트
     CREATED_POST:"포스팅 성공",
     READ_SENTENCE:"문장 조회 성공",

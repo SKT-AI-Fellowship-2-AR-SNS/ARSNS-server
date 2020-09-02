@@ -59,6 +59,21 @@ const user = {
             console.log('signup ERROR :', err);
             throw err;
         }
+    },
+
+    getFriend: async(myid) =>{
+        const query = `SELECT friendId FROM friends WHERE myid = ${myid}`;
+        try{
+            const result = await pool.queryParam(query);
+            if(result.length ===0){
+                return false;
+            }
+            else{
+                return result;       
+            }
+        }catch(err){
+            console.log('getFriend err: ', err);
+        }throw err;
     }
 }
 

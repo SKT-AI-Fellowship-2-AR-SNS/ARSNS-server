@@ -52,5 +52,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/getKakaoFriend', UserController.getKakaoFriend);
+router.get('/getFriend/:myid', UserController.getFriend);
 
 module.exports = router;
