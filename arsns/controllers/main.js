@@ -42,16 +42,28 @@ module.exports = {
         const {id, location, text} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
+        if(!id){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "id없어"));
+            return;
+        }
+        if(!location){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "location없어"));
+            return;
+        }
+        if(!text){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "text없어"));
+            return;
+        }
 
         if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
 
-        if(!id || !location || !text){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-            return;
-        }
+        // if(!id || !location || !text){
+        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        //     return;
+        // }
         // //현재위치 불러오기
         // let result1 = await Location.getLocation(bssid1, bssid2);
         // if(result1.length === 0) {
