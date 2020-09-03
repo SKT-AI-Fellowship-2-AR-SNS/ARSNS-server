@@ -42,6 +42,24 @@ const user = {
             throw err;
         }
     },
+
+    atCheck: async(id, at) =>{
+        let query = `SELECT access_token FROM user WHERE id=${id}`;
+        try{
+            let result = await pool.queryParam(query);
+            if(result != at){
+                query = `UPDATE user SET access_token = "${at}" WHERE id="${id}"`;
+                result = await pool.queryParam(query);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }catch(err){
+            console.log('atCheck err: ', err);
+        }throw err;
+    },
+
     signup: async (id, name, email, access_token) => {
         const fields = 'id, name, email, access_token';
         console.log('id: ', id, 'name: ', name, 'email: ',email, 'at: ',access_token);

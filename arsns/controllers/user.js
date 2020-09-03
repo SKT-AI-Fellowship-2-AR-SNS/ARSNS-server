@@ -72,6 +72,7 @@ module.exports = {
                 user.state = 2;
                 // return res.status(statusCode.OK).send(util.success(statusCode.OK, "이미 회원입니다.", user.id));
             }
+            const atcheck = await User.atCheck(socialId, at);
             return user;
         } catch {
             return false;

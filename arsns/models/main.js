@@ -111,10 +111,12 @@ const main = {
     },  
 
     updateFriend : async(myId, friendId) =>{
-        let query = `SELECT * FROM user WHERE id = ${friendId}`;
+        let query1 = `SELECT COUNT(*) as userCnt FROM user WHERE id = ${friendId}`;
+        let query2 = `SELECT COUNT(*) as friendCnt FROM friends WHERE myId=${myId} and friendId=${friendId}`;
         try{
-            let result = await pool.queryParam(query);
-            if(result.length > 0){
+            let result1 = await pool.queryParam(query1);
+            let result2 = await pool.queryParam(query2);
+            if(result1[0].userCnt > 0 && result2[0].friendCnt === 0){
                 const fields = `myId, friendId`;
                 const question = `?,?`;
                 const values = [myId, friendId];
