@@ -39,7 +39,7 @@ module.exports = {
 
     addHistory : async(req, res) => {
         // const curatorIdx = (await req.decoded).valueOf(0).idx;
-        const {id, bssid1, bssid2} = req.body;
+        const {id, location, text} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
 
@@ -48,22 +48,22 @@ module.exports = {
             return;
         }
 
-        if(!id || !bssid1 || !bssid2){
+        if(!id || !location || !text){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
-        //현재위치 불러오기
-        let result1 = await Location.getLocation(bssid1, bssid2);
-        if(result1.length === 0) {
-            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
-        }
-        let result2 = await Address.getAddress(result1.lat, result1.lon);
-        let res1 = JSON.stringify(result2.documents);
-        let removeBackSlash = res1.replace(/\\/g,'');
-        let replaceFirstBracket = removeBackSlash.replace(/\"{/g,'{');
-        let replaceSecondBracket = replaceFirstBracket.replace(/\}"/g,'}'); 
-        let result3 = JSON.parse(replaceSecondBracket);
-        let location = result3[0].road_address.address_name;
+        // //현재위치 불러오기
+        // let result1 = await Location.getLocation(bssid1, bssid2);
+        // if(result1.length === 0) {
+        //     return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
+        // }
+        // let result2 = await Address.getAddress(result1.lat, result1.lon);
+        // let res1 = JSON.stringify(result2.documents);
+        // let removeBackSlash = res1.replace(/\\/g,'');
+        // let replaceFirstBracket = removeBackSlash.replace(/\"{/g,'{');
+        // let replaceSecondBracket = replaceFirstBracket.replace(/\}"/g,'}'); 
+        // let result3 = JSON.parse(replaceSecondBracket);
+        // let location = result3[0].road_address.address_name;
 
         // console.log(img);
         const type = req.files[0].mimetype.split('/')[1];
@@ -72,7 +72,7 @@ module.exports = {
             return;
         }
 
-        const result = await MainModel.addHistory(imgLocation, id, location);
+        const result = await MainModel.addHistory(imgLocation, id, location, text);
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));

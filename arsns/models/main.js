@@ -4,10 +4,10 @@ const historyData  = require('../modules/data/historyData');
 const profileData  = require('../modules/data/profileData');
 
 const main = {
-    addHistory: async(contents, id, location) => {
-        const fields = `contents, id, location`;
-        const question = `?,?,?`;
-        const values = [contents, id, location];
+    addHistory: async(contents, id, location, text) => {
+        const fields = `contents, id, location, text`;
+        const question = `?,?,?,?`;
+        const values = [contents, id, location, text];
 
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
