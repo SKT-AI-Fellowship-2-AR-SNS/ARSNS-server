@@ -110,8 +110,25 @@ const main = {
         }throw err;
     },  
 
-    updateFriend : async(friend) =>{
-
+    updateFriend : async(myId, friendId) =>{
+        let query = `SELECT * FROM user WHERE id = ${friendId}`;
+        try{
+            let result = await pool.queryParam(query);
+            if(result.length > 0){
+                const fields = `myId, friendId`;
+                const question = `?,?`;
+                const values = [myId, friendId];
+        
+                query = `INSERT INTO friends(${fields}) VALUES(${question})`;
+                result = await pool.queryParamArr(query, values);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }catch(err){
+            console.log('updateFriend err: ', err);
+        }throw err;
     }
 }
 

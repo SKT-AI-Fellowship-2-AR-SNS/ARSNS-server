@@ -3,7 +3,7 @@ const request = require('request');
 
 module.exports = {
     getKakaoFriend: (at)=>{
-        console.log('at 3: ', at);
+        // console.log('at 3: ', at);
         return new Promise((resolve, reject)=>{
             const options = {
                 'uri' : `https://kapi.kakao.com/v1/api/talk/friends`, 
@@ -21,7 +21,10 @@ module.exports = {
             
             request(options, async (err, result)=>{
                 const jsonResult = JSON.parse(result.body);
-                console.log('친구목록 결과!~: ', jsonResult);
+                // for(var i = 0; i<jsonResult.elements.length; i++){
+                //     var id = jsonResult.elements[i].id;
+                //     console.log('친구목록 결과!~: ', id);
+                // }
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
