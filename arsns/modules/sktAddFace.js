@@ -4,6 +4,7 @@ const fs = require('fs');
 module.exports = {
     addFace: (image, appid, groupid, subjectid, facename)=>{
         return new Promise((resolve, reject)=>{
+            // console.log('여긴나오니');
             let formData = {
                 'image' : fs.createReadStream(`${image}`)
             }

@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const UserController = require('../../controllers/user');
-const upload = require('../../modules/multer');
-// const multer = require('multer');
-// const upload = multer({
-//     dest: 'upload/'
-// });
+// const upload = require('../../modules/multer');
+const multer = require('multer');
+const upload = multer({
+    dest: 'upload/'
+});
 // const authUtil = require('../../modules/authUtil');  
 const passport = require('passport');
 const util = require('../../modules/util');
@@ -16,6 +16,7 @@ const statusCode = require('../../modules/statusCode');
 // router.post('/signin',UserController.signin);
 router.post('/addPerson', UserController.addPerson);
 router.post('/addFace', upload.single('image'), UserController.addFace);
+// router.post('/addFace', upload.array('image', 1), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));
 router.get('/kakao/callback', passport.authenticate('kakao',{
     successRedirect: '/users/signin_success',

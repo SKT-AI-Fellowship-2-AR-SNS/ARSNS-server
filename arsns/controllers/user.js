@@ -24,13 +24,15 @@ module.exports = {
     },
 
     addFace : async(req, res) =>{
-        const image = req.file.path;
+        const image = req.file.path;  
         const appid = req.headers['app-id'];
         const groupid = req.headers['group-id'];
         const subjectid = req.headers['subject-id'];
         const facename = req.headers['face-name'];
+        // const img = req.files;
+        // const imgLocation = img.map(image => image.location);
+        // console.log(imgLocation);
 
-        console.log(subjectid);
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -46,6 +48,7 @@ module.exports = {
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
             return;
         }
+
         // const location = image.map(img => img.location);
         let result = await addFace.addFace(image, appid, groupid, subjectid, facename);
         // console.log(result2.headers);
