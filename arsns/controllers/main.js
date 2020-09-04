@@ -39,32 +39,26 @@ module.exports = {
 
     addHistory : async(req, res) => {
         // const curatorIdx = (await req.decoded).valueOf(0).idx;
-        const {id, location, text} = req.body;
-        const img = req.files;
-        const imgLocation = img.map(image => image.location);  
-        if(!id){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "id없어"));
-            return;
-        }
-        if(!location){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "location없어"));
-            return;
-        }
-        if(!text){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "text없어"));
-            return;
-        }
-
-        if(img === undefined){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
-            return;
-        }
-        console.log(imgLocation);
-
-        // if(!id || !location || !text){
-        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        // const id = req.headers.id;
+        // const location = req.headers.location;
+        // const text = req.headers.text;
+        // const image = req.file.path;
+        const{id, location, text} = req.body;
+        console.log('Id : ', id);
+        console.log('location : ', location);
+        console.log('text : ', text);
+        // const img = req.files;
+        // const imgLocation = img.map(image => image.location);  
+        // console.log(image);
+        // if(image === undefined){
+        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
         //     return;
         // }
+
+        if(!id || !location || !text){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
         // //현재위치 불러오기
         // let result1 = await Location.getLocation(bssid1, bssid2);
         // if(result1.length === 0) {
@@ -78,14 +72,14 @@ module.exports = {
         // let result3 = JSON.parse(replaceSecondBracket);
         // let location = result3[0].road_address.address_name;
 
-        // console.log(img);
-        const type = req.files[0].mimetype.split('/')[1];
-        if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
-            return;
-        }
+        // const type = req.file.mimetype.split('/')[1];
+        // if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
+        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
+        //     return;
+        // }
 
-        const result = await MainModel.addHistory(imgLocation, id, location, text);
+        // const result = await MainModel.addHistory(image, id, location, text);
+        const result = await MainModel.addHistory(id, location, text);
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
