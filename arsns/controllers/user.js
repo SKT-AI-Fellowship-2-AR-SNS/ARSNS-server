@@ -31,7 +31,7 @@ module.exports = {
         const facename = req.headers['face-name'];
         // const img = req.files;
         // const imgLocation = img.map(image => image.location);
-        // console.log(imgLocation);
+        console.log(image);
 
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
