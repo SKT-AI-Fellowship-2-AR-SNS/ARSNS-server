@@ -41,15 +41,15 @@ module.exports = {
         // const id = req.headers.id;
         // const location = req.headers.location;
         // const text = req.headers.text;
-        const image = req.file.path;
+        // const image = req.file.path;
         const{id, location, text} = req.body;
         console.log('Id : ', id);
         console.log('location : ', location);
         console.log('text : ', text);
-        // const img = req.files;
-        // const imgLocation = img.map(image => image.location);  
-        console.log(image);
-        if(image === undefined){
+        const img = req.files;
+        const imgLocation = img.map(image => image.location);  
+        console.log(img);
+        if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
@@ -71,13 +71,13 @@ module.exports = {
         // let result3 = JSON.parse(replaceSecondBracket);
         // let location = result3[0].road_address.address_name;
 
-        const type = req.file.mimetype.split('/')[1];
+        const type = req.files[0].mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
             return;
         }
 
-        const result = await MainModel.addHistory(image, id, location, text);
+        const result = await MainModel.addHistory(imgLocation, id, location, text);
         // const result = await MainModel.addHistory(id, location, text);
 
         if(result == -1){
