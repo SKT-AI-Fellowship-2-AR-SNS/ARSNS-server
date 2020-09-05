@@ -98,6 +98,8 @@ module.exports = {
             return;
         }
         let result;
+        //bssid1,2로 위치 받아서 같은 위치 컨텐츠만 꺼내야 함.
+        //위치먼저 get
         if(myid == yourid){
             result = await MainModel.getHistory(myid);
         }
