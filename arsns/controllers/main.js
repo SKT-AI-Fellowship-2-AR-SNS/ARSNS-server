@@ -61,8 +61,8 @@ module.exports = {
         }
 
         const type = req.files[0].mimetype.split('/')[1];
-        if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
+        if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'&& type !== 'mp4'){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_CONTENT_FORM));
             return;
         }
 
@@ -70,11 +70,13 @@ module.exports = {
         let str = location.split(" ");
         let road_address = "";
         for(var i = 0; i<str.length-1; i++){
-            road_address += str[i] + " ";
+            road_address += str[i];
+            if(i!=str.length-2)
+            road_address += " ";
         };
         // console.log(road_address);
 
-        const result = await MainModel.addHistory(imgLocation, id, road_address, text);
+        const result = await MainModel.addHistory(imgLocation, id, road_address, text, type);
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
@@ -86,18 +88,25 @@ module.exports = {
     getHistory : async(req, res) => {
         const myid = req.params.myid;
         const yourid = req.params.yourid;
-        const location = req.params.location;
-        
-        if(!myid|| !yourid || !bssid1 || !bssid2){
+        const{location} = req.body;
+
+        if(!myid|| !yourid || !location){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
+        //마지막 주소만 제거하고 저장
+        let str = location.split(" ");
+        let road_address = "";
+        for(var i = 0; i<str.length-1; i++){
+            road_address += str[i] + " ";
+        };
+        
         let result;
         if(myid == yourid){
-            result = await MainModel.getHistory(myid);
+            result = await MainModel.getHistory(myid,road_address);
         }
         else{
-            result = await MainModel.getFriendHistory(myid, yourid);
+            result = await MainModel.getFriendHistory(myid, yourid,road_address);
         }
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
