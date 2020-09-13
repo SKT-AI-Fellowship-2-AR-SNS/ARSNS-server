@@ -4,10 +4,10 @@ const historyData  = require('../modules/data/historyData');
 const profileData  = require('../modules/data/profileData');
 
 const main = {
-    addHistory: async(contents, id, location, text) => {
-        const fields = `contents, id, location, text`;
-        const question = `?,?,?,?`;
-        const values = [contents, id, location, text];
+    addHistory: async(contents, id, location, text, type) => {
+        const fields = `contents, id, location, text, type`;
+        const question = `?,?,?,?,?`;
+        const values = [contents, id, location, text, type];
 
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
@@ -36,8 +36,8 @@ const main = {
     //         console.log('addHistory err: ', err);
     //     }throw err;
     // },
-    getHistory: async(id, bssid1, bssid2) => {
-        let query = `SELECT * FROM history WHERE id = ${id}`;
+    getHistory: async(id, location) => {
+        let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}"`;
 
         try{
             let result = await pool.queryParam(query);
@@ -55,6 +55,15 @@ const main = {
                 datetime = await pool.queryParam(query);
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
+
+                query = `SELECT type FROM history WHERE id = ${id} and location = "${location}"`;
+                contents_type = await pool.queryParam(query);
+                if(contents_type === "mp4"){
+                    element.contents_type = "video";
+                }
+                else{
+                    element.contents_type = "image";
+                }
             }));
 
             return result.map(historyData);

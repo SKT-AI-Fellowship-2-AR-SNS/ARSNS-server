@@ -10,7 +10,8 @@ module.exports =
             "datetime": rawHistoryData.datetime,
             "day": rawHistoryData.day,
             "name": rawHistoryData.name,
-            "image": rawHistoryData.image
+            "image": rawHistoryData.image,
+            "contents_type": rawHistoryData.contents_type
         };
         return historyData;
     };

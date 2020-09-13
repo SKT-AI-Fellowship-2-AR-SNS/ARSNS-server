@@ -36,6 +36,8 @@ module.exports = {
     GET_FRIEND_SUCCESS: "친구목록 조회 성공",
     EDIT_PROFILE_SUCCESS: "프로필 수정 성공",
 
+    //히스토리
+    INCORRECT_CONTENT_FORM:"파일의 형식이 올바르지 않습니다.",
 
     //포스트
     CREATED_POST:"포스팅 성공",
