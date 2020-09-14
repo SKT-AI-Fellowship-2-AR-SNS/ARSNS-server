@@ -108,6 +108,28 @@ const user = {
         }catch(err){
             console.log('editProfile err: ', err);
         }throw err;
+    },
+
+    follow: async(myid, yourid) =>{
+        let query = `SELECT * FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+        try{
+            let result = "";
+            const selectResult = await pool.queryParam(query);
+
+            if(selectResult.length === 0){//팔로우 안했던 유저 -> 팔로우 추가하기
+                query = `INSERT INTO friends(myId, friendId) VALUE(${myid}, ${yourid})`;
+                await pool.queryParam(query);
+                result = true;
+            }
+            else{//팔로우했던 유저 -> 팔로우 취소하기
+                query = `DELETE FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+                await pool.queryParam(query);
+                result = false;
+            }
+            return result;
+        }catch(err){
+            console.log('follow err: ', err);
+        }throw err;
     }
 }
 

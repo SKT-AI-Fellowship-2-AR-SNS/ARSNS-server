@@ -66,12 +66,10 @@ module.exports = {
                 state: 0
             }
             if (!isThere) {
-                console.log('user가 없습니다');
                 await User.signup(socialId, nickname, email, at);
                 user.state = 1;
                 // return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인 성공", user.id));
             } else {
-                console.log('user가 있습니다');
                 user.state = 2;
                 // return res.status(statusCode.OK).send(util.success(statusCode.OK, "이미 회원입니다.", user.id));
             }
@@ -166,5 +164,18 @@ module.exports = {
         }
         const result = await User.editProfile(id, message, imgLocation);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.EDIT_PROFILE_SUCCESS, result));
+    },
+
+    follow : async(req, res) =>{
+        const myid = req.params.myid;
+        const yourid = req.params.yourid;
+
+        if(!myid || !yourid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const result = await User.follow(myid, yourid);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FOLLOW_SUCCESS, result));
     }
 }

@@ -35,6 +35,7 @@ module.exports = {
     GET_FRIEND_FAIL: "친구목록 조회 실패",
     GET_FRIEND_SUCCESS: "친구목록 조회 성공",
     EDIT_PROFILE_SUCCESS: "프로필 수정 성공",
+    FOLLOW_SUCCESS: "팔로우 성공",
 
     //히스토리
     INCORRECT_CONTENT_FORM:"파일의 형식이 올바르지 않습니다.",
