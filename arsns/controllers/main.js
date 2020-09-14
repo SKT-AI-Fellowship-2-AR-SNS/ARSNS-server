@@ -88,19 +88,27 @@ module.exports = {
     getHistory : async(req, res) => {
         const myid = req.params.myid;
         const yourid = req.params.yourid;
+        const bssid1 = req.params.bssid1;
+        const bssid2 = req.params.bssid2;
         const{location} = req.body;
+        console.log('myid: ', myid);
+        console.log('yourid: ', yourid);
+        console.log('bssid1: ', bssid1);
+        console.log('bssid2: ', bssid2);
+        console.log('location: ', location);
 
-        if(!myid|| !yourid || !location){
+        if(!myid|| !yourid || !bssid1 || !bssid2 || !location){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
         //마지막 주소만 제거하고 저장
-        let str = location.split(" ");
-        let road_address = "";
-        for(var i = 0; i<str.length-1; i++){
-            road_address += str[i] + " ";
-        };
+        // let str = location.split(" ");
+        // let road_address = "";
+        // for(var i = 0; i<str.length-1; i++){
+        //     road_address += str[i] + " ";
+        // };
         
+        let road_address = "경기도 용인시 수지구 죽전로";
         let result;
         if(myid == yourid){
             result = await MainModel.getHistory(myid,road_address);
