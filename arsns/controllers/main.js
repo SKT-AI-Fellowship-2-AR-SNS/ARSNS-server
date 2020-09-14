@@ -91,10 +91,6 @@ module.exports = {
         const bssid1 = req.params.bssid1;
         const bssid2 = req.params.bssid2;
         // const{location} = req.body;
-        console.log('myid: ', myid);
-        console.log('yourid: ', yourid);
-        console.log('bssid1: ', bssid1);
-        console.log('bssid2: ', bssid2);
         // console.log('location: ', location);
 
         if(!myid|| !yourid || !bssid1 || !bssid2){
@@ -116,7 +112,7 @@ module.exports = {
         else{
             result = await MainModel.getFriendHistory(myid, yourid,road_address);
         }
-        
+
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
         }

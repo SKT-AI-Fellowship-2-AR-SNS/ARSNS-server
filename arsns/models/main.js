@@ -60,9 +60,9 @@ const main = {
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
 
-                query = `SELECT type FROM history WHERE id = ${id} and location = "${location}"`;
+                query = `SELECT type FROM history WHERE historyIdx = ${historyIdx}`;
                 contents_type = await pool.queryParam(query);
-                if(contents_type === "mp4"){
+                if(contents_type[0].type === "mp4"){
                     element.contents_type = "video";
                 }
                 else{
