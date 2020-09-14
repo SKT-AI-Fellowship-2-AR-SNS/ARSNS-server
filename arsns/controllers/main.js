@@ -90,14 +90,14 @@ module.exports = {
         const yourid = req.params.yourid;
         const bssid1 = req.params.bssid1;
         const bssid2 = req.params.bssid2;
-        const{location} = req.body;
+        // const{location} = req.body;
         console.log('myid: ', myid);
         console.log('yourid: ', yourid);
         console.log('bssid1: ', bssid1);
         console.log('bssid2: ', bssid2);
-        console.log('location: ', location);
+        // console.log('location: ', location);
 
-        if(!myid|| !yourid || !bssid1 || !bssid2 || !location){
+        if(!myid|| !yourid || !bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
