@@ -39,6 +39,7 @@ module.exports = {
 
     //히스토리
     INCORRECT_CONTENT_FORM:"파일의 형식이 올바르지 않습니다.",
+    HISTORY_LIKE_SUCCESS: "히스토리 좋아요 토글 성공",
 
     //포스트
     CREATED_POST:"포스팅 성공",
