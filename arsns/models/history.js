@@ -80,8 +80,8 @@ const history = {
         }throw err;
     },
 
-    getFriendHistory: async(friendId, friendId) => {
-        let query = `SELECT * FROM history WHERE id = ${friendId}`;
+    getFriendHistory: async(friendId, location) => {
+        let query = `SELECT * FROM history WHERE id = ${friendId} and location = "${location}"`;
         let profileQuery = `SELECT name, image FROM user WHERE id = ${friendId}`;
 
         try{
@@ -106,7 +106,7 @@ const history = {
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
 
-                query = `SELECT type FROM history WHERE id = ${id} and location = "${location}"`;
+                query = `SELECT type FROM history WHERE id = ${friendId}`;
                 contents_type = await pool.queryParam(query);
                 if(contents_type === "mp4"){
                     element.contents_type = "video";

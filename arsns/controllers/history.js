@@ -63,7 +63,7 @@ module.exports = {
             }).on('end', function() {
                 console.log('done');
         });
-        
+
         console.log(thumbnail);
 
         const type = req.files[0].mimetype.split('/')[1];
@@ -116,7 +116,7 @@ module.exports = {
             result = await HistoryModel.getHistory(myid,road_address);
         }
         else{
-            result = await HistoryModel.getFriendHistory(myid, yourid,road_address);
+            result = await HistoryModel.getFriendHistory(yourid,road_address);
         }
 
         if(result.length == 0){
