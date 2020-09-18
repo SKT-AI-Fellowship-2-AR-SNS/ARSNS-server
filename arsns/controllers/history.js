@@ -1,15 +1,14 @@
 const util = require('../modules/util');
 const resMessage = require('../modules/responseMessage');
 const statusCode = require('../modules/statusCode');
-const Location = require(`../modules/location`);
-const Address = require(`../modules/kakaoLocation`);
 const HistoryModel = require('../models/history');
-
+const ffmpeg = require("fluent-ffmpeg");
+const ffmpeg_static = require('ffmpeg-static');
 module.exports = {
     addHistory : async(req, res) => {
-        const{id, location, text} = req.body;
+        const{id, location, text, thumbnail} = req.body;
         const img = req.files;
-        const imgLocation = img.map(image => image.location);  
+        const imgLocation = img.map(image => image.location);
         console.log(img);
         if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
@@ -20,6 +19,52 @@ module.exports = {
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
+        
+        let fileDuration = "";
+        let filePath = "";
+        console.log("video location: ", imgLocation[0]);
+        // ffmpeg.ffprobe(imgLocation[0], function(err, metadata){
+        //     console.log('여긴');
+        //     console.log(metadata);
+        //     // fileDuration = metadata.format.duration;
+        // });
+
+        // ffmpeg(imgLocation)
+        // .on("filenames", function(filenames){
+        //     console.log("will generate " + filenames.join(","));
+        //     console.log("filenames: ", filenames);
+        //     filePath = "uploads/thumbnails/" + filenames[0];
+        // })
+        // .on("end", function(){
+        //     console.log('Screenshots taken');
+        //     return res.json({
+        //         success: true,
+        //         url: filePath,
+        //         fileDuration: fileDuration
+        //     });
+        // })
+        // .on("error", function(err){
+        //     console.log(err);
+        //     return res.json({success: false, err});
+        // })
+        // .screenshots({
+        //     count: 1,
+        //     folder: "uploads/thumbnails",
+        //     size: "320x240",
+        //     filename: "thumbnail-%b.png",
+        // });
+
+        ffmpeg(imgLocation[0])
+            .setFfmpegPath(ffmpeg_static)
+            .screenshots({
+                timestamps: [0.0],
+                filename: 'xx.png',
+                folder: '../upload',
+            }).on('end', function() {
+                console.log('done');
+        });
+        
+        console.log(thumbnail);
 
         const type = req.files[0].mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'&& type !== 'mp4'){

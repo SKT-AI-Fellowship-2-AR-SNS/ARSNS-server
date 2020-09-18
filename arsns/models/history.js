@@ -80,7 +80,7 @@ const history = {
         }throw err;
     },
 
-    getFriendHistory: async(myId, friendId) => {
+    getFriendHistory: async(friendId, friendId) => {
         let query = `SELECT * FROM history WHERE id = ${friendId}`;
         let profileQuery = `SELECT name, image FROM user WHERE id = ${friendId}`;
 
