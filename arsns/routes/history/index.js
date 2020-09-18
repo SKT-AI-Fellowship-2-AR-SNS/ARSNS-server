@@ -7,7 +7,7 @@ const upload = require('../../modules/multer');
 //     dest: 'upload/'
 // });
 
-router.post('/addHistory', upload.array('image',1), historyController.addHistory);
+router.post('/addHistory', upload.array('image',2), historyController.addHistory);
 router.get('/getHistory/:myid/:yourid/:bssid1/:bssid2', historyController.getHistory);
 router.get('/getFriendHistory/:myId/:friendId', historyController.getFriendHistory);
 router.put('/like/:userIdx/:historyIdx', historyController.likeHistory);
