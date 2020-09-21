@@ -4,10 +4,10 @@ const historyData  = require('../modules/data/historyData');
 const profileData  = require('../modules/data/profileData');
 
 const history = {
-    addHistory: async(contents, id, location, text, type) => {
-        const fields = `contents, id, location, text, type`;
-        const question = `?,?,?,?,?`;
-        const values = [contents, id, location, text, type];
+    addVideoHistory: async(video,image, id, location, text, type) => {
+        const fields = `video, image, id, location, text, type`;
+        const question = `?,?,?,?,?,?`;
+        const values = [video, image, id, location, text, type];
 
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
@@ -20,22 +20,24 @@ const history = {
             console.log('addHistory err: ', err);
         }throw err;
     },
-    // addHistory: async(id, location, text) => {
-    //     const fields = `id, location, text`;
-    //     const question = `?,?,?`;
-    //     const values = [id, location, text];
 
-    //     let query = `INSERT INTO history(${fields}) VALUES(${question})`;
-    //     try{
-    //         const result = await pool.queryParamArr(query, values);
-    //         let historyIdx = result.insertId;
-    //         let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
-    //         await pool.queryParam(query2);
-    //         return result;
-    //     }catch(err){
-    //         console.log('addHistory err: ', err);
-    //     }throw err;
-    // },
+    addImgHistory: async(image, id, location, text, type) => {
+        const fields = `image, id, location, text, type`;
+        const question = `?,?,?,?,?`;
+        const values = [image, id, location, text, type];
+
+        let query = `INSERT INTO history(${fields}) VALUES(${question})`;
+        try{
+            const result = await pool.queryParamArr(query, values);
+            let historyIdx = result.insertId;
+            let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
+            await pool.queryParam(query2);
+            return result;
+        }catch(err){
+            console.log('addHistory err: ', err);
+        }throw err;
+    },
+
     getHistory: async(id, location) => {
         let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}"`;
         let profileQuery = `SELECT name, image FROM user WHERE id = ${id}`;
