@@ -4,13 +4,22 @@ const statusCode = require('../modules/statusCode');
 const HistoryModel = require('../models/history');
 const ffmpeg = require("fluent-ffmpeg");
 const ffmpeg_static = require('ffmpeg-static');
+const upload = require('../modules/multer');
+const canvas = require('canvas');
+
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
+aws.config.loadFromPath(__dirname + '/../config/s3.json');
+const fs = require('fs');
+
 module.exports = {
     addHistory : async(req, res) => {
-        const{id, location, text, thumbnail} = req.body;
-        const img = req.files;
-        const imgLocation = img.map(image => image.location);
-        console.log(img);
-        if(img === undefined){
+        const{id, location, text} = req.body;
+        const contents = req.files;
+        const contentsLocation = contents.map(content => content.location);
+        console.log(contents);
+        if(contents === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
@@ -20,51 +29,51 @@ module.exports = {
             return;
         }
         
-        let fileDuration = "";
-        let filePath = "";
-        console.log("video location: ", imgLocation[0]);
-        // ffmpeg.ffprobe(imgLocation[0], function(err, metadata){
-        //     console.log('여긴');
-        //     console.log(metadata);
-        //     // fileDuration = metadata.format.duration;
-        // });
+        let videoname = contents[0].key.split('.')[0];
+        
+        //동영상에서 썸네일 이미지 추출해서 upload폴더에 저장
+        function func1(param){
+            return new Promise(function(resolved, rejected){
+                const image = ffmpeg(contentsLocation[0])
+                .setFfmpegPath(ffmpeg_static)
+                .screenshots({
+                    timestamps: [0.0],
+                    filename: videoname + ".png",
+                    folder: `upload`
+                }).on('end', function() {
+                    console.log('done');
+                });
+                resolved(videoname);
+            })
+        };
 
-        // ffmpeg(imgLocation)
-        // .on("filenames", function(filenames){
-        //     console.log("will generate " + filenames.join(","));
-        //     console.log("filenames: ", filenames);
-        //     filePath = "uploads/thumbnails/" + filenames[0];
-        // })
-        // .on("end", function(){
-        //     console.log('Screenshots taken');
-        //     return res.json({
-        //         success: true,
-        //         url: filePath,
-        //         fileDuration: fileDuration
-        //     });
-        // })
-        // .on("error", function(err){
-        //     console.log(err);
-        //     return res.json({success: false, err});
-        // })
-        // .screenshots({
-        //     count: 1,
-        //     folder: "uploads/thumbnails",
-        //     size: "320x240",
-        //     filename: "thumbnail-%b.png",
-        // });
+        //upload폴더에서 썸네일 이미지를 찾아서 S3에 업로드
+        function func2(param){
+            return new Promise(function(resolved,rejected){
+                setTimeout(()=>{
+                    let video = param;
+                    var file = fs.createReadStream(`upload/${video}.png`);
+                    var params = {
+                        Bucket: 'soopt',
+                        Key: `${video}.png`,
+                        ACL: 'public-read', /* 권한: 도메인에 객체경로 URL 을 입력하여 접근 가능하게 설정 */
+                        Body: file,
+                        ContentType:'image/png'
+                    };
+                    let s3 = new aws.S3();
+                    s3.upload(params, function(err, data){
+                        if(err){
+                            console.log('s3 err: ', err);
+                        }
+                        console.log('============');
+                        console.log("data : ", data);
+                    });
+                    resolved(param);
+                }, 2000);
+            })
+        };
 
-        ffmpeg(imgLocation[0])
-            .setFfmpegPath(ffmpeg_static)
-            .screenshots({
-                timestamps: [0.0],
-                filename: 'xx.png',
-                folder: '../upload',
-            }).on('end', function() {
-                console.log('done');
-        });
-
-        console.log(thumbnail);
+        func1(1).then(func2);
 
         const type = req.files[0].mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'&& type !== 'mp4'){
@@ -82,7 +91,7 @@ module.exports = {
         };
         // console.log(road_address);
 
-        const result = await HistoryModel.addHistory(imgLocation, id, road_address, text, type);
+        const result = await HistoryModel.addHistory(contentsLocation, id, road_address, text, type);
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
