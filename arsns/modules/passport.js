@@ -12,11 +12,12 @@ passport.use(new KakaoStrategy({
     clientID: passportKey.federation.kakao.ID,
     clientSecret: passportKey.federation.kakao.KEY,
     // profileFields: ['id', 'displayName', 'email'],
-    // callbackURL: 'http://localhost:3000/users/kakao/callback'
-    callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
+    callbackURL: 'http://localhost:3000/users/kakao/callback'
+    // callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
 },
 
 async (accessToken, refreshToken, profile, done) => {
+    console.log('여기안옴?');
     const socialId = profile.id;
     const nickname = profile.displayName;
     const email = profile._json.kakao_account.email;
@@ -27,6 +28,7 @@ async (accessToken, refreshToken, profile, done) => {
     const friend = await kakaoFriend.getKakaoFriend(at);
     for(var i = 0; i<friend.elements.length; i++){
         var id = friend.elements[i].id;
+        console.log('친구id: ', id);
         let friendResult = await MainModel.updateRecommend(socialId, id);
         // if(friendResult){
         //     console.log(id+' 친구추가 성공');
