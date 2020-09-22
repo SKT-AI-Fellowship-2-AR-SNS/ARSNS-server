@@ -95,6 +95,7 @@ module.exports = {
                     setTimeout(()=>{
                         console.log('imgLocation: ',imgLocation);
                         result = HistoryModel.addVideoHistory(contentsLocation,imgLocation, id, road_address, text, type);
+                        fs.unlinkSync(`upload/${videoname}.png`);//upload폴더에서는 썸네일 이미지 삭제
                         resolved(result);
                     },1000);
                 })
@@ -112,7 +113,6 @@ module.exports = {
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
         }
-
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_HISTORY_SUCCESS));
     },
 
