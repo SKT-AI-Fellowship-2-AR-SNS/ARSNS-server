@@ -27,7 +27,7 @@ async (accessToken, refreshToken, profile, done) => {
     const friend = await kakaoFriend.getKakaoFriend(at);
     for(var i = 0; i<friend.elements.length; i++){
         var id = friend.elements[i].id;
-        let friendResult = await MainModel.updateFriend(socialId, id);
+        let friendResult = await MainModel.updateRecommend(socialId, id);
         // if(friendResult){
         //     console.log(id+' 친구추가 성공');
         // }   
