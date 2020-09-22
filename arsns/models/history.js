@@ -39,7 +39,7 @@ const history = {
     },
 
     getHistory: async(id, location) => {
-        let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}"`;
+        let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" ORDER BY timestamp desc`;
         let profileQuery = `SELECT name, profileImage FROM user WHERE id = ${id}`;
         try{
             let profileResult = await pool.queryParam(profileQuery);
