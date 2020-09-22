@@ -40,11 +40,11 @@ const history = {
 
     getHistory: async(id, location) => {
         let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}"`;
-        let profileQuery = `SELECT name, image FROM user WHERE id = ${id}`;
+        let profileQuery = `SELECT name, profileImage FROM user WHERE id = ${id}`;
         try{
             let profileResult = await pool.queryParam(profileQuery);
             profileResult[0].name = profileResult[0].name;
-            profileResult[0].image = profileResult[0].image;
+            profileResult[0].profileImage = profileResult[0].profileImage;
 
             let historyResult = await pool.queryParam(query);
             let day;
@@ -79,51 +79,6 @@ const history = {
 
         }catch(err){
             console.log('getHistory err: ', err);
-        }throw err;
-    },
-
-    getFriendHistory: async(friendId, location) => {
-        let query = `SELECT * FROM history WHERE id = ${friendId} and location = "${location}"`;
-        let profileQuery = `SELECT name, image FROM user WHERE id = ${friendId}`;
-
-        try{
-            let profileResult = await pool.queryParam(profileQuery);
-            profileResult[0].name = profileResult[0].name;
-            profileResult[0].image = profileResult[0].image;
-
-
-            let historyResult = await pool.queryParam(query);
-            let day;
-
-            await Promise.all(historyResult.map(async(element) =>{
-                let historyIdx = element.historyIdx;
-                //요일 추출
-                query = `select substr(dayname(timestamp),1,3) as day from history WHERE historyIdx = ${historyIdx}`;
-                day = await pool.queryParam(query);
-                element.day = day[0].day;
-
-                //timestamp 형식 슬래쉬로 변경, 시간 제거
-                query = `select date_format(timestamp, '%Y/%m/%d') as datetime from history where historyIdx = ${historyIdx}`;
-                datetime = await pool.queryParam(query);
-                // console.log(datetime);
-                element.datetime = datetime[0].datetime;
-
-                query = `SELECT type FROM history WHERE id = ${friendId}`;
-                contents_type = await pool.queryParam(query);
-                if(contents_type === "mp4"){
-                    element.contents_type = "video";
-                }
-                else{
-                    element.contents_type = "image";
-                }
-            }));
-            let result = {};
-            result.profile = profileResult.map(profileData);
-            result.history = historyResult.map(historyData);
-
-            return result;
-        }catch(err){
-            console.log('getFriendHistory err: ', err);
         }throw err;
     },
 

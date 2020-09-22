@@ -2,7 +2,8 @@ module.exports =
     (rawHistoryData) => {
         historyData = {
             "historyIdx": rawHistoryData.historyIdx,
-            "contents": rawHistoryData.contents,
+            "video": rawHistoryData.video,
+            "image": rawHistoryData.image,
             "timestamp": rawHistoryData.timestamp,
             "userIdx": rawHistoryData.userIdx,
             "location": rawHistoryData.location,
@@ -10,7 +11,7 @@ module.exports =
             "datetime": rawHistoryData.datetime,
             "day": rawHistoryData.day,
             "name": rawHistoryData.name,
-            "image": rawHistoryData.image,
+            "profileImage": rawHistoryData.profileImage,
             "contents_type": rawHistoryData.contents_type
         };
         return historyData;

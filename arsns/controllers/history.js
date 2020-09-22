@@ -141,7 +141,7 @@ module.exports = {
             result = await HistoryModel.getHistory(myid,road_address);
         }
         else{
-            result = await HistoryModel.getFriendHistory(yourid,road_address);
+            result = await HistoryModel.getHistory(yourid,road_address);
         }
 
         if(result.length == 0){
