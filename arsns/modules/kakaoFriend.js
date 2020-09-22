@@ -22,7 +22,7 @@ module.exports = {
             request(options, async (err, result)=>{
                 const jsonResult = JSON.parse(result.body);
                 // for(var i = 0; i<jsonResult.elements.length; i++){
-                //     var id = jsonResult.elements[i].id;
+                //     var id = jsonResult.elements[i];
                 //     console.log('친구목록 결과!~: ', id);
                 // }
                 if(err) {

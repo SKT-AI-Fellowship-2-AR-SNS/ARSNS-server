@@ -32,10 +32,16 @@ const main = {
     updateRecommend : async(myId, friendId) =>{
         let query1 = `SELECT COUNT(*) as userCnt FROM user WHERE id = ${friendId}`;
         let query2 = `SELECT COUNT(*) as friendCnt FROM friends WHERE myId=${myId} and friendId=${friendId}`;
+        let query3 = `SELECT COUNT(*) as recCnt FROM recommend WHERE userIdx=${myId} and recommendIdx=${friendId}`;
         try{
             let result1 = await pool.queryParam(query1);
             let result2 = await pool.queryParam(query2);
-            if(result1[0].userCnt > 0 && result2[0].friendCnt === 0){//SKT가입자이면서 친구목록에 없으면 추천친구로
+            let result3 = await pool.queryParam(query3);
+            // console.log('친구id user목록에 있니?있으면 1: ', result1[0]);
+            // console.log('나랑친구id friends에 있니?있으면 1: ', result2[0]);
+
+            //SKT가입자이면서 친구목록에 없으면서 추천목록에 없으면 추천친구에 추가
+            if(result1[0].userCnt > 0 && result2[0].friendCnt === 0 && result3[0].recCnt === 0){
                 const fields = `userIdx, recommendIdx`;
                 const question = `?,?`;
                 const values = [myId, friendId];
