@@ -137,7 +137,7 @@ module.exports = {
 
         let result = await User.getFriend(myid);
         if(!result){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_FRIEND_FAIL));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FRIEND_ZERO));
             return;
         }
         else{
