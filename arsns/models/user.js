@@ -130,6 +130,29 @@ const user = {
         }catch(err){
             console.log('follow err: ', err);
         }throw err;
+    },
+
+    getRecommend: async (myid) =>{
+        let query = `SELECT recommendIdx FROM recommend WHERE userIdx = ${myid}`;
+        try{
+            let profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.recommendIdx;
+                query = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+            }));
+
+            result = profileResult.map(profileData);
+            return result;
+
+        }catch(err){
+            console.log('getRecommend err: ', err);
+        }throw err;
     }
 }
 
