@@ -25,10 +25,12 @@ router.get('/kakao/callback', passport.authenticate('kakao',{
 
 router.get('/signin_success', ensureAuthenticated, function(req, res){
     // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
-    return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
+    // return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
+    // UserController.kakaoLogin(JSON.parse(JSON.stringify(req.user[0].id)));
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
-
+    res.redirect('/'+JSON.parse(JSON.stringify(req.user[0].id)));
 });
+// router.get('/'+JSON.parse(JSON.stringify(req.user[0].id)));
 
 router.get('/signin_failure', ensureAuthenticated, function(req, res){
     // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));

@@ -75,6 +75,7 @@ module.exports = {
             }
             const atcheck = await User.atCheck(socialId, at);
             return user;
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", socialId));
         } catch {
             return false;
         }
@@ -177,5 +178,10 @@ module.exports = {
 
         const result = await User.follow(myid, yourid);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FOLLOW_SUCCESS, result));
+    },
+
+    kakaoLogin : async(req,res) =>{
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
+        // return id;
     }
 }
