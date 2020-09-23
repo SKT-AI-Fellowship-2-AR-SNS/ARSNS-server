@@ -12,8 +12,8 @@ passport.use(new KakaoStrategy({
     clientID: passportKey.federation.kakao.ID,
     clientSecret: passportKey.federation.kakao.KEY,
     // profileFields: ['id', 'displayName', 'email'],
-    callbackURL: 'http://localhost:3000/users/kakao/callback'
-    // callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
+    // callbackURL: 'http://localhost:3000/users/kakao/callback'
+    callbackURL: 'http://3.34.20.225:3000/users/kakao/callback'
 },
 
 async (accessToken, refreshToken, profile, done) => {
