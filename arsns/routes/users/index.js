@@ -19,11 +19,11 @@ router.post('/addFace', upload.single('image'), UserController.addFace);
 // router.post('/addFace', upload.array('image', 1), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));
 router.get('/kakao/callback', passport.authenticate('kakao',{
-    successRedirect: '/users/signin_success/'+JSON.parse(JSON.stringify(req.user[0].id)),
+    successRedirect: '/users/signin_success',
     failureRedirect: '/users/signin_failure'
 }));
 
-router.get('/signin_success/'+JSON.parse(JSON.stringify(req.user[0].id)), ensureAuthenticated, function(req, res){
+router.get('/signin_success', ensureAuthenticated, function(req, res){
     // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
     return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
