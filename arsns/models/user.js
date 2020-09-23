@@ -142,17 +142,29 @@ const user = {
 
     follow: async(myid, yourid) =>{
         let query = `SELECT * FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+        let recquery = `SELECT * FROM recommend WHERE userIdx=${myid} and recommendIdx=${yourid}`;
         try{
             let result = "";
             const selectResult = await pool.queryParam(query);
+            const recResult = await pool.queryParam(recquery);
 
             if(selectResult.length === 0){//팔로우 안했던 유저 -> 팔로우 추가하기
                 query = `INSERT INTO friends(myId, friendId) VALUE(${myid}, ${yourid})`;
                 await pool.queryParam(query);
+
+                if(recResult.length === 1){//추천친구 목록에 있던사람이면 추천친구 목록에서 삭제
+                    query = `DELETE FROM recommend WHERE userIdx=${myid} and recommendIdx=${yourid}`;
+                    await pool.queryParam(query);
+                }
                 result = true;
             }
+
             else{//팔로우했던 유저 -> 팔로우 취소하기
                 query = `DELETE FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+                await pool.queryParam(query);
+
+                //추천친구 목록에 삽입
+                query = `INSERT INTO recommend(userIdx, recommendIdx) VALUE(${myid}, ${yourid})`;
                 await pool.queryParam(query);
                 result = false;
             }
