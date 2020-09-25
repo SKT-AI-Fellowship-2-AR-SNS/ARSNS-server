@@ -81,17 +81,47 @@ const user = {
     },
 
     getFriend: async(myid) =>{
-        const query = `SELECT friendId FROM friends WHERE myid = ${myid}`;
+        let query = `SELECT friendId FROM friends WHERE myid = ${myid}`;
         try{
-            const result = await pool.queryParam(query);
-            if(result.length ===0){
-                return false;
-            }
-            else{
-                return result;       
-            }
+            const profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.friendId;
+                query = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+            }));
+
+            result = profileResult.map(profileData);
+            return result;
         }catch(err){
             console.log('getFriend err: ', err);
+        }throw err;
+    },
+
+    getRecommend: async (myid) =>{
+        let query = `SELECT recommendIdx FROM recommend WHERE userIdx = ${myid}`;
+        try{
+            let profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.recommendIdx;
+                query = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+            }));
+
+            result = profileResult.map(profileData);
+            return result;
+
+        }catch(err){
+            console.log('getRecommend err: ', err);
         }throw err;
     },
 
@@ -112,17 +142,29 @@ const user = {
 
     follow: async(myid, yourid) =>{
         let query = `SELECT * FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+        let recquery = `SELECT * FROM recommend WHERE userIdx=${myid} and recommendIdx=${yourid}`;
         try{
             let result = "";
             const selectResult = await pool.queryParam(query);
+            const recResult = await pool.queryParam(recquery);
 
             if(selectResult.length === 0){//팔로우 안했던 유저 -> 팔로우 추가하기
                 query = `INSERT INTO friends(myId, friendId) VALUE(${myid}, ${yourid})`;
                 await pool.queryParam(query);
+
+                if(recResult.length === 1){//추천친구 목록에 있던사람이면 추천친구 목록에서 삭제
+                    query = `DELETE FROM recommend WHERE userIdx=${myid} and recommendIdx=${yourid}`;
+                    await pool.queryParam(query);
+                }
                 result = true;
             }
+
             else{//팔로우했던 유저 -> 팔로우 취소하기
                 query = `DELETE FROM friends WHERE myId=${myid} and friendId=${yourid}`;
+                await pool.queryParam(query);
+
+                //추천친구 목록에 삽입
+                query = `INSERT INTO recommend(userIdx, recommendIdx) VALUE(${myid}, ${yourid})`;
                 await pool.queryParam(query);
                 result = false;
             }

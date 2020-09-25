@@ -56,6 +56,7 @@ router.get('/', (req, res) => {
 
 router.get('/getKakaoFriend', UserController.getKakaoFriend);
 router.get('/getFriend/:myid', UserController.getFriend);
+router.get('/getRecommend/:myid', UserController.getRecommend);
 router.post('/profile', upload.array('img', 1), UserController.editProfile);
 router.put('/:myid/:yourid', UserController.follow);
 module.exports = router;

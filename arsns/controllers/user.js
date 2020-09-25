@@ -137,7 +137,7 @@ module.exports = {
 
         let result = await User.getFriend(myid);
         if(!result){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_FRIEND_FAIL));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FRIEND_ZERO));
             return;
         }
         else{
@@ -179,9 +179,20 @@ module.exports = {
         const result = await User.follow(myid, yourid);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FOLLOW_SUCCESS, result));
     },
+    getRecommend : async(req, res) =>{
+        const myid = req.params.myid;
+        if(!myid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
 
-    kakaoLogin : async(req,res) =>{
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
-        // return id;
+        let result = await User.getRecommend(myid);
+        if(!result){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_RECOMMEND_FAIL));
+            return;
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_RECOMMEND_SUCCESS, result));
+        }
     }
 }
