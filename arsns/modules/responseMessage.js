@@ -32,9 +32,12 @@ module.exports = {
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
     //유저
-    GET_FRIEND_FAIL: "친구목록 조회 실패",
-    GET_FRIEND_SUCCESS: "친구목록 조회 성공",
-    GET_FRIEND_ZERO: "친구목록 0명",
+    GET_FOLLOWING_FAIL: "팔로잉목록 조회 실패",
+    GET_FOLLOWING_SUCCESS: "팔로잉목록 조회 성공",
+    GET_FOLLOWING_ZERO: "팔로잉목록 0명",
+    GET_FOLLOWER_FAIL: "팔로워목록 조회 실패",
+    GET_FOLLOWER_SUCCESS: "팔로워목록 조회 성공",
+    GET_FOLLOWER_ZERO: "팔로워목록 0명",
     GET_RECOMMEND_FAIL: "추천친구 목록 조회 실패",
     GET_RECOMMEND_SUCCESS: "추천친구 목록 조회 성공",
     GET_RECOMMEND_ZERO: "추천친구 목록 0명",
@@ -44,7 +47,9 @@ module.exports = {
     //히스토리
     INCORRECT_CONTENT_FORM:"파일의 형식이 올바르지 않습니다.",
     HISTORY_LIKE_SUCCESS: "히스토리 좋아요 토글 성공",
-
+    USER_HISTORY_UNMATCH: "내 히스토리가 아닙니다.",
+    DELETE_HISTORY_SUCCESS: "히스토리 삭제 성공",
+    
     //포스트
     CREATED_POST:"포스팅 성공",
     READ_SENTENCE:"문장 조회 성공",

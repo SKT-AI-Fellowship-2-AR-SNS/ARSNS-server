@@ -3,7 +3,8 @@ module.exports =
         profileData = {
             "name": rawProfileData.name,
             "profileImage": rawProfileData.profileImage,
-            "message": rawProfileData.message
+            "message": rawProfileData.message,
+            "id": rawProfileData.id
         };
         return profileData;
     };

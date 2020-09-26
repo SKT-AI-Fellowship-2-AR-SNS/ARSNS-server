@@ -128,6 +128,24 @@ const history = {
             console.log('addLike err: ', err);
         }throw err;
     },
+
+    deleteHistory : async(userIdx, historyIdx) =>{
+        const preQuery = `SELECT * FROM user_history WHERE Id = ${userIdx} AND historyIdx = ${historyIdx}`;
+        let query = `DELETE FROM history WHERE historyIdx = ${historyIdx}`;
+        try{
+            const preResult = await pool.queryParam(preQuery);
+            if(preResult.length == 0){
+                return -1;
+            }
+            else{
+                let result = await pool.queryParam(query);
+                return result;
+            }
+            
+        }catch(err){
+            console.log('deleteHistory err: ', err);
+        }throw err;
+    }
 }
 
 module.exports = history;

@@ -80,7 +80,7 @@ const user = {
         }
     },
 
-    getFriend: async(myid) =>{
+    getFollowing: async(myid) =>{
         let query = `SELECT friendId FROM friends WHERE myid = ${myid}`;
         try{
             const profileResult = await pool.queryParam(query);
@@ -88,8 +88,9 @@ const user = {
 
             await Promise.all(profileResult.map(async(element) =>{
                 let id = element.friendId;
-                query = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+                query = `SELECT id, name, profileImage, message FROM user WHERE id = ${id}`;
                 let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
                 element.message = result2[0].message;
@@ -98,7 +99,30 @@ const user = {
             result = profileResult.map(profileData);
             return result;
         }catch(err){
-            console.log('getFriend err: ', err);
+            console.log('getFollowing err: ', err);
+        }throw err;
+    },
+
+    getFollower: async(myid) =>{
+        let query = `SELECT myId FROM friends WHERE friendId = ${myid}`;
+        try{
+            const profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.myId;
+                query = `SELECT id, name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+            }));
+
+            result = profileResult.map(profileData);
+            return result;
+        }catch(err){
+            console.log('getFollower err: ', err);
         }throw err;
     },
 
