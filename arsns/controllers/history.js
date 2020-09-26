@@ -135,7 +135,7 @@ module.exports = {
         //     road_address += str[i] + " ";
         // };
         
-        let road_address = "경기도 용인시 수지구 죽전동";
+        let road_address = "경기 용인시 수지구 죽전동";
         let result;
         if(myid == yourid){
             result = await HistoryModel.getHistory(myid,road_address);
