@@ -32,9 +32,12 @@ module.exports = {
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
 
     //유저
-    GET_FRIEND_FAIL: "친구목록 조회 실패",
-    GET_FRIEND_SUCCESS: "친구목록 조회 성공",
-    GET_FRIEND_ZERO: "친구목록 0명",
+    GET_FOLLOWING_FAIL: "팔로잉목록 조회 실패",
+    GET_FOLLOWING_SUCCESS: "팔로잉목록 조회 성공",
+    GET_FOLLOWING_ZERO: "팔로잉목록 0명",
+    GET_FOLLOWER_FAIL: "팔로워목록 조회 실패",
+    GET_FOLLOWER_SUCCESS: "팔로워목록 조회 성공",
+    GET_FOLLOWER_ZERO: "팔로워목록 0명",
     GET_RECOMMEND_FAIL: "추천친구 목록 조회 실패",
     GET_RECOMMEND_SUCCESS: "추천친구 목록 조회 성공",
     GET_RECOMMEND_ZERO: "추천친구 목록 0명",

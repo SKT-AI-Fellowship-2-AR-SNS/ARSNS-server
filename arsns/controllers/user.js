@@ -127,7 +127,7 @@ module.exports = {
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_SUCCESS, result));
     },
 
-    getFriend : async(req, res) =>{
+    getFollowing : async(req, res) =>{
         const myid = req.params.myid;
         
         if(!myid){
@@ -135,13 +135,29 @@ module.exports = {
             return;
         }
 
-        let result = await User.getFriend(myid);
-        if(!result){
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FRIEND_ZERO));
-            return;
+        let result = await User.getFollowing(myid);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_ZERO));
         }
         else{
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FRIEND_SUCCESS, result));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_SUCCESS, result));
+        }
+    },
+
+    getFollower : async(req, res) =>{
+        const myid = req.params.myid;
+        
+        if(!myid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        let result = await User.getFollower(myid);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWER_ZERO));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWER_SUCCESS, result));
         }
     },
 
