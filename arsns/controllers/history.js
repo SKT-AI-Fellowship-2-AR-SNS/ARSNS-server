@@ -135,7 +135,7 @@ module.exports = {
         //     road_address += str[i] + " ";
         // };
         
-        let road_address = "경기도 용인시 수지구 죽전로";
+        let road_address = "경기도 용인시 수지구 죽전동";
         let result;
         if(myid == yourid){
             result = await HistoryModel.getHistory(myid,road_address);
@@ -214,7 +214,7 @@ module.exports = {
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.USER_HISTORY_UNMATCH));
         }
-        
+
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.DELETE_HISTORY_SUCCESS, {deleteHistoryIdx:historyIdx}));
     }
 }
