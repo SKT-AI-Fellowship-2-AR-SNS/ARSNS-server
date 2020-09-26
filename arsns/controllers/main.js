@@ -30,8 +30,9 @@ module.exports = {
         // console.log('replaceSecondBracket: ', replaceSecondBracket);
 
         let result3 = JSON.parse(replaceSecondBracket);
+        console.log(result3);
         // console.log(result3[0].road_address.address_name);
-        let addResult = result3[0].road_address.address_name;
+        let addResult = result3[0].address.address_name;
 
         // let str = addResult.split(" ");
         // let road_address = "";
