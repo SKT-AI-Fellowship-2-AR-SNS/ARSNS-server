@@ -11,6 +11,7 @@ router.post('/addHistory', upload.array('content',1), historyController.addHisto
 router.get('/getHistory/:myid/:yourid/:bssid1/:bssid2', historyController.getHistory);
 router.get('/getFriendHistory/:myId/:friendId', historyController.getFriendHistory);
 router.put('/like/:userIdx/:historyIdx', historyController.likeHistory);
+router.delete('/deleteHistory/:userIdx/:historyIdx', historyController.deleteHistory);
 
 
 module.exports = router;

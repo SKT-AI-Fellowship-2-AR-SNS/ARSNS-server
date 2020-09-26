@@ -200,5 +200,21 @@ module.exports = {
         }).then((res) => Func2(res));
 
         return await res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.HISTORY_LIKE_SUCCESS, result));
+    },
+
+    deleteHistory : async(req, res) =>{
+        const historyIdx = req.params.historyIdx;
+        const userIdx = req.params.userIdx;
+        if(!userIdx || !historyIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const result = await HistoryModel.deleteHistory(userIdx, historyIdx);
+        if(result == -1){
+            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.USER_HISTORY_UNMATCH));
+        }
+        
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.DELETE_HISTORY_SUCCESS, {deleteHistoryIdx:historyIdx}));
     }
 }
