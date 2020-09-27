@@ -94,6 +94,16 @@ const user = {
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
                 element.message = result2[0].message;
+
+                //내가 팔로우하고 있는지 여부
+                query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
+                let result3 = await pool.queryParam(query);
+                if(result3[0].cnt !== 0){
+                    element.isFollowing = true;
+                }
+                else{
+                    element.isFollowing = false;
+                }
             }));
 
             result = profileResult.map(profileData);
@@ -117,6 +127,16 @@ const user = {
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
                 element.message = result2[0].message;
+
+                //내가 팔로우하고 있는지 여부
+                query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
+                let result3 = await pool.queryParam(query);
+                if(result3[0].cnt !== 0){
+                    element.isFollowing = true;
+                }
+                else{
+                    element.isFollowing = false;
+                }
             }));
 
             result = profileResult.map(profileData);
@@ -139,6 +159,18 @@ const user = {
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
                 element.message = result2[0].message;
+
+                //내가 팔로우하고 있는지 여부
+                console.log('myid: ', myid);
+                console.log('friendid: ', id);
+                query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
+                let result3 = await pool.queryParam(query);
+                if(result3[0].cnt !== 0){
+                    element.isFollowing = true;
+                }
+                else{
+                    element.isFollowing = false;
+                }
             }));
 
             result = profileResult.map(profileData);
