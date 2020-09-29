@@ -220,9 +220,7 @@ module.exports = {
     },
 
     addComment : async(req, res) =>{
-        const userIdx = req.params.userIdx;
-        const historyIdx = req.params.historyIdx;
-        const{comment} = req.body;
+        const{userIdx, historyIdx, comment} = req.body;
         if(!userIdx || !historyIdx || !comment){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -257,7 +255,7 @@ module.exports = {
         // }).then((res) => Func3(res));
 
         const result = await HistoryModel.addComment(userIdx, historyIdx, comment);
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS));
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS,{addCommentIdx:result}));
     },
 
     deleteComment : async(req, res) =>{

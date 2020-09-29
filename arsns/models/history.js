@@ -167,7 +167,7 @@ const history = {
         let query = `INSERT INTO comment(${fields}) VALUES (${question})`;
         try{
             let result = await pool.queryParamArr(query, values);
-            return result;
+            return result.insertId;
         }catch(err){
             console.log('addComment err: ', err);
         }throw err;
