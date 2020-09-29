@@ -32,9 +32,10 @@ const user = {
         }
     },
     userCheck: async (id) => {
-        const query = `SELECT * FROM ${table} WHERE id = '${id}'`;
+        const query = `SELECT * FROM user WHERE id = ${id}`;
         try{
             const result = await pool.queryParam(query);
+            console.log('length: ', result.length);
             if(result.length > 0) return true;
             else return false;
         } catch(err){
@@ -161,8 +162,6 @@ const user = {
                 element.message = result2[0].message;
 
                 //내가 팔로우하고 있는지 여부
-                console.log('myid: ', myid);
-                console.log('friendid: ', id);
                 query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
                 let result3 = await pool.queryParam(query);
                 if(result3[0].cnt !== 0){

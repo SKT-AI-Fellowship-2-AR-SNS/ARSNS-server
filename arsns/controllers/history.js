@@ -2,6 +2,7 @@ const util = require('../modules/util');
 const resMessage = require('../modules/responseMessage');
 const statusCode = require('../modules/statusCode');
 const HistoryModel = require('../models/history');
+const UserModel = require('../models/user');
 const ffmpeg = require("fluent-ffmpeg");
 const ffmpeg_static = require('ffmpeg-static');
 const aws = require('aws-sdk');
@@ -216,5 +217,46 @@ module.exports = {
         }
 
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.DELETE_HISTORY_SUCCESS, {deleteHistoryIdx:historyIdx}));
+    },
+
+    addComment : async(req, res) =>{
+        const userIdx = req.params.userIdx;
+        const historyIdx = req.params.historyIdx;
+        const{comment} = req.body;
+        if(!userIdx || !historyIdx || !comment){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+        // let historyResult;
+        // function Func1(){
+        //     console.log('여기먼저');
+        //     let userResult = UserModel.userCheck(userIdx);
+        //     return userResult;
+        // }
+        // function Func2(){
+        //     console.log('마지막');
+        //     historyResult = HistoryModel.historyCheck(historyIdx);
+        //     if(!historyResult){
+        //         return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NO_HISTORY));
+        //     }    
+        // }
+
+        // async function Func3(userResult){
+        //     console.log('그다음');
+        //     console.log('userReslt:',userResult
+        //     );
+        //     if(!userResult){
+        //         return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NO_USER));
+        //     }
+        //     else{
+        //         Func2();
+        //     }
+        // }
+        // await Func1(async(elem) =>{
+        //     console.log(elem);
+        // }).then((res) => Func3(res));
+
+        const result = await HistoryModel.addComment(userIdx, historyIdx, comment);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS));
     }
 }

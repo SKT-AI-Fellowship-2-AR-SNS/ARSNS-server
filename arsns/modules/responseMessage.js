@@ -49,6 +49,8 @@ module.exports = {
     HISTORY_LIKE_SUCCESS: "히스토리 좋아요 토글 성공",
     USER_HISTORY_UNMATCH: "내 히스토리가 아닙니다.",
     DELETE_HISTORY_SUCCESS: "히스토리 삭제 성공",
+    ADD_COMMENT_SUCCESS: "댓글달기 성공",
+    ADD_COMMENT_FAIL: "댓글달기 실패",
     
     //포스트
     CREATED_POST:"포스팅 성공",

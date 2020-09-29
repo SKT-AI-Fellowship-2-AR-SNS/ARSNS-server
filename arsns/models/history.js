@@ -145,6 +145,32 @@ const history = {
         }catch(err){
             console.log('deleteHistory err: ', err);
         }throw err;
+    },
+
+    historyCheck: async (historyIdx) => {
+        const query = `SELECT * FROM history WHERE historyIdx = ${historyIdx}`;
+        try{
+            const result = await pool.queryParam(query);
+            if(result.length > 0) return true;
+            else return false;
+        } catch(err){
+            console.log('historyCheck err : ', err);
+            throw err;
+        }
+    },
+
+    addComment : async(userIdx, historyIdx, comment) =>{
+        const fields = `userIdx, historyIdx, comment`;
+        const question = `?,?,?`;
+        const values = [userIdx, historyIdx, comment];
+
+        let query = `INSERT INTO comment(${fields}) VALUES (${question})`;
+        try{
+            let result = await pool.queryParamArr(query, values);
+            return result;
+        }catch(err){
+            console.log('addComment err: ', err);
+        }throw err;
     }
 }
 
