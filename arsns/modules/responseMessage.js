@@ -48,9 +48,12 @@ module.exports = {
     INCORRECT_CONTENT_FORM:"파일의 형식이 올바르지 않습니다.",
     HISTORY_LIKE_SUCCESS: "히스토리 좋아요 토글 성공",
     USER_HISTORY_UNMATCH: "내 히스토리가 아닙니다.",
+    USER_COMMENT_UNMATCH: "내 댓글이 아닙니다.",
+    DELETE_COMMENT_SUCCESS: "댓글 삭제 성공",
     DELETE_HISTORY_SUCCESS: "히스토리 삭제 성공",
     ADD_COMMENT_SUCCESS: "댓글달기 성공",
     ADD_COMMENT_FAIL: "댓글달기 실패",
+    NO_HISTORY: "존재하지 않는 히스토리입니다",
     
     //포스트
     CREATED_POST:"포스팅 성공",

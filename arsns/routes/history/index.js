@@ -13,5 +13,6 @@ router.get('/getFriendHistory/:myId/:friendId', historyController.getFriendHisto
 router.put('/like/:userIdx/:historyIdx', historyController.likeHistory);
 router.delete('/deleteHistory/:userIdx/:historyIdx', historyController.deleteHistory);
 router.post('/addComment/:userIdx/:historyIdx', historyController.addComment);
+router.delete('/deleteComment/:userIdx/:commentIdx', historyController.deleteComment);
 
 module.exports = router;

@@ -258,5 +258,19 @@ module.exports = {
 
         const result = await HistoryModel.addComment(userIdx, historyIdx, comment);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS));
+    },
+
+    deleteComment : async(req, res) =>{
+        const userIdx = req.params.userIdx;
+        const commentIdx = req.params.commentIdx;
+        if(!userIdx || !commentIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+        let result = await HistoryModel.deleteComment(userIdx, commentIdx);
+        if(result == -1){
+            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.USER_COMMENT_UNMATCH));
+        }
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.DELETE_COMMENT_SUCCESS, {deleteCommentIdx:commentIdx}));
     }
 }

@@ -171,6 +171,23 @@ const history = {
         }catch(err){
             console.log('addComment err: ', err);
         }throw err;
+    },
+
+    deleteComment : async(userIdx, commentIdx) =>{
+        let preQuery = `SELECT * FROM comment WHERE userIdx=${userIdx} and commentIdx=${commentIdx}`;
+        let query = `DELETE FROM comment WHERE userIdx=${userIdx} and commentIdx=${commentIdx}`;
+        try{
+            const preResult = await pool.queryParam(preQuery);
+            if(preResult.length === 0){
+                return -1;
+            }
+            else{
+                let result = await pool.queryParam(query);
+                return result;
+            }
+        }catch(err){
+            console.log('deleteComment err: ', err);
+        }throw err;
     }
 }
 
