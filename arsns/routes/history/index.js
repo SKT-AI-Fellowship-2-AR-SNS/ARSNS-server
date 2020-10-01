@@ -14,5 +14,6 @@ router.put('/like/:userIdx/:historyIdx', historyController.likeHistory);
 router.delete('/deleteHistory/:userIdx/:historyIdx', historyController.deleteHistory);
 router.post('/addComment', historyController.addComment);
 router.delete('/deleteComment/:userIdx/:commentIdx', historyController.deleteComment);
+router.get('/getComment/:historyIdx', historyController.getComment);
 
 module.exports = router;

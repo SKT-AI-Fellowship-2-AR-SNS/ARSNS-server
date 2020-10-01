@@ -188,6 +188,10 @@ const history = {
         }catch(err){
             console.log('deleteComment err: ', err);
         }throw err;
+    },
+
+    getComment : async(historyIdx) =>{
+        
     }
 }
 
