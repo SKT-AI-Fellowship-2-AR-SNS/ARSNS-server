@@ -1,7 +1,7 @@
 
 <br><br>
 
-<div align="center" style="display:flex;"><img width="333" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/88244621-4966ec80-cccf-11ea-99ac-fbe54bcd55cc.png"></div>
+<div align="center" style="display:flex;"><img width="333" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/94770919-e2f9fb00-03f0-11eb-98ff-df1869147a5d.png"></div>
 
 <div align="center">
 ⏳ 오늘의 그날, 그날을 SK Telecom이 기억합니다.
