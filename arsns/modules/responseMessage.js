@@ -53,6 +53,7 @@ module.exports = {
     DELETE_HISTORY_SUCCESS: "히스토리 삭제 성공",
     ADD_COMMENT_SUCCESS: "댓글달기 성공",
     ADD_COMMENT_FAIL: "댓글달기 실패",
+    GET_COMMENT_SUCCESS:"댓글 불러오기 성공",
     NO_HISTORY: "존재하지 않는 히스토리입니다",
     
     //포스트

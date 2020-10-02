@@ -191,7 +191,13 @@ const history = {
     },
 
     getComment : async(historyIdx) =>{
-        
+        let query = `SELECT * FROM comment WHERE historyIdx = ${historyIdx}`;
+        try{
+            let result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('getComment err: ', err);
+        }throw err;
     }
 }
 

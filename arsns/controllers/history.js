@@ -280,7 +280,7 @@ module.exports = {
         }
 
         let result = HistoryModel.getComment(historyIdx);
-
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.DELETE_COMMENT_SUCCESS, result));        
 
     }
 }
