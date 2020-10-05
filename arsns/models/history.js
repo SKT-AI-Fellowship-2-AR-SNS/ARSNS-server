@@ -84,7 +84,7 @@ const history = {
                     element.alreadyLiked = true;
                 }
             }));
-            
+
             let result = {};
             result.profile = profileResult.map(profileData);
             result.history = historyResult.map(historyData);
@@ -206,9 +206,11 @@ const history = {
 
     getComment : async(historyIdx) =>{
         let commentQuery = `SELECT * FROM comment WHERE historyIdx = ${historyIdx} ORDER BY timestamp DESC`;
+        // let countQuery = `SELECT COUNT(*) as cnt FROM comment WHERE historyIdx = ${historyIdx}`;
         try{
             let commentResult = await pool.queryParam(commentQuery);
-            let result;
+            // let countResult = await pool.queryParam(countQuery);
+            let result = {};
 
             await Promise.all(commentResult.map(async(element)=>{
                 let userIdx = element.userIdx;
@@ -221,7 +223,8 @@ const history = {
                 element.profileImage = result2[0].profileImage;
                 result = commentResult.map(commentData);
             }));
-            result = commentResult.map(commentData);
+            // result.count = countResult;
+            result.comment = commentResult.map(commentData);
             // console.log(result);
             return result;
         }catch(err){

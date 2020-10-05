@@ -161,16 +161,17 @@ module.exports = {
         }
     },
 
-    editProfile : async(req, res) =>{
-        const {id, message} = req.body;
+    editImg : async(req, res) =>{
+        const {id} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
+        console.log(img);
         if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
 
-        if(!id || !message){
+        if(!id){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
@@ -179,7 +180,18 @@ module.exports = {
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
             return;
         }
-        const result = await User.editProfile(id, message, imgLocation);
+        const result = await User.editImg(id, imgLocation);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.EDIT_PROFILE_SUCCESS, result));
+    },
+
+    editText : async(req, res) =>{
+        const {id, message} = req.body;
+        if(!id || !message){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const result = await User.editText(id, message);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.EDIT_PROFILE_SUCCESS, result));
     },
 

@@ -180,14 +180,29 @@ const user = {
         }throw err;
     },
 
-    editProfile: async(id, message, imgLocation) =>{
-        let query = `UPDATE user SET message = "${message}", image = "${imgLocation}" WHERE id = ${id}`;
+    editImg: async(id, imgLocation) =>{
+        let query = `UPDATE user SET profileImage = "${imgLocation}" WHERE id = ${id}`;
         try{
             await pool.queryParam(query);
-            query = `SELECT name, image, message FROM user WHERE id=${id}`;
+            query = `SELECT name, profileImage, message FROM user WHERE id=${id}`;
             const result = await pool.queryParam(query);
             result[0].name = result[0].name;
-            result[0].image = result[0].image;
+            result[0].profileImage = result[0].profileImage;
+            result[0].message = result[0].message;
+            return result.map(profileData);
+        }catch(err){
+            console.log('editProfile err: ', err);
+        }throw err;
+    },
+
+    editText: async(id, message) =>{
+        let query = `UPDATE user SET message = "${message}" WHERE id = ${id}`;
+        try{
+            await pool.queryParam(query);
+            query = `SELECT name, profileImage, message FROM user WHERE id=${id}`;
+            const result = await pool.queryParam(query);
+            result[0].name = result[0].name;
+            result[0].profileImage = result[0].profileImage;
             result[0].message = result[0].message;
             return result.map(profileData);
         }catch(err){
