@@ -12,7 +12,8 @@ module.exports =
             "day": rawHistoryData.day,
             "name": rawHistoryData.name,
             "profileImage": rawHistoryData.profileImage,
-            "contents_type": rawHistoryData.contents_type
+            "contents_type": rawHistoryData.contents_type,
+            "likes": rawHistoryData.likes
         };
         return historyData;
     };
