@@ -279,8 +279,9 @@ module.exports = {
             return;
         }
 
-        let result = HistoryModel.getComment(historyIdx);
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_COMMENT_SUCCESS, result));        
+        let result = await HistoryModel.getComment(historyIdx);
+        // console.log(result);
+        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_COMMENT_SUCCESS, result));
 
     }
 }

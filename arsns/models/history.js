@@ -2,6 +2,7 @@ const pool = require('../modules/pool');
 
 const historyData  = require('../modules/data/historyData');
 const profileData  = require('../modules/data/profileData');
+const commentData  = require('../modules/data/commentData');
 
 const history = {
     addVideoHistory: async(video,image, id, location, text, type) => {
@@ -191,9 +192,24 @@ const history = {
     },
 
     getComment : async(historyIdx) =>{
-        let query = `SELECT * FROM comment WHERE historyIdx = ${historyIdx}`;
+        let commentQuery = `SELECT * FROM comment WHERE historyIdx = ${historyIdx}`;
         try{
-            let result = await pool.queryParam(query);
+            let commentResult = await pool.queryParam(commentQuery);
+            let result;
+
+            await Promise.all(commentResult.map(async(element)=>{
+                let userIdx = element.userIdx;
+                // console.log('userIdx: ',userIdx);
+
+                //이름, 프로필 사진 추출
+                query = `SELECT name, profileImage FROM user WHERE id=${userIdx}`;
+                let result2 = await pool.queryParam(query);
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                result = commentResult.map(commentData);
+            }));
+            result = commentResult.map(commentData);
+            // console.log(result);
             return result;
         }catch(err){
             console.log('getComment err: ', err);
