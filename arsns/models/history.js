@@ -52,6 +52,7 @@ const history = {
 
             await Promise.all(historyResult.map(async(element) =>{
                 let historyIdx = element.historyIdx;
+
                 //요일 추출
                 query = `select substr(dayname(timestamp),1,3) as day from history WHERE historyIdx = ${historyIdx}`;
                 day = await pool.queryParam(query);
@@ -63,6 +64,7 @@ const history = {
                 // console.log(datetime);
                 element.datetime = datetime[0].datetime;
 
+                //컨텐츠 타입 추출
                 query = `SELECT type FROM history WHERE historyIdx = ${historyIdx}`;
                 contents_type = await pool.queryParam(query);
                 if(contents_type[0].type === "mp4"){
@@ -71,7 +73,18 @@ const history = {
                 else{
                     element.contents_type = "image";
                 }
+
+                //좋아요 눌렀는지 여부
+                query = `SELECT * FROM user_history_like WHERE userIdx=${id} and historyIdx=${historyIdx}`;
+                let likeResult = await pool.queryParam(query);
+                if(likeResult.length == 0){
+                    element.alreadyLiked = false;
+                }
+                else{
+                    element.alreadyLiked = true;
+                }
             }));
+            
             let result = {};
             result.profile = profileResult.map(profileData);
             result.history = historyResult.map(historyData);

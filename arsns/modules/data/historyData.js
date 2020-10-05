@@ -13,7 +13,8 @@ module.exports =
             "name": rawHistoryData.name,
             "profileImage": rawHistoryData.profileImage,
             "contents_type": rawHistoryData.contents_type,
-            "likes": rawHistoryData.likes
+            "likes": rawHistoryData.likes,
+            "alreadyLiked": rawHistoryData.alreadyLiked
         };
         return historyData;
     };
