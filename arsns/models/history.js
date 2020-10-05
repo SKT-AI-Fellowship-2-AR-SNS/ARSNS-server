@@ -192,7 +192,7 @@ const history = {
     },
 
     getComment : async(historyIdx) =>{
-        let commentQuery = `SELECT * FROM comment WHERE historyIdx = ${historyIdx}`;
+        let commentQuery = `SELECT * FROM comment WHERE historyIdx = ${historyIdx} ORDER BY timestamp DESC`;
         try{
             let commentResult = await pool.queryParam(commentQuery);
             let result;
