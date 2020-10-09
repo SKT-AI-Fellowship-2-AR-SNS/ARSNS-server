@@ -27,6 +27,7 @@ module.exports = {
     GET_HISTORY_FAIL: "히스토리 불러오기 실패",
     GET_NAME_FAIL: "이름 불러오기 실패",
     GET_NAME_SUCCESS: "이름 불러오기 성공",
+    FACE_RECOGNITION_SUCCESS:"얼굴인식 성공",
 
     // 프로필 조회
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
