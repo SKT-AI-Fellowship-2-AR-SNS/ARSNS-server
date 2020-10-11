@@ -6,6 +6,7 @@ const Address = require(`../modules/kakaoLocation`);
 const MainModel = require('../models/main');
 const sirvUpload = require(`../modules/sirvUpload`);
 const sirvToken = require(`../modules/sirvToken`);
+const countFace = require(`../modules/countFace`);
 const sirv = require('../config/sirv');
 
 module.exports = {
@@ -69,8 +70,6 @@ module.exports = {
     faceRecognition : async(req, res) =>{
         // const {id} = req.body;
         const image = req.file.path;
-        // const imgLocation = img.map(image => image.location);
-        // console.log(image);
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -93,10 +92,33 @@ module.exports = {
         //token값 받아오기
         let token = await sirvToken.sirvToken(clientId, clientSecret);
         
-        //클라에게 받은 사진 sirv에 업로드
-        let uploadResult = await sirvUpload.sirvUpload(image, token);
-        
+        // //클라에게 받은 사진 sirv에 업로드
+        // function func1(){
+        //     return new Promise(function(resolved, rejected){
+        //         setTimeout(()=>{
+        //             let uploadResult = sirvUpload.sirvUpload(image, token);
+        //         }, 0);
+        //     })
+        // }
+        // let countResult;
+        // function func2(){
+        //     return new Promise(function(resolved, rejected){
+        //         setTimeout(()=>{
+        //             countResult = countFace.countFace(image);
+        //             console.log(countResult);                
+        //         }, 5000);
+        //     })
+        // }
 
+        // func1().then(func2);
+        let uploadResult;
+        new Promise(()=>{
+            uploadResult = sirvUpload.sirvUpload(image, token);
+        }).then((uploadResult) => {
+            console.log(uploadResult);
+            countFace.countFace(uploadResult);
+        })
+        
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS));
     }
 }

@@ -3,58 +3,16 @@ const fs = require('fs');
 const http = require("https");
 module.exports = {
     sirvUpload: (image, token)=>{
-        // return new Promise((resolve, reject)=>{
-        //     console.log(image);
-
-        //     // let formData = {
-        //     //     'image' : fs.createReadStream(`${image}`)
-        //     // }
-        //     // console.log(formData);
-
-        //     // let options = {
-        //     //     "method": "POST",
-        //     //     "uri" : `https://api.sirv.com/v2/files/upload?filename=%2F`+"test2.jpg", 
-        //     //     "headers": {
-        //     //         "content-type": "image/jpeg",
-        //     //         "authorization": `Bearer ${token}`
-        //     //     },
-        //     //     "body" : formData,
-        //     //     'json' : true
-        //     // };
-        //     ;
-        //     let options = {
-        //         method : 'POST',
-        //         url : 'https://api.sirv.com/v2/files/upload?filename=%2F',
-        //         qs : {
-        //             'filename' : `${image}`
-        //         },
-        //         headers : {
-        //             'content-type' : 'image/jpeg',
-        //             'authorization': `Bearer ${token}`
-        //         },
-        //         'json' : true
-        //     };
-
-        //     request(options, async (err, result)=>{
-        //         if(err) {
-        //             console.log('request err : ' + err);
-        //             reject(err)
-        //         }
-        //         else{
-        //             resolve(result);
-        //         } 
-        //     })
-        // })
-
+        console.log("1 파일업로드");
         fs.readFile(image, (err, fileData) => {
             if (err) throw err;
-        
-            // console.log(image);
+            
             var options = {
             "method": "POST",
             "hostname": "api.sirv.com",
             "port": null,
-            "path": "/v2/files/upload?filename=%2F" + "temp6.jpg",
+            // "path": "/v2/files/upload?filename=%2F" + "test.jpg",
+            "path": "/v2/files/upload?filename=%2F" + `${image}`,
             "headers": {
                 "content-type": "application/json",
                 "authorization": `Bearer ${token}`
@@ -74,7 +32,8 @@ module.exports = {
         });
         
         req.write(fileData);
-            req.end();
+        req.end();
         })
+        return image;
     }
 };
