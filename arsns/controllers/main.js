@@ -112,13 +112,18 @@ module.exports = {
 
         // func1().then(func2);
         let uploadResult;
-        new Promise(()=>{
-            uploadResult = sirvUpload.sirvUpload(image, token);
-        }).then((uploadResult) => {
-            console.log(uploadResult);
-            countFace.countFace(uploadResult);
-        })
         
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS));
+        new Promise((resolve, reject)=>{
+            uploadResult = sirvUpload.sirvUpload(image, token);
+            resolve();
+        }).then(() => {
+            setTimeout(()=>{
+                let result = countFace.countFace(`${image}`);
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS, result));
+            }, 8000);
+
+        });
+        
+
     }
 }
