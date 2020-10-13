@@ -5,9 +5,9 @@ module.exports = {
     countFace: (filename)=>{
         return new Promise((resolve, reject)=>{
             console.log("2 얼굴크롭");
-            console.log("filename: ", filename);
+            // console.log("filename: ", filename);
             let path = filename.substring(7);
-            console.log(path);
+            // console.log(path);
             let options = {
                 'method' : 'GET',
                 // 'url' : `https://agendent.sirv.com/test.jpg?crop.type=face&info`,
@@ -21,13 +21,13 @@ module.exports = {
             
             request(options, async (err, result)=>{
                 // console.log(result);
-                console.log(result.body.processingSettings.crop.faces.faces);
+                console.log(result.body.processingSettings.crop.faces.faces.length);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
                 }
                 else{
-                    resolve(result.body.processingSettings.crop.faces.faces);
+                    resolve(result.body.processingSettings.crop.faces.faces.length);
                 } 
             })
         })

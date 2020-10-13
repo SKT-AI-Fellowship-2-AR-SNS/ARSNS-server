@@ -13,9 +13,12 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.1",
+    "fetch": "^1.1.0",
     "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
+    "got": "^11.7.0",
+    "http": "0.0.1-security",
     "http-errors": "~1.6.3",
     "https": "^1.0.0",
     "jade": "~1.11.0",
@@ -24,12 +27,15 @@
     "multer-s3": "^2.9.0",
     "mysql": "^2.18.1",
     "mysql-promise": "^5.0.0",
+    "node-fetch": "^2.6.1",
     "nodemin": "^1.0.1",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-kakao": "^1.0.0",
+    "png-js": "^1.0.0",
     "promise": "^8.1.0",
     "promise-mysql": "^4.1.3",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "whatwg-fetch": "^3.4.1"
   }
 }
