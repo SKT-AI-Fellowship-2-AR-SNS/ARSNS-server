@@ -12,6 +12,7 @@ const recognize = require('../modules/recognize');
 const fetch = require('node-fetch');
 const got = require("got");
 const fs = require('fs');
+const { setNonEnumerableProperties } = require('got');
 
 module.exports = {
     getLocation : async(req, res) =>{
@@ -73,51 +74,81 @@ module.exports = {
 
     faceRecognition : async(req, res) =>{
         // const {id} = req.body;
-        // const image = req.file.path;
-        // if(image === undefined){
-        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
+        const image = req.file.path;
+        if(image === undefined){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
+            return;
+        }
+
+        // if(!id){
+        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         //     return;
         // }
 
-        // // if(!id){
-        // //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-        // //     return;
-        // // }
+        const type = req.file.mimetype.split('/')[1];
+        if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
+            return;
+        }
 
-        // const type = req.file.mimetype.split('/')[1];
-        // if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
-        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
-        //     return;
-        // }
+        const clientId = sirv.info.sirv.clientId;
+        const clientSecret = sirv.info.sirv.clientSecret;
 
-        // const clientId = sirv.info.sirv.clientId;
-        // const clientSecret = sirv.info.sirv.clientSecret;
-
-        // //token값 받아오기
+        //1.token값 받아오기
         // let token = await sirvToken.sirvToken(clientId, clientSecret);
         
-        // // //클라에게 받은 사진 sirv에 업로드
-        // // function func1(){
-        // //     return new Promise(function(resolved, rejected){
-        // //         setTimeout(()=>{
-        // //             let uploadResult = sirvUpload.sirvUpload(image, token);
-        // //         }, 0);
-        // //     })
-        // // }
-        // // let countResult;
-        // // function func2(){
-        // //     return new Promise(function(resolved, rejected){
-        // //         setTimeout(()=>{
-        // //             countResult = countFace.countFace(image);
-        // //             console.log(countResult);                
-        // //         }, 5000);
-        // //     })
-        // // }
+        // //2.클라에게 받은 사진 sirv에 업로드
+        // function func1(){
+        //     return new Promise(function(resolved, rejected){
+        //         setTimeout(()=>{
+        //             let uploadResult = sirvUpload.sirvUpload(image, token);
+        //         }, 0);
+        //     })
+        // }
+        // let countResult;
 
-        // // func1().then(func2);
-        // let uploadResult;
-        // let countResult = 0;
-        
+        // //3.sirv에 업로드한 사진으로 얼굴이 몇개인지 개수세기
+        // function func2(){
+        //     return new Promise(function(resolved, rejected){
+        //         setTimeout(()=>{
+        //             countResult = countFace.countFace(image);
+        //             console.log(countResult);                
+        //         }, 5000);
+        //     })
+        // }
+
+        // func1().then(func2);
+        let uploadResult;
+        let countResult;
+
+
+        async function func1(){
+            let token = await sirvToken.sirvToken(clientId, clientSecret);
+            uploadResult = await sirvUpload.sirvUpload(image, token);
+            countResult = await countFace.countFace(`${image}`);
+
+
+            let img = "upload%5C" + image.substring(7);
+
+            for(let i = 0; i<1; i++){
+                let url = "https://agendent.sirv.com/" + `${img}` + "?crop.type=face&crop.face=" +i;
+                async function download(){
+                    const response = await fetch(`${url}`);
+                    const buffer = await response.buffer();
+                    const filename = url.substring(35,67);
+                    // console.log('4-1 filename: ', filename);
+                    let faceImage = "upload/"+`${filename}`+".png";
+                    // console.log('4-2 faceImage: ', faceImage);
+    
+                    fs.writeFile(faceImage, buffer, ()=>
+                    recognize.recognize(filename)
+                    );
+                }
+                download();
+            }
+        };
+        func1();
+
         // new Promise((resolve, reject)=>{
         //     uploadResult = sirvUpload.sirvUpload(image, token);
         //     resolve();
@@ -125,32 +156,12 @@ module.exports = {
         //     setTimeout(()=>{
         //         countResult = countFace.countFace(`${image}`);
         //     }, 2800);
+        // }).then(()=>{
+        //     console.log('3-3 개수다시: ', countResult);
+
         // });
+        
 
-        const countResult = 1;
-        let img = "upload%5C8ff884d2f8ea627da4c25cc067e38cc3";
-        for(let i = 0; i<countResult; i++){
-            let url = "https://agendent.sirv.com/" + `${img}` + "?crop.type=face&crop.face=" +i;
-            async function download(){
-                const response = await fetch(`${url}`);
-                const buffer = await response.buffer();
-                const filename = url.substring(35,67);
-                console.log('1 filename: ', filename);
-                let faceImage = "upload/"+`${filename}`+".jpg";
-                console.log('2 faceImage: ', faceImage);
-
-                fs.writeFile(`upload/${filename}`+".jpg", buffer, ()=>
-                setTimeout(()=>{
-                    recognize.recognize(faceImage)
-                },3000)
-                );
-
-
-            }
-            download();
-
-
-        }
 
 
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS));

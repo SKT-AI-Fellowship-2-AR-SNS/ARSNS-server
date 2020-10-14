@@ -5,7 +5,7 @@ const at = '9le1516orRzRehe0Ik14n2y503N';
 module.exports = {
     sirvToken: (clientId, clientSecret)=>{
         return new Promise((resolve, reject)=>{
-            // console.log('여긴나오니');
+            // console.log('1토큰받기');
             
             let options = {
                 "method": "POST",

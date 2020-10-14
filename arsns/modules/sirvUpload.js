@@ -3,7 +3,7 @@ const fs = require('fs');
 const http = require("https");
 module.exports = {
     sirvUpload: (image, token)=>{
-        console.log("1 파일업로드");
+        // console.log("2 파일업로드");
         fs.readFile(image, (err, fileData) => {
             if (err) throw err;
             
