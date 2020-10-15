@@ -12,7 +12,7 @@ module.exports = {
             // console.log("5 image:", image);
             
             let formData = {
-                'image' : fs.createReadStream(`upload/`+`${image}`)
+                'image' : fs.createReadStream(`${image}`)
             }
             let options = {
                 'method' : 'POST',
@@ -27,13 +27,13 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
-                console.log('6 얼굴인식결과 : ', result.body);
+                console.log('얼굴인식결과 : ', result.body);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
                 }
                 else{
-                    resolve(result.body);
+                    resolve(result.body.subject_name);
                 } 
             })
         })

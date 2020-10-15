@@ -10,9 +10,7 @@ const countFace = require(`../modules/countFace`);
 const sirv = require('../config/sirv');
 const recognize = require('../modules/recognize');
 const fetch = require('node-fetch');
-const got = require("got");
-const fs = require('fs');
-const { setNonEnumerableProperties } = require('got');
+const fs = require('fs').promises;
 
 module.exports = {
     getLocation : async(req, res) =>{
@@ -94,76 +92,55 @@ module.exports = {
         const clientId = sirv.info.sirv.clientId;
         const clientSecret = sirv.info.sirv.clientSecret;
 
-        //1.token값 받아오기
-        // let token = await sirvToken.sirvToken(clientId, clientSecret);
-        
-        // //2.클라에게 받은 사진 sirv에 업로드
-        // function func1(){
-        //     return new Promise(function(resolved, rejected){
-        //         setTimeout(()=>{
-        //             let uploadResult = sirvUpload.sirvUpload(image, token);
-        //         }, 0);
-        //     })
-        // }
-        // let countResult;
-
-        // //3.sirv에 업로드한 사진으로 얼굴이 몇개인지 개수세기
-        // function func2(){
-        //     return new Promise(function(resolved, rejected){
-        //         setTimeout(()=>{
-        //             countResult = countFace.countFace(image);
-        //             console.log(countResult);                
-        //         }, 5000);
-        //     })
-        // }
-
-        // func1().then(func2);
         let uploadResult;
         let countResult;
-
-
+        let userResult;
+        let func2Result = {};
         async function func1(){
+            //1. 토큰값 받기
             let token = await sirvToken.sirvToken(clientId, clientSecret);
+
+            //2.클라에게 받은 사진 sirv에 업로드
             uploadResult = await sirvUpload.sirvUpload(image, token);
+
+            //3.sirv에 업로드한 사진으로 얼굴이 몇개인지 개수세기
             countResult = await countFace.countFace(`${image}`);
 
+            func2Result = await func2(countResult);
 
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS, func2Result));
+        };
+
+        //for문 아래 writeFile먼저 실행되고 그다음 recognize 실행되야돼
+        async function func2(countResult){
             let img = "upload%5C" + image.substring(7);
 
-            for(let i = 0; i<1; i++){
+            for(let i = 0; i<countResult; i++){
                 let url = "https://agendent.sirv.com/" + `${img}` + "?crop.type=face&crop.face=" +i;
-                async function download(){
-                    const response = await fetch(`${url}`);
-                    const buffer = await response.buffer();
-                    const filename = url.substring(35,67);
-                    // console.log('4-1 filename: ', filename);
-                    let faceImage = "upload/"+`${filename}`+".png";
-                    // console.log('4-2 faceImage: ', faceImage);
-    
-                    fs.writeFile(faceImage, buffer, ()=>
-                    recognize.recognize(filename)
-                    );
-                }
-                download();
+                
+                const response = await fetch(`${url}`);
+                const buffer = await response.buffer();
+                const filename = url.substring(35,67);
+                // console.log('4-1 filename: ', filename);
+                let faceImage = "upload/"+`${filename}`+ i;
+                // console.log('4-2 faceImage: ', faceImage);
+
+                const file = await fs.writeFile(faceImage, buffer);
+                // const tmp = () => new Promise((resolve, rej) => {
+                //     setTimeout(()=>{
+                //         console.log('7 2초만');
+                //         resolve();
+                //     },2000);    
+                // });
+                // await tmp();
+                userResult = await recognize.recognize(faceImage);
             }
+
+            return userResult;
         };
+
+
         func1();
 
-        // new Promise((resolve, reject)=>{
-        //     uploadResult = sirvUpload.sirvUpload(image, token);
-        //     resolve();
-        // }).then(() => {
-        //     setTimeout(()=>{
-        //         countResult = countFace.countFace(`${image}`);
-        //     }, 2800);
-        // }).then(()=>{
-        //     console.log('3-3 개수다시: ', countResult);
-
-        // });
-        
-
-
-
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS));
     }
 }
