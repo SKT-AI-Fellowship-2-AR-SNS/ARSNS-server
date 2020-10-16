@@ -9,16 +9,18 @@ const https = require('https');
 module.exports = {
     recognize: (image)=>{
         return new Promise((resolve, reject)=>{
-            // console.log("5 image:", image);
-            
+            console.log("5 image:", image);
+
             let formData = {
                 'image' : fs.createReadStream(`${image}`)
             }
+            // console.log(formData);
+
             let options = {
                 'method' : 'POST',
                 'url' : `https://stg-va.sktnugu.com/api/v1/face/recognize`, 
                 'headers': {
-                    'content-type': "application/json",
+                    'content-type': "image/jpeg",
                     'app-id' : `${appid}`,
                     'group-id' : `${groupid}`,
                 },

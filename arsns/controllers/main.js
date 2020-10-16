@@ -106,6 +106,7 @@ module.exports = {
             //3.sirv에 업로드한 사진으로 얼굴이 몇개인지 개수세기
             countResult = await countFace.countFace(`${image}`);
 
+            //4.사진에서 얼굴만 잘라서 skt api로 얼굴인식
             func2Result = await func2(countResult);
 
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FACE_RECOGNITION_SUCCESS, func2Result));
@@ -122,17 +123,18 @@ module.exports = {
                 const buffer = await response.buffer();
                 const filename = url.substring(35,67);
                 // console.log('4-1 filename: ', filename);
-                let faceImage = "upload/"+`${filename}`+ i;
+                // let faceImage = "upload/"+`${filename}`+ i;
+                let faceImage = "upload/"+`${filename}`+ i + ".jpg";
                 // console.log('4-2 faceImage: ', faceImage);
 
                 const file = await fs.writeFile(faceImage, buffer);
-                // const tmp = () => new Promise((resolve, rej) => {
-                //     setTimeout(()=>{
-                //         console.log('7 2초만');
-                //         resolve();
-                //     },2000);    
-                // });
-                // await tmp();
+                const tmp = () => new Promise((resolve, rej) => {
+                    setTimeout(()=>{
+                        console.log('2초만');
+                        resolve();
+                    },2000);    
+                });
+                await tmp();
                 userResult = await recognize.recognize(faceImage);
             }
 
