@@ -2,9 +2,6 @@ const request = require('request');
 const fs = require('fs');
 const appid = "FHJEF7O455";
 const groupid = "SMB2NA4ND0";
-const got = require("got");
-const PNG = require("png-js");
-const https = require('https');
 
 module.exports = {
     recognize: (image)=>{
