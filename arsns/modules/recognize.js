@@ -9,7 +9,7 @@ const https = require('https');
 module.exports = {
     recognize: (image)=>{
         return new Promise((resolve, reject)=>{
-            console.log("5 image:", image);
+            // console.log("5 image:", image);
 
             let formData = {
                 'image' : fs.createReadStream(`${image}`)
@@ -29,7 +29,7 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
-                console.log('얼굴인식결과 : ', result.body);
+                console.log('얼굴인식결과 : ', result.body.subject_name);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)

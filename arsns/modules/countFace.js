@@ -29,7 +29,7 @@ module.exports = {
                         resolve(result.body.processingSettings.crop.faces.faces.length);
                     } 
                 })
-            },10000)
+            },3000)
         })
     }
 };

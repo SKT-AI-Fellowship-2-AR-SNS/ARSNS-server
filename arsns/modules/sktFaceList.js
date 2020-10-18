@@ -1,19 +1,19 @@
 const request = require('request');
 
 module.exports = {
-    addPerson: (appid, groupid, subjectname)=>{
-        // console.log('addPerson시작');
+    faceList: (appid, groupid, subjectid)=>{
+        // console.log('faceList 시작');
         return new Promise((resolve, reject)=>{
             let options = {
-                'method' : 'POST',
-                'uri' : `https://stg-va.sktnugu.com/api/v1/face/subject`, 
+                'method' : 'GET',
+                'uri' : `https://stg-va.sktnugu.com/api/v1/face/face`, 
                 'headers': {
                     // 'app-id' : "FHJEF7O455",
                     // 'group-id' : "SMB2NA4ND0",
                     // 'subject-name' : "phj"
                     'app-id' : `${appid}`,
                     'group-id' : `${groupid}`,
-                    'subject-name' : `${subjectname}`,//카카오 uid로 저장
+                    'subject-id' : `${subjectid}`
                 },
                 'body': {
                     'mode': "raw",
@@ -23,13 +23,14 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
+                // console.log(result.body[0].face_id);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
                 }
                 else{
                     // console.log(result.body.subject_name);
-                    resolve(result.body.subject_id);
+                    resolve(result.body[0].face_id);
                 } 
             })
         })

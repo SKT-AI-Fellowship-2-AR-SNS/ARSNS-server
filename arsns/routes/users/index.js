@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 const UserController = require('../../controllers/user');
 const upload = require('../../modules/multer');
+const addPerson = require('../../modules/sktAddPerson');
+const faceList = require('../../modules/sktfaceList');
+const subjectList = require('../../modules/sktsubjectList');
+
 // const multer = require('multer');
 // const upload = multer({
 //     dest: 'upload/'
@@ -23,12 +27,58 @@ router.get('/kakao/callback', passport.authenticate('kakao',{
     failureRedirect: '/users/signin_failure'
 }));
 
-router.get('/signin_success', ensureAuthenticated, function(req, res){
+router.get('/signin_success', ensureAuthenticated, async function(req, res){
     // console.log("가즈아", JSON.parse(JSON.stringify(req.user[0])));
     // return res.status(statusCode.OK).send(util.success(statusCode.OK, "로그인성공", JSON.parse(JSON.stringify(req.user[0].id))));
     // UserController.kakaoLogin(JSON.parse(JSON.stringify(req.user[0].id)));
     // res.send(JSON.parse(JSON.stringify(req.user[0])));
-    res.redirect('/'+JSON.parse(JSON.stringify(req.user[0].id)));
+
+    //받은 uid 사람추가 되어있는지 확인
+    //안되어있으면 사람추가api
+    //되어있으면 얼굴추가 되어있는지 확인
+    //얼굴추가 안되어있으면 끝에 /0리턴. 되어있으면 /1리턴
+    let appid = "FHJEF7O455";
+    let groupid = "SMB2NA4ND0";
+    let uid = JSON.parse(JSON.stringify(req.user[0].id));
+    // let uid = "12345";
+    // console.log('appid: ', appid);
+    // console.log('groupid: ', groupid);
+    // console.log('uid: ', uid);
+    let personResult = await addPerson.addPerson(appid, groupid, uid);
+    let isFaceRegistered;
+    console.log('personResult: ', personResult);
+
+    if(personResult !== undefined){//방금 가입됨 = 처음 가입하는 사용자 -> 얼굴추가 해야됨.
+        //끝에 0 리턴
+        // console.log('undefined아니니까 여기로!');
+        isFaceRegistered = 0;
+    }
+
+    else{//이미 사람추가 되어있는 사용자 -> 얼굴추가 확인
+         //얼굴추가 안되어있으면 끝에 0리턴
+        // console.log('undefined니까 여기로!');
+
+        //사람조회해서 subjec_id 받아오기
+        let subjectResult = await subjectList.subjectList(appid, groupid);
+        let subjectid;
+        for(let i = 0; i<subjectResult.length; i++){
+            if(subjectResult[i].subject_name == uid){
+                subjectid = subjectResult[i].subject_id;
+                break;
+            }
+        }
+        console.log('subject_id: ',subjectid);
+        let faceListResult = await faceList.faceList(appid, groupid, subjectid);
+        console.log('faceListResult: ', faceListResult);
+        if(faceListResult === undefined){//얼굴추가 안되어있는 사용자 -> 끝에 0리턴
+            isFaceRegistered = 0;
+        }
+        else{//이미 얼굴추가까지 되어있는 사용자 -> 끝에 1리턴
+            isFaceRegistered = 1;
+        }
+    }
+
+    res.redirect('/' + JSON.parse(JSON.stringify(req.user[0].id)) + '/' + isFaceRegistered);
 });
 // router.get('/'+JSON.parse(JSON.stringify(req.user[0].id)));
 

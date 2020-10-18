@@ -128,13 +128,13 @@ module.exports = {
                 // console.log('4-2 faceImage: ', faceImage);
 
                 const file = await fs.writeFile(faceImage, buffer);
-                const tmp = () => new Promise((resolve, rej) => {
-                    setTimeout(()=>{
-                        console.log('2초만');
-                        resolve();
-                    },2000);    
-                });
-                await tmp();
+                // const tmp = () => new Promise((resolve, rej) => {
+                //     setTimeout(()=>{
+                //         console.log('2초만');
+                //         resolve();
+                //     },2000);    
+                // });
+                // await tmp();
                 userResult = await recognize.recognize(faceImage);
             }
 
