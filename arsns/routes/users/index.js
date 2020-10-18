@@ -3,8 +3,8 @@ var router = express.Router();
 const UserController = require('../../controllers/user');
 const upload = require('../../modules/multer');
 const addPerson = require('../../modules/sktAddPerson');
-const faceList = require('../../modules/sktfaceList');
-const subjectList = require('../../modules/sktsubjectList');
+const faceList = require('../../modules/sktFaceList');
+const subjectList = require('../../modules/sktSubjectList');
 
 // const multer = require('multer');
 // const upload = multer({
