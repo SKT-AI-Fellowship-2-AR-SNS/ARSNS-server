@@ -155,8 +155,9 @@ const user = {
 
             await Promise.all(profileResult.map(async(element) =>{
                 let id = element.recommendIdx;
-                query = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+                query = `SELECT id, name, profileImage, message FROM user WHERE id = ${id}`;
                 let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
                 element.message = result2[0].message;
