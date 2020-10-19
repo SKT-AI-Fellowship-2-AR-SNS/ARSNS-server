@@ -82,8 +82,10 @@ const user = {
     },
 
     getFollowing: async(myid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myid = ${myid}`;
         let query = `SELECT friendId FROM friends WHERE myid = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
+            const countResult = await pool.queryParam(countQuery);
             const profileResult = await pool.queryParam(query);
             let result = {};
 
@@ -106,8 +108,8 @@ const user = {
                     element.isFollowing = false;
                 }
             }));
-
-            result = profileResult.map(profileData);
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
             return result;
         }catch(err){
             console.log('getFollowing err: ', err);
@@ -115,8 +117,10 @@ const user = {
     },
 
     getFollower: async(myid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendid = ${myid}`;
         let query = `SELECT myId FROM friends WHERE friendId = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
+            const countResult = await pool.queryParam(countQuery);
             const profileResult = await pool.queryParam(query);
             let result = {};
 
@@ -139,8 +143,8 @@ const user = {
                     element.isFollowing = false;
                 }
             }));
-
-            result = profileResult.map(profileData);
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
             return result;
         }catch(err){
             console.log('getFollower err: ', err);
@@ -148,8 +152,10 @@ const user = {
     },
 
     getRecommend: async (myid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM recommend WHERE userIdx = ${myid}`;
         let query = `SELECT recommendIdx FROM recommend WHERE userIdx = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
+            const countResult = await pool.queryParam(countQuery);
             let profileResult = await pool.queryParam(query);
             let result = {};
 
@@ -172,8 +178,8 @@ const user = {
                     element.isFollowing = false;
                 }
             }));
-
-            result = profileResult.map(profileData);
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
             return result;
 
         }catch(err){
