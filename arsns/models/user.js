@@ -81,8 +81,8 @@ const user = {
         }
     },
 
-    getFollowing: async(myid) =>{
-        let query = `SELECT friendId FROM friends WHERE myid = ${myid}`;
+    getFollowing: async(myid, limit, offset) =>{
+        let query = `SELECT friendId FROM friends WHERE myid = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
             const profileResult = await pool.queryParam(query);
             let result = {};
@@ -114,8 +114,8 @@ const user = {
         }throw err;
     },
 
-    getFollower: async(myid) =>{
-        let query = `SELECT myId FROM friends WHERE friendId = ${myid}`;
+    getFollower: async(myid, limit, offset) =>{
+        let query = `SELECT myId FROM friends WHERE friendId = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
             const profileResult = await pool.queryParam(query);
             let result = {};
@@ -147,8 +147,8 @@ const user = {
         }throw err;
     },
 
-    getRecommend: async (myid) =>{
-        let query = `SELECT recommendIdx FROM recommend WHERE userIdx = ${myid}`;
+    getRecommend: async (myid, limit, offset) =>{
+        let query = `SELECT recommendIdx FROM recommend WHERE userIdx = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
             let profileResult = await pool.queryParam(query);
             let result = {};
