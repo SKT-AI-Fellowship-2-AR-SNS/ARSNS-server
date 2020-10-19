@@ -11,7 +11,7 @@ const fs = require('fs');
 
 module.exports = {
     addHistory : async(req, res) => {
-        const{id, location, text} = req.body;
+        const{id, location, text, scope, list} = req.body;
         const contents = req.files;
         const contentsLocation = contents.map(content => content.location);
         // console.log(contents);
@@ -20,7 +20,7 @@ module.exports = {
             return;
         }
 
-        if(!id || !location || !text){
+        if(!id || !location || !text || !scope || !list){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
@@ -42,6 +42,7 @@ module.exports = {
         // console.log(road_address);
         
         let result = {};
+        let result1;
         let imgLocation = "";
         //contents가 비디오이면, 비디오와 썸네일이미지 함께 저장
         if(type === 'mp4'){
@@ -95,9 +96,9 @@ module.exports = {
                 return new Promise(function(resolved, rejected){
                     setTimeout(()=>{
                         console.log('imgLocation: ',imgLocation);
-                        result = HistoryModel.addVideoHistory(contentsLocation,imgLocation, id, road_address, text, type);
+                        result1 = HistoryModel.addVideoHistory(contentsLocation,imgLocation, id, road_address, text, type, scope);
                         fs.unlinkSync(`upload/${videoname}.png`);//upload폴더에서는 썸네일 이미지 삭제
-                        resolved(result);
+                        resolved(result1);
                     },1000);
                 })
             }
@@ -108,12 +109,20 @@ module.exports = {
         }
 
         if(type !== 'mp4'){
-            result = await HistoryModel.addImgHistory(contentsLocation, id, road_address, text, type);
+            result1 = await HistoryModel.addImgHistory(contentsLocation, id, road_address, text, type, scope);
         }
 
         if(result == -1){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
         }
+
+        if(scope == 0){//태그추가
+            let lists = list.split(",");
+            for(let i = 0; i<lists.length; i++){
+                await HistoryModel.addTagList(result1, lists[i]);
+            }
+        }
+
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_HISTORY_SUCCESS));
     },
 
@@ -138,11 +147,14 @@ module.exports = {
         
         let road_address = "경기 용인시 수지구 죽전동";
         let result;
-        if(myid == yourid){
-            result = await HistoryModel.getHistory(myid,road_address);
+        let scope;
+        if(myid == yourid){//나의 히스토리 보기
+            scope = 0;
+            result = await HistoryModel.getHistory(myid,road_address,scope);
         }
-        else{
-            result = await HistoryModel.getHistory(yourid,road_address);
+        else{//상대방 히스토리 보기
+            scope = 1;
+            result = await HistoryModel.getHistory(yourid,road_address, scope);
         }
 
         if(result.length == 0){
@@ -282,6 +294,23 @@ module.exports = {
         let result = await HistoryModel.getComment(historyIdx);
         // console.log(result);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_COMMENT_SUCCESS, result));
+
+    },
+
+    detailHistory : async(req, res) =>{
+        const myid = req.params.myid;
+        const historyIdx = req.params.historyIdx;
+        if(!myid || !historyIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        let result = await HistoryModel.detailHistory(myid, historyIdx);
+        if(result.length == 0){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
+        }
+        else
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
 
     }
 }

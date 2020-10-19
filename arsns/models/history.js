@@ -5,10 +5,27 @@ const profileData  = require('../modules/data/profileData');
 const commentData  = require('../modules/data/commentData');
 
 const history = {
-    addVideoHistory: async(video,image, id, location, text, type) => {
-        const fields = `video, image, id, location, text, type`;
+    addVideoHistory: async(video,image, id, location, text, type, scope) => {
+        const fields = `video, image, id, location, text, type, scope`;
+        const question = `?,?,?,?,?,?,?`;
+        const values = [video, image, id, location, text, type, scope];
+
+        let query = `INSERT INTO history(${fields}) VALUES(${question})`;
+        try{
+            const result = await pool.queryParamArr(query, values);
+            let historyIdx = result.insertId;
+            let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
+            await pool.queryParam(query2);
+            return result.insertId;
+        }catch(err){
+            console.log('addHistory err: ', err);
+        }throw err;
+    },
+
+    addImgHistory: async(image, id, location, text, type, scope) => {
+        const fields = `image, id, location, text, type, scope`;
         const question = `?,?,?,?,?,?`;
-        const values = [video, image, id, location, text, type];
+        const values = [image, id, location, text, type, scope];
 
         let query = `INSERT INTO history(${fields}) VALUES(${question})`;
         try{
@@ -16,31 +33,20 @@ const history = {
             let historyIdx = result.insertId;
             let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
             await pool.queryParam(query2);
-            return result;
+            return result.insertId;
         }catch(err){
             console.log('addHistory err: ', err);
         }throw err;
     },
 
-    addImgHistory: async(image, id, location, text, type) => {
-        const fields = `image, id, location, text, type`;
-        const question = `?,?,?,?,?`;
-        const values = [image, id, location, text, type];
-
-        let query = `INSERT INTO history(${fields}) VALUES(${question})`;
-        try{
-            const result = await pool.queryParamArr(query, values);
-            let historyIdx = result.insertId;
-            let query2 = `INSERT INTO user_history(historyIdx, Id) VALUES(${historyIdx}, ${id})`;
-            await pool.queryParam(query2);
-            return result;
-        }catch(err){
-            console.log('addHistory err: ', err);
-        }throw err;
-    },
-
-    getHistory: async(id, location) => {
-        let query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" ORDER BY timestamp desc`;
+    getHistory: async(id, location, scope) => {
+        let query;
+        if(scope == 1){//상대방 추억이므로, 전체공개인 히스토리만 select
+            query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" and scope = 0 ORDER BY timestamp desc`;
+        }
+        else{//내 추억이므로 공개범위 상관없이 전부 select
+            query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" ORDER BY timestamp desc`;
+        }
         let profileQuery = `SELECT name, profileImage FROM user WHERE id = ${id}`;
         try{
             let profileResult = await pool.queryParam(profileQuery);
@@ -229,6 +235,85 @@ const history = {
             return result;
         }catch(err){
             console.log('getComment err: ', err);
+        }throw err;
+    },
+
+    addTagList : async(historyIdx, userIdx) =>{
+        const fields = `historyIdx, userIdx`;
+        const question = `?,?`;
+        const values = [historyIdx, userIdx];
+
+        let query = `INSERT INTO tag(${fields}) VALUES (${question})`;
+        try{
+            let result = await pool.queryParamArr(query, values);
+            return result;
+        }catch(err){
+            console.log('addTagList err: ', err);
+        }throw err;
+    },
+
+    detailHistory : async(id, historyIdx) =>{
+        let query = `SELECT * FROM history WHERE historyIdx = ${historyIdx}`;
+        let tagQuery = `SELECT userIdx FROM tag WHERE historyIdx = ${historyIdx}`;
+        let tagCountQuery = `SELECT COUNT(*) as cnt FROM tag WHERE historyIdx = ${historyIdx}`;
+        try{
+            let historyResult = await pool.queryParam(query);
+            let tagResult = await pool.queryParam(tagQuery);
+            let tagCountResult = await pool.queryParam(tagCountQuery);
+            let result = {};
+            result.tagCount = tagCountResult[0].cnt;
+            
+            await Promise.all(tagResult.map(async(element) =>{
+                let userIdx = element.userIdx;
+                
+                query = `SELECT profileImage FROM user WHERE id = ${userIdx}`;
+                image = await pool.queryParam(query);
+                element.profileImage = image[0].profileImage;
+            }));
+            result.tag = tagResult;
+
+            let day;
+            await Promise.all(historyResult.map(async(element) =>{
+                let historyIdx = element.historyIdx;
+
+                //요일 추출
+                query = `select substr(dayname(timestamp),1,3) as day from history WHERE historyIdx = ${historyIdx}`;
+                day = await pool.queryParam(query);
+                element.day = day[0].day;
+
+                //timestamp 형식 슬래쉬로 변경, 시간 제거
+                query = `select date_format(timestamp, '%Y/%m/%d') as datetime from history where historyIdx = ${historyIdx}`;
+                datetime = await pool.queryParam(query);
+                // console.log(datetime);
+                element.datetime = datetime[0].datetime;
+
+                //컨텐츠 타입 추출
+                query = `SELECT type FROM history WHERE historyIdx = ${historyIdx}`;
+                contents_type = await pool.queryParam(query);
+                if(contents_type[0].type === "mp4"){
+                    element.contents_type = "video";
+                }
+                else{
+                    element.contents_type = "image";
+                }
+
+                //좋아요 눌렀는지 여부
+                query = `SELECT * FROM user_history_like WHERE userIdx=${id} and historyIdx=${historyIdx}`;
+                let likeResult = await pool.queryParam(query);
+                if(likeResult.length == 0){
+                    element.alreadyLiked = false;
+                }
+                else{
+                    element.alreadyLiked = true;
+                }
+            }));
+
+
+            result.history = historyResult.map(historyData);
+
+            return result;
+        }catch(err){
+            console.log('detailHistory err: ', err);
         }throw err;
     }
 }
