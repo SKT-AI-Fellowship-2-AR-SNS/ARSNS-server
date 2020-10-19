@@ -47,12 +47,20 @@ const history = {
         else{//내 추억이므로 공개범위 상관없이 전부 select
             query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" ORDER BY timestamp desc`;
         }
-        let profileQuery = `SELECT name, profileImage FROM user WHERE id = ${id}`;
+        let profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
+        let followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${id}`;
+        let followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${id}`;
+        
         try{
             let profileResult = await pool.queryParam(profileQuery);
+            let followingCountResult = await pool.queryParam(followingCountQuery);
+            let followerCountResult = await pool.queryParam(followerCountQuery);
+
             profileResult[0].name = profileResult[0].name;
             profileResult[0].profileImage = profileResult[0].profileImage;
-
+            profileResult[0].message = profileResult[0].message;
+            profileResult[0].followingCount = followingCountResult[0].cnt;
+            profileResult[0].followerCount = followerCountResult[0].cnt;
             let historyResult = await pool.queryParam(query);
             let day;
 
@@ -262,7 +270,7 @@ const history = {
             let tagCountResult = await pool.queryParam(tagCountQuery);
             let result = {};
             result.tagCount = tagCountResult[0].cnt;
-            
+
             await Promise.all(tagResult.map(async(element) =>{
                 let userIdx = element.userIdx;
                 

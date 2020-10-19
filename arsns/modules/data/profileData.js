@@ -5,7 +5,9 @@ module.exports =
             "profileImage": rawProfileData.profileImage,
             "message": rawProfileData.message,
             "id": rawProfileData.id,
-            "isFollowing": rawProfileData.isFollowing
+            "isFollowing": rawProfileData.isFollowing,
+            "followingCount": rawProfileData.followingCount,
+            "followerCount": rawProfileData.followerCount
         };
         return profileData;
     };
