@@ -306,11 +306,12 @@ module.exports = {
         }
 
         let result = await HistoryModel.detailHistory(myid, historyIdx);
+        
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
         }
         else
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_DETAIL_SUCCESS, result));
 
     }
 }
