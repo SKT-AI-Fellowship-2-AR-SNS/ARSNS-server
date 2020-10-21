@@ -222,9 +222,12 @@ const history = {
         let commentQuery = `SELECT * FROM comment WHERE historyIdx = ${historyIdx} ORDER BY timestamp DESC`;
         // let countQuery = `SELECT COUNT(*) as cnt FROM comment WHERE historyIdx = ${historyIdx}`;
         try{
+            let result = {};
             let commentResult = await pool.queryParam(commentQuery);
             // let countResult = await pool.queryParam(countQuery);
-            let result = {};
+            if(commentResult.length === 0){
+                return result;
+            }
 
             await Promise.all(commentResult.map(async(element)=>{
                 let userIdx = element.userIdx;
