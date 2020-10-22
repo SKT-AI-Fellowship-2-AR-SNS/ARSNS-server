@@ -75,7 +75,7 @@ module.exports = {
                             Key: `${video}.png`,
                             ACL: 'public-read', /* 권한: 도메인에 객체경로 URL 을 입력하여 접근 가능하게 설정 */
                             Body: file,
-                            ContentType:'image/png'
+                            ContentType:'image/jpeg'
                         };
                         let s3 = new aws.S3();
                         s3.upload(params, function(err, data){
@@ -116,7 +116,7 @@ module.exports = {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_HISTORY_FAIL));
         }
 
-        if(scope == 0){//태그추가
+        if(scope == 0 && list != -1){//태그추가
             let lists = list.split(",");
             for(let i = 0; i<lists.length; i++){
                 await HistoryModel.addTagList(result1, lists[i]);
