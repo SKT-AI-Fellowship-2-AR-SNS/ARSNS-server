@@ -15,7 +15,7 @@ module.exports = {
                     'app-id' : `${appid}`,
                     'group-id' : `${groupid}`,
                     'subject-id' : `${subjectid}`,
-                    'face-name' : `${facename}`
+                    'face-name' : `${subjectid}`
                 },
                 'formData' : formData,
                 'json' : true

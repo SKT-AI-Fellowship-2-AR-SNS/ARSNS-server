@@ -232,39 +232,24 @@ module.exports = {
     },
 
     addComment : async(req, res) =>{
-        const{userIdx, historyIdx, comment} = req.body;
-        if(!userIdx || !historyIdx || !comment){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        const {userIdx, historyIdx, comment} = req.body;
+        console.log('addcomment시작');
+        if(!userIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "useridx 없음"));
             return;
         }
-        // let historyResult;
-        // function Func1(){
-        //     console.log('여기먼저');
-        //     let userResult = UserModel.userCheck(userIdx);
-        //     return userResult;
+        if(!historyIdx){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "historyidx 없음"));
+            return;
+        }
+        if(!comment){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "comment 없음"));
+            return;
+        }
+        // if(!userIdx || !historyIdx || !comment){
+        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        //     return;
         // }
-        // function Func2(){
-        //     console.log('마지막');
-        //     historyResult = HistoryModel.historyCheck(historyIdx);
-        //     if(!historyResult){
-        //         return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NO_HISTORY));
-        //     }    
-        // }
-
-        // async function Func3(userResult){
-        //     console.log('그다음');
-        //     console.log('userReslt:',userResult
-        //     );
-        //     if(!userResult){
-        //         return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NO_USER));
-        //     }
-        //     else{
-        //         Func2();
-        //     }
-        // }
-        // await Func1(async(elem) =>{
-        //     console.log(elem);
-        // }).then((res) => Func3(res));
 
         const result = await HistoryModel.addComment(userIdx, historyIdx, comment);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS,{addCommentIdx:result}));
