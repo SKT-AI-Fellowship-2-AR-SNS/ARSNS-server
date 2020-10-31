@@ -235,15 +235,18 @@ module.exports = {
         const {userIdx, historyIdx, comment} = req.body;
         console.log('addcomment시작');
         if(!userIdx){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "useridx 없음"));
+            console.log("useridx 없음");
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
             return;
         }
         if(!historyIdx){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "historyidx 없음"));
+            console.log("historyidx 없음");
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
             return;
         }
         if(!comment){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "comment 없음"));
+            console.log("comment 없음");
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
             return;
         }
         // if(!userIdx || !historyIdx || !comment){
