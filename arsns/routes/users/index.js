@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const UserController = require('../../controllers/user');
-const upload = require('../../modules/multer');
+// const upload = require('../../modules/multer');
 const addPerson = require('../../modules/sktAddPerson');
 const faceList = require('../../modules/sktFaceList');
 const subjectList = require('../../modules/sktSubjectList');
 
-// const multer = require('multer');
-// const upload = multer({
-//     dest: 'upload/'
-// });
+const multer = require('multer');
+const upload = multer({
+    dest: 'upload/'
+});
 // const authUtil = require('../../modules/authUtil');  
 const passport = require('passport');
 const util = require('../../modules/util');
@@ -19,7 +19,7 @@ const statusCode = require('../../modules/statusCode');
 // router.post('/signup',UserController.signup);
 // router.post('/signin',UserController.signin);
 router.post('/addPerson', UserController.addPerson);
-router.post('/addFace', upload.single('image'), UserController.addFace);
+router.post('/addFace', upload.array('image', 1), UserController.addFace);
 // router.post('/addFace', upload.array('image', 1), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));
 router.get('/kakao/callback', passport.authenticate('kakao',{
@@ -58,7 +58,7 @@ router.get('/signin_success', ensureAuthenticated, async function(req, res){
          //얼굴추가 안되어있으면 끝에 0리턴
         // console.log('undefined니까 여기로!');
 
-        //사람조회해서 subjec_id 받아오기
+        //사람조회해서 subject_id 받아오기
         let subjectResult = await subjectList.subjectList(appid, groupid);
         let subjectid;
         for(let i = 0; i<subjectResult.length; i++){

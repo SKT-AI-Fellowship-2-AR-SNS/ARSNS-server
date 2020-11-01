@@ -5,6 +5,7 @@ const addPerson = require('../modules/sktAddPerson');
 const addFace = require(`../modules/sktAddFace`);
 const kakaoAPI = require(`../modules/kakaoFriend`);
 const User = require('../models/user');
+const subjectList = require('../modules/sktSubjectList');
 
 module.exports = {
     addPerson : async(req, res) =>{
@@ -24,15 +25,20 @@ module.exports = {
     },
 
     addFace : async(req, res) =>{
-        const image = req.file.path;  
+        const image = req.files;  
         const appid = req.headers['app-id'];
         const groupid = req.headers['group-id'];
-        const subjectid = req.headers['subject-id'];
-        const facename = req.headers['face-name'];
-        // const img = req.files;
-        // const imgLocation = img.map(image => image.location);
-        console.log(image);
+        const {uid} = req.body;
 
+        let subjectResult = await subjectList.subjectList(appid, groupid);
+        let subjectid;
+        for(let i = 0; i<subjectResult.length; i++){
+            if(subjectResult[i].subject_name == uid){
+                subjectid = subjectResult[i].subject_id;
+                break;
+            }
+        }
+        const facename = subjectid;
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -43,14 +49,16 @@ module.exports = {
             return;
         }
 
-        const type = req.file.mimetype.split('/')[1];
+        const type = req.files[0].mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.INCORRECT_IMG_FORM));
             return;
         }
+        // console.log(image);
+        const location = image.map(img => img.path);
+        // console.log(location);
 
-        // const location = image.map(img => img.location);
-        let result = await addFace.addFace(image, appid, groupid, subjectid, facename);
+        let result = await addFace.addFace(location, appid, groupid, subjectid, facename);
         // console.log(result2.headers);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
     },

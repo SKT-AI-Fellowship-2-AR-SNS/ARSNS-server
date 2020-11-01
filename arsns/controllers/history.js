@@ -233,26 +233,10 @@ module.exports = {
 
     addComment : async(req, res) =>{
         const {userIdx, historyIdx, comment} = req.body;
-        console.log('addcomment시작');
-        if(!userIdx){
-            console.log("useridx 없음");
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
+        if(!userIdx || !historyIdx || !comment){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
         }
-        if(!historyIdx){
-            console.log("historyidx 없음");
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
-            return;
-        }
-        if(!comment){
-            console.log("comment 없음");
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST));
-            return;
-        }
-        // if(!userIdx || !historyIdx || !comment){
-        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-        //     return;
-        // }
 
         const result = await HistoryModel.addComment(userIdx, historyIdx, comment);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_COMMENT_SUCCESS,{addCommentIdx:result}));
