@@ -2,7 +2,7 @@ const request = require('request');
 const fs = require('fs');
 
 module.exports = {
-    addFace: (image, appid, groupid, subjectid, facename)=>{
+    addFace: (image, subjectid, facename)=>{
         return new Promise((resolve, reject)=>{
             // console.log('여긴나오니');
             let formData = {
@@ -12,8 +12,8 @@ module.exports = {
                 'method' : 'POST',
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/face`, 
                 'headers': {
-                    'app-id' : `${appid}`,
-                    'group-id' : `${groupid}`,
+                    'app-id' : "FHJEF7O455",
+                    'group-id' : "SMB2NA4ND0",
                     'subject-id' : `${subjectid}`,
                     'face-name' : `${subjectid}`
                 },

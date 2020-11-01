@@ -26,10 +26,9 @@ module.exports = {
 
     addFace : async(req, res) =>{
         const image = req.files;  
-        const appid = req.headers['app-id'];
-        const groupid = req.headers['group-id'];
         const {uid} = req.body;
-
+        const appid = "FHJEF7O455";
+        const groupid = "SMB2NA4ND0";
         let subjectResult = await subjectList.subjectList(appid, groupid);
         let subjectid;
         for(let i = 0; i<subjectResult.length; i++){
@@ -58,7 +57,7 @@ module.exports = {
         const location = image.map(img => img.path);
         // console.log(location);
 
-        let result = await addFace.addFace(location, appid, groupid, subjectid, facename);
+        let result = await addFace.addFace(location, subjectid, facename);
         // console.log(result2.headers);
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
     },
