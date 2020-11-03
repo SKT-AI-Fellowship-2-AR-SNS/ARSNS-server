@@ -60,11 +60,11 @@ module.exports = {
         // console.log(location);
 
         let result = await addFace.addFace(location, subjectid, facename);
-        if(result == true){
+        if(result == true){//얼굴추가 성공
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
         }
-        else{
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_FAIL));
+        else{//얼굴추가 실패(얼굴이 아닌 사진인 경우)
+            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_FACE_FAIL));
         }
 
     },
