@@ -22,12 +22,19 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
+                // console.log(result.body);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
                 }
                 else{
-                    resolve(result);
+                    if(result.body == undefined){
+                        resolve(true);//얼굴사진
+                    }
+
+                    else{
+                        resolve(false);//얼굴이 아닌사진
+                    }
                 } 
             })
         })

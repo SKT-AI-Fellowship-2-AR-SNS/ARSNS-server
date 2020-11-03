@@ -60,8 +60,13 @@ module.exports = {
         // console.log(location);
 
         let result = await addFace.addFace(location, subjectid, facename);
-        // console.log(result2.headers);
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
+        if(result == true){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_FAIL));
+        }
+
     },
 
     findOrCreate: async (socialId, nickname, email, at) => {
