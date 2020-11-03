@@ -38,13 +38,14 @@ module.exports = {
             }
         }
         const facename = subjectid;
-        if(image === undefined){
+        console.log("image: ", image[0]);
+        if(image[0] === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
 
-        if(!appid || !groupid || !subjectid || !facename){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        if(!uid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, "uid없음"));
             return;
         }
 
