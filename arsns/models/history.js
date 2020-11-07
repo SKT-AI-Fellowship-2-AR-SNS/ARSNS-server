@@ -338,8 +338,9 @@ const history = {
             let result = {};
             await Promise.all(profileResult.map(async(element) =>{
                 let id = element.friendId;
-                query = `SELECT name, profileImage FROM user WHERE id = ${id}`;
+                query = `SELECT id, name, profileImage FROM user WHERE id = ${id}`;
                 let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
                 element.name = result2[0].name;
                 element.profileImage = result2[0].profileImage;
             }));
