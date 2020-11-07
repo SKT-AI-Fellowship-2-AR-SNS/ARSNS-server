@@ -14,7 +14,7 @@ module.exports = {
         const{id, location, text, scope, list} = req.body;
         const contents = req.files;
         const contentsLocation = contents.map(content => content.location);
-        // console.log(contents);
+        console.log("list: ", list);
         if(contents === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -122,7 +122,6 @@ module.exports = {
                 await HistoryModel.addTagList(result1, lists[i]);
             }
         }
-
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_HISTORY_SUCCESS));
     },
 
