@@ -111,5 +111,5 @@ router.get('/getRecommend/:myid', UserController.getRecommend);
 router.post('/editImg', upload.array('img', 1), UserController.editImg);
 router.post('/editText', UserController.editText);
 router.put('/:myid/:yourid', UserController.follow);
-router.get('/tagList/:myid', UserController.tagList);
+
 module.exports = router;

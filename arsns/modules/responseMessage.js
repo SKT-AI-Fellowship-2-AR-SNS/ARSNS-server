@@ -57,6 +57,8 @@ module.exports = {
     ADD_COMMENT_FAIL: "댓글달기 실패",
     GET_COMMENT_SUCCESS:"댓글 불러오기 성공",
     NO_HISTORY: "존재하지 않는 히스토리입니다",
+    TAGLIST_SUCCESS: "태그리스트 조회 성공",
+    TAGLIST_ZERO: "태그리스트 0명",
     
     //포스트
     CREATED_POST:"포스팅 성공",

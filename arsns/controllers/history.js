@@ -268,6 +268,27 @@ module.exports = {
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_COMMENT_SUCCESS, result));
 
     },
+    
+    tagList : async(req, res) =>{
+        console.log('오니');
+        const myid = req.params.myid;
+        if(!myid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const limit = 20;
+        const page = req.query.page;
+        const offset = (page-1)*limit;
+
+        let result = await HistoryModel.tagList(myid, limit, offset);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TAGLIST_ZERO));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TAGLIST_SUCCESS, result));
+        }
+    },
 
     detailHistory : async(req, res) =>{
         const myid = req.params.myid;
@@ -284,6 +305,5 @@ module.exports = {
         }
         else
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_DETAIL_SUCCESS, result));
-
     }
 }
