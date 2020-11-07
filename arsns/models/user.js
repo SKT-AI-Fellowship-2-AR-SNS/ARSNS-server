@@ -249,6 +249,29 @@ const user = {
         }catch(err){
             console.log('follow err: ', err);
         }throw err;
+    },
+
+    tagList: async(myid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myid = ${myid}`;
+        let query = `SELECT friendId FROM friends WHERE myid = ${myid} limit ${limit} OFFSET ${offset}`;
+        try{
+            const countResult = await pool.queryParam(countQuery);
+            const profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.friendId;
+                query = `SELECT name, profileImage FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+            }));
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
+            return result;
+        }catch(err){
+            console.log('tagList err: ', err);
+        }throw err;        
     }
 }
 

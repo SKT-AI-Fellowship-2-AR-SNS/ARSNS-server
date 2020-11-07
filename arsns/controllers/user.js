@@ -248,5 +248,25 @@ module.exports = {
         else{
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_RECOMMEND_SUCCESS, result));
         }
+    },
+
+    tagList : async(req, res) =>{
+        const myid = req.params.myid;
+        if(!myid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const limit = 20;
+        const page = req.query.page;
+        const offset = (page-1)*limit;
+        
+        let result = await User.tagList(myid, limit, offset);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_ZERO));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_SUCCESS, result));
+        }
     }
 }
