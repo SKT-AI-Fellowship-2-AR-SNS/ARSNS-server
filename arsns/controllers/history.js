@@ -118,7 +118,7 @@ module.exports = {
 
         if(scope == 0 && list != -1){//태그추가
             let lists = list.split(",");
-            for(let i = 0; i<lists.length; i++){
+            for(let i = 0; i<lists.length-1; i++){
                 await HistoryModel.addTagList(result1, lists[i]);
             }
         }
