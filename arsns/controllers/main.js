@@ -23,6 +23,7 @@ module.exports = {
         }
 
         let result = await Location.getLocation(bssid1, bssid2);
+        console.log('result: ', result);
         if(result.length === 0) {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
         }
@@ -66,6 +67,7 @@ module.exports = {
         let result = await MainModel.getPersonName(id);
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_NAME_FAIL));
+            return;
         }
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_NAME_SUCCESS, result));
     },
