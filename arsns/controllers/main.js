@@ -23,11 +23,9 @@ module.exports = {
         }
 
         let result = await Location.getLocation(bssid1, bssid2);
-        // console.log('result: ', result);
         if(result.length === 0) {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
         }
-        // console.log(result);
 
         let result2 = await Address.getAddress(result.lat, result.lon);
         const res1 = JSON.stringify(result2.documents);
@@ -73,17 +71,11 @@ module.exports = {
     },
 
     faceRecognition : async(req, res) =>{
-        // const {id} = req.body;
         const image = req.file.path;
         if(image === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
         }
-
-        // if(!id){
-        //     res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-        //     return;
-        // }
 
         const type = req.file.mimetype.split('/')[1];
         if(type !== 'jpeg' && type !== 'jpg' && type !== 'png'){
