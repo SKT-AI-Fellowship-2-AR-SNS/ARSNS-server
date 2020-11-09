@@ -39,17 +39,24 @@ const history = {
         }throw err;
     },
 
-    getHistory: async(id, location, scope) => {
+    getHistory: async(myid, yourid, location, scope) => {
         let query;
-        if(scope == 1){//상대방 추억이므로, 전체공개인 히스토리만 select
-            query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" and scope = 0 ORDER BY timestamp desc`;
+        let profileQuery;
+        let followingCountQuery;
+        let followerCountQuery;
+        if(myid != yourid){//상대방 추억이므로, 전체공개인 히스토리만 select
+            query = `SELECT * FROM history WHERE id = ${yourid} and location = "${location}" and scope = 0 ORDER BY timestamp desc`;
+            profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${yourid}`;
+            followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${yourid}`;
+            followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${yourid}`;
         }
         else{//내 추억이므로 공개범위 상관없이 전부 select
-            query = `SELECT * FROM history WHERE id = ${id} and location = "${location}" ORDER BY timestamp desc`;
+            query = `SELECT * FROM history WHERE id = ${myid} and location = "${location}" ORDER BY timestamp desc`;
+            profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${myid}`;
+            followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${myid}`;
+            followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${myid}`;
         }
-        let profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${id}`;
-        let followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${id}`;
-        let followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${id}`;
+
         
         try{
             let profileResult = await pool.queryParam(profileQuery);
@@ -89,7 +96,7 @@ const history = {
                 }
 
                 //좋아요 눌렀는지 여부
-                query = `SELECT * FROM user_history_like WHERE userIdx=${id} and historyIdx=${historyIdx}`;
+                query = `SELECT * FROM user_history_like WHERE userIdx=${myid} and historyIdx=${historyIdx}`;
                 let likeResult = await pool.queryParam(query);
                 if(likeResult.length == 0){
                     element.alreadyLiked = false;

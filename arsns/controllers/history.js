@@ -147,14 +147,7 @@ module.exports = {
         let road_address = "경기 용인시 수지구 죽전동";
         let result;
         let scope;
-        if(myid == yourid){//나의 히스토리 보기
-            scope = 0;
-            result = await HistoryModel.getHistory(myid,road_address,scope);
-        }
-        else{//상대방 히스토리 보기
-            scope = 1;
-            result = await HistoryModel.getHistory(yourid,road_address, scope);
-        }
+        result = await HistoryModel.getHistory(myid, yourid, road_address, scope);
 
         if(result.length == 0){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
@@ -195,9 +188,11 @@ module.exports = {
         var result = {};
         async function Func2(isLike){
             if(!isLike){//이미 좋아요이니까 취소
+                console.log("이미 좋아요니까 취소");
                 data = await HistoryModel.deleteLike(userIdx, historyIdx);
             }
             else{//좋아요 추가
+                console.log("좋아요 새로 추가");
                 data = await HistoryModel.addLike(userIdx, historyIdx);
             }
             

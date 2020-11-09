@@ -23,7 +23,7 @@ module.exports = {
         }
 
         let result = await Location.getLocation(bssid1, bssid2);
-        console.log('result: ', result);
+        // console.log('result: ', result);
         if(result.length === 0) {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
         }
