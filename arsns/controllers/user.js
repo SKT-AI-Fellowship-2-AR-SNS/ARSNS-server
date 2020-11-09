@@ -28,7 +28,7 @@ module.exports = {
         const image = req.files;  
         const {uid} = req.body;
         const appid = "FHJEF7O455";
-        const groupid = "SMB2NA4ND0";
+        const groupid = "HWJICT3DE0";
         let subjectResult = await subjectList.subjectList(appid, groupid);
         let subjectid;
         for(let i = 0; i<subjectResult.length; i++){
@@ -40,6 +40,7 @@ module.exports = {
         const facename = subjectid;
         console.log("image: ", image[0]);
         console.log("uid: ", uid);
+        console.log("subjectid: ", subjectid);
         if(image[0] === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
