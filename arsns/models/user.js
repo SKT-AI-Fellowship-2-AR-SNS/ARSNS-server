@@ -35,7 +35,7 @@ const user = {
         const query = `SELECT * FROM user WHERE id = ${id}`;
         try{
             const result = await pool.queryParam(query);
-            console.log('length: ', result.length);
+            // console.log('length: ', result.length);
             if(result.length > 0) return true;
             else return false;
         } catch(err){
@@ -63,7 +63,7 @@ const user = {
 
     signup: async (id, name, email, access_token) => {
         const fields = 'id, name, email, access_token';
-        console.log('id: ', id, 'name: ', name, 'email: ',email, 'at: ',access_token);
+        // console.log('id: ', id, 'name: ', name, 'email: ',email, 'at: ',access_token);
         const questions = `'${id}', '${name}', '${email}', '${access_token}'`;
         const values = [id, name, email, access_token];
         const query = `INSERT INTO user(${fields}) VALUES(${questions})`;

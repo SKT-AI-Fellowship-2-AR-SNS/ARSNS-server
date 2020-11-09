@@ -15,8 +15,8 @@ const fs = require('fs').promises;
 module.exports = {
     getLocation : async(req, res) =>{
         const {bssid1, bssid2} = req.body;
-        console.log('bssid1: ',bssid1);
-        console.log('bssid2: ',bssid2);
+        // console.log('bssid1: ',bssid1);
+        // console.log('bssid2: ',bssid2);
         if(!bssid1 || !bssid2){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;

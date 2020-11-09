@@ -14,7 +14,7 @@ module.exports = {
         const{id, location, text, scope, list} = req.body;
         const contents = req.files;
         const contentsLocation = contents.map(content => content.location);
-        console.log("list: ", list);
+        // console.log("list: ", list);
         if(contents === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -58,7 +58,7 @@ module.exports = {
                         filename: videoname + ".png",
                         folder: `upload`
                     }).on('end', function() {
-                        console.log('done');
+                        // console.log('done');
                     });
                     resolved(videoname);
                 })
@@ -80,11 +80,11 @@ module.exports = {
                         let s3 = new aws.S3();
                         s3.upload(params, function(err, data){
                             if(err){
-                                console.log('s3 err: ', err);
+                                // console.log('s3 err: ', err);
                             }
-                            console.log('============');
+                            // console.log('============');
                             imgLocation = data.Location;
-                            console.log("data Lo : ", imgLocation);
+                            // console.log("data Lo : ", imgLocation);
 
                         });
                         resolved(imgLocation);
@@ -95,7 +95,7 @@ module.exports = {
             function func3(params){
                 return new Promise(function(resolved, rejected){
                     setTimeout(()=>{
-                        console.log('imgLocation: ',imgLocation);
+                        // console.log('imgLocation: ',imgLocation);
                         result1 = HistoryModel.addVideoHistory(contentsLocation,imgLocation, id, road_address, text, type, scope);
                         fs.unlinkSync(`upload/${videoname}.png`);//upload폴더에서는 썸네일 이미지 삭제
                         resolved(result1);
@@ -188,11 +188,11 @@ module.exports = {
         var result = {};
         async function Func2(isLike){
             if(!isLike){//이미 좋아요이니까 취소
-                console.log("이미 좋아요니까 취소");
+                // console.log("이미 좋아요니까 취소");
                 data = await HistoryModel.deleteLike(userIdx, historyIdx);
             }
             else{//좋아요 추가
-                console.log("좋아요 새로 추가");
+                // console.log("좋아요 새로 추가");
                 data = await HistoryModel.addLike(userIdx, historyIdx);
             }
             
@@ -203,7 +203,7 @@ module.exports = {
         };
 
         await Func1(async(elem) =>{
-            console.log(elem);
+            // console.log(elem);
         }).then((res) => Func2(res));
 
         return await res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.HISTORY_LIKE_SUCCESS, result));

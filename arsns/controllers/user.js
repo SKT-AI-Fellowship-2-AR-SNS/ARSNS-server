@@ -38,9 +38,9 @@ module.exports = {
             }
         }
         const facename = subjectid;
-        console.log("image: ", image[0]);
-        console.log("uid: ", uid);
-        console.log("subjectid: ", subjectid);
+        // console.log("image: ", image[0]);
+        // console.log("uid: ", uid);
+        // console.log("subjectid: ", subjectid);
         if(image[0] === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
@@ -62,11 +62,11 @@ module.exports = {
 
         let result = await addFace.addFace(location, subjectid, facename);
         if(result == true){//얼굴추가 성공
-            console.log("성공!!");
+            // console.log("성공!!");
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.ADD_FACE_SUCCESS));
         }
         else{//얼굴추가 실패(얼굴이 아닌 사진인 경우)
-            console.log("실패!!");
+            // console.log("실패!!");
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.ADD_FACE_FAIL));
         }
 
@@ -118,21 +118,21 @@ module.exports = {
 
         // const {token, _} = await jwt.sign(user[0]);
         // return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, {accessToken : token}));
-        console.log('다시해~');
+        // console.log('다시해~');
         const data = req.user;
-        console.log('fail! users.js -data: ', data);
+        // console.log('fail! users.js -data: ', data);
         res.send(data);
 
     },
     getProfile : async(req, res) =>{
         const data = req.user;
-        console.log('여기냐users.js -data: ', data);
+        // console.log('여기냐users.js -data: ', data);
         res.send(data);
     },
 
     getKakaoFriend : async(req, res) =>{
         const at = req.headers.access_token;
-        console.log('access_token: ', at);
+        // console.log('access_token: ', at);
         let result = await kakaoAPI.getKakaoFriend(at);
 
         // var finalResult = result.documents.map(BookData);
@@ -188,7 +188,7 @@ module.exports = {
         const {id} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
-        console.log(img);
+        // console.log(img);
         if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;

@@ -26,7 +26,7 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
-                console.log('얼굴인식결과 : ', result.body.subject_name);
+                // console.log('얼굴인식결과 : ', result.body.subject_name);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
