@@ -1,7 +1,7 @@
 const request = require('request');
 const fs = require('fs');
 const appid = "FHJEF7O455";
-const groupid = "SMB2NA4ND0";
+const groupid = "HWJICT3DE0";
 
 module.exports = {
     recognize: (image)=>{

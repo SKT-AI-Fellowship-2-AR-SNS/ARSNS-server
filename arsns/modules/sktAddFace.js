@@ -13,7 +13,7 @@ module.exports = {
                 'uri' : `https://stg-va.sktnugu.com/api/v1/face/face`, 
                 'headers': {
                     'app-id' : "FHJEF7O455",
-                    'group-id' : "SMB2NA4ND0",
+                    'group-id' : "HWJICT3DE0",
                     'subject-id' : `${subjectid}`,
                     'face-name' : `${subjectid}`
                 },
