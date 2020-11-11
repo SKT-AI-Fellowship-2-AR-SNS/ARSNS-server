@@ -22,7 +22,7 @@ module.exports = {
             };
             
             request(options, async (err, result)=>{
-                // console.log(result.body);
+                console.log(result.body);
                 if(err) {
                     console.log('request err : ' + err);
                     reject(err)
