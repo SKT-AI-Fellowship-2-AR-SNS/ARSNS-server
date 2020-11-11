@@ -81,7 +81,7 @@ const user = {
         }
     },
 
-    getFollowing: async(myid, limit, offset) =>{
+    myFollowing: async(myid, limit, offset) =>{
         let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myid = ${myid}`;
         let query = `SELECT friendId FROM friends WHERE myid = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
@@ -112,11 +112,11 @@ const user = {
             result.list = profileResult.map(profileData);
             return result;
         }catch(err){
-            console.log('getFollowing err: ', err);
+            console.log('myFollowing err: ', err);
         }throw err;
     },
 
-    getFollower: async(myid, limit, offset) =>{
+    myFollower: async(myid, limit, offset) =>{
         let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendid = ${myid}`;
         let query = `SELECT myId FROM friends WHERE friendId = ${myid} limit ${limit} OFFSET ${offset}`;
         try{
@@ -147,7 +147,77 @@ const user = {
             result.list = profileResult.map(profileData);
             return result;
         }catch(err){
-            console.log('getFollower err: ', err);
+            console.log('myFollower err: ', err);
+        }throw err;
+    },
+
+    otherFollowing: async(myid, yourid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myid = ${yourid}`;
+        let query = `SELECT friendId FROM friends WHERE myid = ${yourid} limit ${limit} OFFSET ${offset}`;
+        try{
+            const countResult = await pool.queryParam(countQuery);
+            const profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.friendId;
+                query = `SELECT id, name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+
+                //내가 팔로우하고 있는지 여부
+                query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
+                let result3 = await pool.queryParam(query);
+                if(result3[0].cnt !== 0){
+                    element.isFollowing = true;
+                }
+                else{
+                    element.isFollowing = false;
+                }
+            }));
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
+            return result;
+        }catch(err){
+            console.log('otherFollowing err: ', err);
+        }throw err;
+    },
+
+    otherFollower: async(myid, yourid, limit, offset) =>{
+        let countQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendid = ${yourid}`;
+        let query = `SELECT myId FROM friends WHERE friendId = ${yourid} limit ${limit} OFFSET ${offset}`;
+        try{
+            const countResult = await pool.queryParam(countQuery);
+            const profileResult = await pool.queryParam(query);
+            let result = {};
+
+            await Promise.all(profileResult.map(async(element) =>{
+                let id = element.myId;
+                query = `SELECT id, name, profileImage, message FROM user WHERE id = ${id}`;
+                let result2 = await pool.queryParam(query);
+                element.id = result2[0].id;
+                element.name = result2[0].name;
+                element.profileImage = result2[0].profileImage;
+                element.message = result2[0].message;
+
+                //내가 팔로우하고 있는지 여부
+                query = `SELECT COUNT(*) as cnt FROM friends WHERE myId=${myid} and friendId=${id}`;
+                let result3 = await pool.queryParam(query);
+                if(result3[0].cnt !== 0){
+                    element.isFollowing = true;
+                }
+                else{
+                    element.isFollowing = false;
+                }
+            }));
+            result.count = countResult[0].cnt;
+            result.list = profileResult.map(profileData);
+            return result;
+        }catch(err){
+            console.log('otherFollower err: ', err);
         }throw err;
     },
 

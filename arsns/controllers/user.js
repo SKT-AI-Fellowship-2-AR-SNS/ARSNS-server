@@ -144,7 +144,7 @@ module.exports = {
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.BOOK_SEARCH_SUCCESS, result));
     },
 
-    getFollowing : async(req, res) =>{
+    myFollowing : async(req, res) =>{
         const myid = req.params.myid;
         if(!myid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -155,7 +155,7 @@ module.exports = {
         const page = req.query.page;
         const offset = (page-1)*limit;
         
-        let result = await User.getFollowing(myid, limit, offset);
+        let result = await User.myFollowing(myid, limit, offset);
         if(result.length === 0){
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_ZERO));
         }
@@ -164,7 +164,7 @@ module.exports = {
         }
     },
 
-    getFollower : async(req, res) =>{
+    myFollower : async(req, res) =>{
         const myid = req.params.myid;
         
         if(!myid){
@@ -175,7 +175,47 @@ module.exports = {
         const page = req.query.page;
         const offset = (page-1)*limit;
 
-        let result = await User.getFollower(myid, limit, offset);
+        let result = await User.myFollower(myid, limit, offset);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWER_ZERO));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWER_SUCCESS, result));
+        }
+    },
+
+    otherFollowing : async(req, res) =>{
+        const myid = req.params.myid;
+        const yourid = req.params.yourid;
+        if(!myid || !yourid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+
+        const limit = 7;
+        const page = req.query.page;
+        const offset = (page-1)*limit;
+        
+        let result = await User.otherFollowing(myid, yourid, limit, offset);
+        if(result.length === 0){
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_ZERO));
+        }
+        else{
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWING_SUCCESS, result));
+        }
+    },
+
+    otherFollower : async(req, res) =>{
+        const myid = req.params.myid;
+        const yourid = req.params.yourid;
+        if(!myid || !yourid){
+            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+            return;
+        }
+        const limit = 7;
+        const page = req.query.page;
+        const offset = (page-1)*limit;
+        let result = await User.otherFollower(myid, yourid, limit, offset);
         if(result.length === 0){
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_FOLLOWER_ZERO));
         }

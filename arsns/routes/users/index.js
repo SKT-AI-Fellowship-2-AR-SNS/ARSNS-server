@@ -105,8 +105,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/getKakaoFriend', UserController.getKakaoFriend);
-router.get('/getFollowing/:myid', UserController.getFollowing);
-router.get('/getFollower/:myid', UserController.getFollower);
+router.get('/myFollowing/:myid', UserController.myFollowing);
+router.get('/myFollower/:myid', UserController.myFollower);
+router.get('/otherFollowing/:myid/:yourid', UserController.otherFollowing);
+router.get('/otherFollower/:myid/:yourid', UserController.otherFollower);
 router.get('/getRecommend/:myid', UserController.getRecommend);
 router.post('/editImg', upload.array('img', 1), UserController.editImg);
 router.post('/editText', UserController.editText);
