@@ -29,12 +29,12 @@ module.exports = {
                 }
                 else{
                     if(result.body == undefined){
-                        // console.log('얼굴사진!!');
+                        console.log('얼굴사진!!');
                         resolve(true);//얼굴사진
                     }
 
                     else{
-                        // console.log('얼굴사진이 아님');
+                        console.log('얼굴사진이 아님');
                         resolve(false);//얼굴이 아닌사진
                     }
                 } 
