@@ -16,8 +16,8 @@ module.exports = {
                 // },
                 'processData' : false,
                 'body':{
-                    "token": "30b53a73bdcac1",//parkhj2416@gmail.com
-                    // "token": "8d9b529d98db89",//ehdehd452@naver.com
+                    // "token": "30b53a73bdcac1",//parkhj2416@gmail.com
+                    "token": "8d9b529d98db89",//ehdehd452@naver.com
                     "wifi": [{
                         // "bssid": "00:08:9f:01:cc:9c",
                         "bssid" : `${bssid1}`,
