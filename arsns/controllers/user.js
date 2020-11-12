@@ -228,7 +228,7 @@ module.exports = {
         const {id} = req.body;
         const img = req.files;
         const imgLocation = img.map(image => image.location);  
-        // console.log(img);
+        console.log(img);
         if(img === undefined){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE_IMAGE));
             return;
