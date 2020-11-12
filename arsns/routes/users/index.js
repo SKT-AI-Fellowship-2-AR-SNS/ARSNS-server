@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const UserController = require('../../controllers/user');
-// const upload = require('../../modules/multer');
+const multerUpload = require('../../modules/multer');
 const addPerson = require('../../modules/sktAddPerson');
 const faceList = require('../../modules/sktFaceList');
 const subjectList = require('../../modules/sktSubjectList');
@@ -110,7 +110,7 @@ router.get('/myFollower/:myid', UserController.myFollower);
 router.get('/otherFollowing/:myid/:yourid', UserController.otherFollowing);
 router.get('/otherFollower/:myid/:yourid', UserController.otherFollower);
 router.get('/getRecommend/:myid', UserController.getRecommend);
-router.post('/editImg', upload.array('img', 1), UserController.editImg);
+router.post('/editImg', multerUpload.array('img', 1), UserController.editImg);
 router.post('/editText', UserController.editText);
 router.put('/:myid/:yourid', UserController.follow);
 
