@@ -34,7 +34,7 @@ module.exports = {
         //마지막 주소만 제거하고 저장
         let str = location.split(" ");
         let road_address = "";
-        for(var i = 0; i<str.length-1; i++){
+        for(var i = 0; i<str.length; i++){
             road_address += str[i];
             if(i!=str.length-2)
             road_address += " ";
