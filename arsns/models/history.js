@@ -45,13 +45,15 @@ const history = {
         let followingCountQuery;
         let followerCountQuery;
         if(myid != yourid){//상대방 추억이므로, 전체공개인 히스토리만 select
-            query = `SELECT * FROM history WHERE id = ${yourid} and location = "${location}" and scope = 0 ORDER BY timestamp desc`;
+            // query = `SELECT * FROM history WHERE id = ${yourid} and location = "${location}" and scope = 0 ORDER BY timestamp desc`;
+            query = `SELECT * FROM history WHERE id = ${yourid} and scope = 0 ORDER BY timestamp desc`;
             profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${yourid}`;
             followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${yourid}`;
             followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${yourid}`;
         }
         else{//내 추억이므로 공개범위 상관없이 전부 select
-            query = `SELECT * FROM history WHERE id = ${myid} and location = "${location}" ORDER BY timestamp desc`;
+            // query = `SELECT * FROM history WHERE id = ${myid} and location = "${location}" ORDER BY timestamp desc`;
+            query = `SELECT * FROM history WHERE id = ${myid} ORDER BY timestamp desc`;
             profileQuery = `SELECT name, profileImage, message FROM user WHERE id = ${myid}`;
             followingCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE myId = ${myid}`;
             followerCountQuery = `SELECT COUNT(*) as cnt FROM friends WHERE friendId = ${myid}`;

@@ -27,7 +27,8 @@ module.exports = {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_ADDRESS_FAIL));
         }
 
-        let result2 = await Address.getAddress(result.lat, result.lon);
+        // let result2 = await Address.getAddress(result.lat, result.lon);
+        let result2 = await Address.getAddress(37.5666109, 126.9849742);
         const res1 = JSON.stringify(result2.documents);
         let removeBackSlash = res1.replace(/\\/g,'');
         
