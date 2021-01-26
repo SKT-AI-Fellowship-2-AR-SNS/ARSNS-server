@@ -110,8 +110,8 @@ router.get('/v1/follower/:my-id', UserController.myFollower);
 router.get('/v1/following/:my-id/:your-id', UserController.otherFollowing);
 router.get('/v1/follower/:my-id/:your-id', UserController.otherFollower);
 router.get('/v1/recommends/:my-id', UserController.getRecommend);
-router.post('/v1/profile/img', multerUpload.array('img', 1), UserController.editImg);
-router.post('/v1/profile/text', UserController.editText);
+router.post('/v1/profile/images', multerUpload.array('img', 1), UserController.editImg);
+router.post('/v1/profile/texts', UserController.editText);
 router.put('/v1/:my-id/:your-id', UserController.follow);
 
 module.exports = router;
