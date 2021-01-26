@@ -126,8 +126,8 @@ module.exports = {
     },
 
     getHistory : async(req, res) => {
-        const myid = req.params.myid;
-        const yourid = req.params.yourid;
+        const myid = req.params.my-id;
+        const yourid = req.params.your-id;
         const bssid1 = req.params.bssid1;
         const bssid2 = req.params.bssid2;
         // const{location} = req.body;
@@ -156,24 +156,9 @@ module.exports = {
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
     },
 
-    getFriendHistory : async(req, res) => {
-        const myId = req.params.myId;
-        const friendId = req.params.friendId;
-        if(!myId || !friendId){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-            return;
-        }
-
-        let result = await HistoryModel.getFriendHistory(myId, friendId);
-        if(result.length == 0){
-            res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.GET_HISTORY_FAIL));
-        }
-        return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.GET_HISTORY_SUCCESS, result));
-    },
-
     likeHistory : async(req, res) =>{
-        const historyIdx = req.params.historyIdx;
-        const userIdx = req.params.userIdx;
+        const historyIdx = req.params.history-idx;
+        const userIdx = req.params.user-idx;
         if(!userIdx || !historyIdx){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -210,8 +195,8 @@ module.exports = {
     },
 
     deleteHistory : async(req, res) =>{
-        const historyIdx = req.params.historyIdx;
-        const userIdx = req.params.userIdx;
+        const historyIdx = req.params.history-idx;
+        const userIdx = req.params.user-idx;
         if(!userIdx || !historyIdx){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -237,8 +222,8 @@ module.exports = {
     },
 
     deleteComment : async(req, res) =>{
-        const userIdx = req.params.userIdx;
-        const commentIdx = req.params.commentIdx;
+        const userIdx = req.params.user-idx;
+        const commentIdx = req.params.comment-idx;
         if(!userIdx || !commentIdx){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -251,7 +236,7 @@ module.exports = {
     },
 
     getComment : async(req, res) =>{
-        const historyIdx = req.params.historyIdx;
+        const historyIdx = req.params.history-idx;
         if(!historyIdx){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -264,7 +249,7 @@ module.exports = {
     },
     
     tagList : async(req, res) =>{
-        const myid = req.params.myid;
+        const myid = req.params.my-id;
         if(!myid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -279,8 +264,8 @@ module.exports = {
     },
 
     detailHistory : async(req, res) =>{
-        const myid = req.params.myid;
-        const historyIdx = req.params.historyIdx;
+        const myid = req.params.my-id;
+        const historyIdx = req.params.history-idx;
         if(!myid || !historyIdx){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
