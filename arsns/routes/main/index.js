@@ -7,8 +7,8 @@ const upload = multer({
     dest: 'upload/'
 });
 
-router.post('/getLocation', mainController.getLocation);
-router.get('/getPersonName/:id', mainController.getPersonName);
-router.post('/faceRecognition', upload.single('image'), mainController.faceRecognition);
+router.post('/v1/locations', mainController.getLocation);
+router.get('/v1/names/:user-id', mainController.getPersonName);
+router.post('/v1/face-recognition', upload.single('image'), mainController.faceRecognition);
 
 module.exports = router;

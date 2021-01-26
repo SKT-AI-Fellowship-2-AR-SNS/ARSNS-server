@@ -57,7 +57,7 @@ module.exports = {
     },
 
     getPersonName : async(req, res) => {
-        const id = req.params.id;
+        const id = req.params.user-id;
         if(!id){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
