@@ -145,7 +145,7 @@ module.exports = {
     },
 
     myFollowing : async(req, res) =>{
-        const myid = req.params.myid;
+        const myid = req.params.my-id;
         if(!myid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -165,7 +165,7 @@ module.exports = {
     },
 
     myFollower : async(req, res) =>{
-        const myid = req.params.myid;
+        const myid = req.params.my-id;
         
         if(!myid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -185,8 +185,8 @@ module.exports = {
     },
 
     otherFollowing : async(req, res) =>{
-        const myid = req.params.myid;
-        const yourid = req.params.yourid;
+        const myid = req.params.my-id;
+        const yourid = req.params.your-id;
         if(!myid || !yourid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -206,8 +206,8 @@ module.exports = {
     },
 
     otherFollower : async(req, res) =>{
-        const myid = req.params.myid;
-        const yourid = req.params.yourid;
+        const myid = req.params.my-id;
+        const yourid = req.params.your-id;
         if(!myid || !yourid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;
@@ -260,8 +260,8 @@ module.exports = {
     },
 
     follow : async(req, res) =>{
-        const myid = req.params.myid;
-        const yourid = req.params.yourid;
+        const myid = req.params.my-id;
+        const yourid = req.params.your-id;
 
         if(!myid || !yourid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -272,7 +272,7 @@ module.exports = {
         return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.FOLLOW_SUCCESS, result));
     },
     getRecommend : async(req, res) =>{
-        const myid = req.params.myid;
+        const myid = req.params.my-id;
         if(!myid){
             res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
             return;

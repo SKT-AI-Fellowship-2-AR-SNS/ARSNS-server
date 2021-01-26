@@ -18,8 +18,8 @@ const statusCode = require('../../modules/statusCode');
 
 // router.post('/signup',UserController.signup);
 // router.post('/signin',UserController.signin);
-router.post('/addPerson', UserController.addPerson);
-router.post('/addFace', upload.array('image', 1), UserController.addFace);
+router.post('/v1/persons', UserController.addPerson);
+router.post('/v1/faces', upload.array('image', 1), UserController.addFace);
 // router.post('/addFace', upload.array('image', 1), UserController.addFace);
 router.get('/kakao', passport.authenticate('kakao', {scope: ['account_email', 'friends']}));
 router.get('/kakao/callback', passport.authenticate('kakao',{
@@ -104,14 +104,14 @@ router.get('/', (req, res) => {
     // res.send(JSON.parse(JSON.stringify(req.user[0]))); 
 });
 
-router.get('/getKakaoFriend', UserController.getKakaoFriend);
-router.get('/myFollowing/:myid', UserController.myFollowing);
-router.get('/myFollower/:myid', UserController.myFollower);
-router.get('/otherFollowing/:myid/:yourid', UserController.otherFollowing);
-router.get('/otherFollower/:myid/:yourid', UserController.otherFollower);
-router.get('/getRecommend/:myid', UserController.getRecommend);
-router.post('/editImg', multerUpload.array('img', 1), UserController.editImg);
-router.post('/editText', UserController.editText);
-router.put('/:myid/:yourid', UserController.follow);
+router.get('/v1/kakao/friends', UserController.getKakaoFriend);
+router.get('/v1/following/:my-id', UserController.myFollowing);
+router.get('/v1/follower/:my-id', UserController.myFollower);
+router.get('/v1/following/:my-id/:your-id', UserController.otherFollowing);
+router.get('/v1/follower/:my-id/:your-id', UserController.otherFollower);
+router.get('/v1/recommends/:my-id', UserController.getRecommend);
+router.post('/v1/profile/images', multerUpload.array('img', 1), UserController.editImg);
+router.post('/v1/profile/texts', UserController.editText);
+router.put('/v1/:my-id/:your-id', UserController.follow);
 
 module.exports = router;
