@@ -93,12 +93,11 @@
 ### 📗 ERD
 <div align="center" style="display:flex;"><img width="733" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/111107879-0bd70c80-859b-11eb-9a54-0d4d729f5008.png"></div>
 
-  (미완성)
   
 <br>
 
 ### 📗 Architecture
-  (미완성)
+<div align="center" style="display:flex;"><img width="733" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/111108023-59ec1000-859b-11eb-8b57-315efbaa8748.png"></div>
 
 <br>
 
