@@ -97,7 +97,7 @@
 <br>
 
 ### 📗 Architecture
-<div align="center" style="display:flex;"><img width="733" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/111108023-59ec1000-859b-11eb-8b57-315efbaa8748.png"></div>
+<div align="center" style="display:flex;"><img height="700" width="500" alt="제목 없음" src="https://user-images.githubusercontent.com/58289478/111108023-59ec1000-859b-11eb-8b57-315efbaa8748.png"></div>
 
 <br>
 
