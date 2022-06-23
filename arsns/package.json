@@ -17,7 +17,7 @@
     "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
-    "got": "^11.7.0",
+    "got": "^11.8.5",
     "http": "0.0.1-security",
     "http-errors": "~1.6.3",
     "https": "^1.0.0",
