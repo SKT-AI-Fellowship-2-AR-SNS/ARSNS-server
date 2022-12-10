@@ -11,7 +11,7 @@
     "canvas": "^2.6.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "express-session": "^1.17.1",
     "fetch": "^1.1.0",
     "ffmpeg-static": "^4.2.7",
